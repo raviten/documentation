@@ -11,18 +11,24 @@ our SDK with your app and how to use our platform.
 
 ########
 Introduction
+########
 
 ########
 Before integrating QuantumGraph SDK
+########
 
 ########
 Integrating QuantumGraph SDK in Android Studio
+########
 
 ########
 Integrating QuantumGraph SDK in Eclipse
+########
 
 #######
 Using QuantumGraph SDK
+########
 
 #######
 Using Web UI to manage campaigns
+########
