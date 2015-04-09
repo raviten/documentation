@@ -1,35 +1,22 @@
-################
-QuantumGraph SDK
-################
+.. QGDocs documentation master file, created by
+   sphinx-quickstart on Thu Apr  9 18:39:38 2015.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
 
-QuantumGraph's User Engagement Platform for Mobile is a platform which
-app developers can use to send personalized push notifications to their
-app users.
+Welcome to QGDocs's documentation!
+==================================
 
-This document provides step by step details on how to integrate
-our SDK with your app and how to use our platform.
-
-Introduction
-############
+Contents:
 
 .. toctree::
-    :maxdepth: 2
+   :maxdepth: 2
 
-    first topic
-    second topic
-    third topic
 
-Before integrating QuantumGraph SDK
-###################################
 
-Integrating QuantumGraph SDK in Android Studio
-##############################################
+Indices and tables
+==================
 
-Integrating QuantumGraph SDK in Eclipse
-#######################################
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`
 
-Using QuantumGraph SDK
-#######################
-
-Using Web UI to manage campaigns
-################################
