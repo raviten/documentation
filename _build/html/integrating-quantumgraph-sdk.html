@@ -1,0 +1,206 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Integrating QuantumGraph SDK &mdash; QGDocs 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="QGDocs 1.0 documentation" href="index.html" />
+    <link rel="next" title="Using QuantumGraph SDK" href="using-quantumgraph-sdk.html" />
+    <link rel="prev" title="Before you start" href="before-you-start.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="using-quantumgraph-sdk.html" title="Using QuantumGraph SDK"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="before-you-start.html" title="Before you start"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">QGDocs 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="integrating-quantumgraph-sdk">
+<h1>Integrating QuantumGraph SDK<a class="headerlink" href="#integrating-quantumgraph-sdk" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="integration-in-android-studio-app">
+<h2>Integration in Android Studio App<a class="headerlink" href="#integration-in-android-studio-app" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p class="first">Unzip QGAnalyticsAndroidStudio.tar.gz at some location.</p>
+</li>
+<li><p class="first">Import QGAnalytics project in Android Studio:</p>
+<ol class="loweralpha simple">
+<li>Go to File -&gt; Import Module</li>
+<li>Select the directory where you unzipped QGAnalyticsAndroidStudio.tar.gz</li>
+<li>Click “Finish”</li>
+</ol>
+</li>
+<li><p class="first">Import QGAnalytics project in your app:</p>
+<img alt="_images/import.png" src="_images/import.png" />
+<ol class="loweralpha simple">
+<li>In “Project” navigator, right click on “app”, like what is shown in image above.</li>
+<li>Select “Open Module Settings”</li>
+<li>Go to “Dependencies” tab</li>
+<li>Click “+” button, usually found at bottom</li>
+<li>Add QGAnalytics to your product</li>
+<li>Click “Apply” at the bottom.</li>
+</ol>
+</li>
+</ol>
+</div>
+<div class="section" id="integration-in-eclipse-app">
+<h2>Integration in Eclipse App<a class="headerlink" href="#integration-in-eclipse-app" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="extract-qganalytics-tar-gz">
+<h3>1. Extract QGAnalytics.tar.gz<a class="headerlink" href="#extract-qganalytics-tar-gz" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div>If you are on unix based system, you would do tar -xvf QGAnalytics.tar.gz. This creates a directory called QGAnalytics</div></blockquote>
+</div>
+<div class="section" id="import-project-to-eclipse">
+<h3>2. Import project to eclipse<a class="headerlink" href="#import-project-to-eclipse" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><ol class="loweralpha simple">
+<li>Go to File-&gt;Import
+Select Android, and then “Existing Android code into workspace”
+Browse to directory QGAnalytics that you created in step (1)</li>
+<li>Go to properties -&gt; Android
+In the lower section (Library), add these two libraries (a) google-play-services_lib (2) android-support-v7-appcompat. Eclipse will tell you if it can compile the library. If it is telling that it cannot, then we need to resolve the errors before moving forward to next step.</li>
+</ol>
+<p>You may get an error like: “No resource found that matches the given name <a class="reference external" href="mailto:'&#37;&#52;&#48;style/Theme&#46;AppCompat&#46;Light">'<span>&#64;</span>style/Theme<span>&#46;</span>AppCompat<span>&#46;</span>Light</a>&#8216;”</p>
+<p>To solve this, you need to install appcompat library and then import it, as documented here: <a class="reference external" href="http://stackoverflow.com/questions/21059612/no-resource-found-that-matches-the-given-name-style-theme-appcompat-light">http://stackoverflow.com/questions/21059612/no-resource-found-that-matches-the-given-name-style-theme-appcompat-light</a></p>
+<p>Now, eclipse knows about QGAnalytics. However, your project still does not know about it.</p>
+</div></blockquote>
+</div>
+<div class="section" id="add-qganalytics-as-a-library-to-your-app">
+<h3>3. Add QGAnalytics as a library to your app<a class="headerlink" href="#add-qganalytics-as-a-library-to-your-app" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><ol class="loweralpha simple">
+<li>Right click on project</li>
+<li>Go to “Properties”</li>
+<li>Go to “Android”</li>
+<li>Look the section called “Library” on the lower side. Click “Add” next to it and then choose QGAnalytics</li>
+</ol>
+<p>Now your app partly knows about QGAnalytics. It’ll know it fully in a later step.</p>
+</div></blockquote>
+</div>
+<div class="section" id="get-qganalytics-on-build-path-of-your-app">
+<h3>4. Get QGAnalytics on build path of your app<a class="headerlink" href="#get-qganalytics-on-build-path-of-your-app" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><p>If you run your app now, it will crash. Logcat will show you the error similar to following: java.lang.ClassNotFoundException: Didn&#8217;t find class on path: dexpathlist</p>
+<p>You add QGAnalytics on build path of your app
+(a) Right click on project
+(b) Go to “Properties”
+(c) Go to “Java Build Path”
+(d) Go to “Projects” tab. Click “Add” and then choose QGAnalytics
+(e) Now go to “Order and Export” tab within “Java Build Path” and make sure that QGAnalytics is selected</p>
+</div></blockquote>
+</div>
+<div class="section" id="modify-the-manifest-file">
+<h3>5. Modify the manifest file<a class="headerlink" href="#modify-the-manifest-file" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div>Insert the lines provided in manifest.txt (a file provided to you)  in between the &lt;application&gt;...&lt;/application&gt;
+section of your manifest file.</div></blockquote>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Integrating QuantumGraph SDK</a><ul>
+<li><a class="reference internal" href="#integration-in-android-studio-app">Integration in Android Studio App</a></li>
+<li><a class="reference internal" href="#integration-in-eclipse-app">Integration in Eclipse App</a><ul>
+<li><a class="reference internal" href="#extract-qganalytics-tar-gz">1. Extract QGAnalytics.tar.gz</a></li>
+<li><a class="reference internal" href="#import-project-to-eclipse">2. Import project to eclipse</a></li>
+<li><a class="reference internal" href="#add-qganalytics-as-a-library-to-your-app">3. Add QGAnalytics as a library to your app</a></li>
+<li><a class="reference internal" href="#get-qganalytics-on-build-path-of-your-app">4. Get QGAnalytics on build path of your app</a></li>
+<li><a class="reference internal" href="#modify-the-manifest-file">5. Modify the manifest file</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="before-you-start.html"
+                        title="previous chapter">Before you start</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="using-quantumgraph-sdk.html"
+                        title="next chapter">Using QuantumGraph SDK</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/integrating-quantumgraph-sdk.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="using-quantumgraph-sdk.html" title="Using QuantumGraph SDK"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="before-you-start.html" title="Before you start"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">QGDocs 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2015, QuantumGraph Engineers.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
+    </div>
+  </body>
+</html>

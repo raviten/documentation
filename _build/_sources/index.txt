@@ -11,9 +11,15 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
-   intro
-   before-you-start
-   integrating-quantumgraph-sdk
-   using-quantumgraph-sdk
-   using-web-ui
+   head 1
+   head 2
+
+
+
+Indices and tables
+==================
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`
 

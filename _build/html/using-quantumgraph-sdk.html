@@ -1,0 +1,183 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Using QuantumGraph SDK &mdash; QGDocs 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="QGDocs 1.0 documentation" href="index.html" />
+    <link rel="next" title="Using Web UI" href="using-web-ui.html" />
+    <link rel="prev" title="Integrating QuantumGraph SDK" href="integrating-quantumgraph-sdk.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="using-web-ui.html" title="Using Web UI"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="integrating-quantumgraph-sdk.html" title="Integrating QuantumGraph SDK"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">QGDocs 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="using-quantumgraph-sdk">
+<h1>Using QuantumGraph SDK<a class="headerlink" href="#using-quantumgraph-sdk" title="Permalink to this headline">¶</a></h1>
+<p>You have installed QuantumGraph SDK using the previous doc, and now you are ready to send us various details about the user.</p>
+<p>Firstly, we need to know some book keeping details:</p>
+<ol class="arabic">
+<li><p class="first">Firstly, you need to import QGLogger and QGUtils classes in any file where you are calling SDK function:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">com.quantumgraph.sdk.logger.QGLogger</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">com.quantumgraph.sdk.logger.QGUtils</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Declare a static class variable called “logger”:</p>
+<div class="highlight-python"><div class="highlight"><pre>static QGEventsLogger logger;
+</pre></div>
+</div>
+</li>
+<li><p class="first">In onCreate() implementation of your Main activity must be called on the application starts, have the following code:</p>
+<div class="highlight-python"><div class="highlight"><pre>//context must be of activity context
+QGEventsogger.activateApp(context);
+logger = QGEventsLogger.newLogger(context);
+</pre></div>
+</div>
+</li>
+<li><p class="first">Below lines must be present inside application tags else application throws runtime exception:</p>
+<div class="highlight-python"><div class="highlight"><pre>&lt;meta-data android:name=&quot;com.quantumgraph.sdk.ApplicationId&quot; android:value=&quot;&lt;your application id&gt;&quot;/&gt;
+&lt;meta-data android:name=&quot;com.quantumgraph.sdk.ClientId&quot; android:value=&quot;&lt;your client id&gt;&quot;/&gt;
+</pre></div>
+</div>
+</li>
+<li><p class="first">We need to know the GCM Id of the user.
+For that, first you need to know your app’s “Sender ID” from google play store. See how to get sender id here: <a class="reference external" href="http://developer.android.com/google/gcm/gs.html#create-proj">http://developer.android.com/google/gcm/gs.html#create-proj</a></p>
+<p>Once you know sender id, we provide a method using which you can get the GCM ID of that particular user:</p>
+<div class="highlight-python"><div class="highlight"><pre>QGUtils.generateGcmId(Context context,String SenderId);
+</pre></div>
+</div>
+<p>Note that you above method makes a call to google servers so you must call it in an async task to avoid blocking the UI thread.</p>
+<p>Once you have generated the GCM ID (by using above method or by yourself), you communicate to QG servers the GCM ID of the user by this method:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">logger</span><span class="o">.</span><span class="n">logGCMID</span><span class="p">(</span><span class="n">gcmid</span><span class="p">);</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Nextly, there are two kinds of data about the user that you can pass to us:</p>
+<p>(a) User profile data:
+This tells us about the attributes of the user. You can create your custom attributes to suit your need, by calling the function</p>
+<div class="highlight-python"><div class="highlight"><pre>logger.logProfileInfo(String customKey, String customValue);
+</pre></div>
+</div>
+<p>For instance, you write:</p>
+<div class="highlight-python"><div class="highlight"><pre>logger.logProfileInfo(“first_name”, “Kiran”);
+logger.logProfileInfo(“last_name”, “Kumar”);
+logger.logProfileInfo(“city”, “Bangalore”);
+logger.logProfileInfo(“marital_status”, “single”);
+</pre></div>
+</div>
+<p>Once you tell us this data, you’ll be able to do two things:</p>
+<ol class="loweralpha simple">
+<li>Send messages to uses who satisfy a particular criterion: example, send message  to all the users from Bangalore</li>
+<li>Personalize the message sent to a particular user. E.g. message to Mr. Kiran Kumar could start with: “Hi Kiran…”</li>
+</ol>
+<p>(b) Events data:
+This data tells us about various activities done by the user, for instance, searching, browsing the products, adding them to cart, rating the product and purchasing the product.</p>
+<p>Along with sending us the event name, you also send us some parameters of the event.</p>
+<p>Here is an example of sending an event, product_viewed:</p>
+<div class="highlight-python"><div class="highlight"><pre>Bundle b = new Bundle();
+b.putString(&quot;name&quot;, &quot;Shoe-Adidas-Sporty&quot;);
+b.putInt(&quot;price&quot;, 499);
+b.putInt(“image_url”, “http://url-to-image-of-show.com”);
+b.putInt(“deep_link”, “app://deeplink-to-show-page-in-app”);
+logger.logEvent(&quot;product_viewed&quot;,b);
+</pre></div>
+</div>
+<p>Once you have given this data to us, you can run a campaign which sends notification to people who have browsed a product within last few days and send them a message along with the image of the product that they browsed and clicking on the notification would open the product page (using the deeplink provided).</p>
+</li>
+</ol>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="integrating-quantumgraph-sdk.html"
+                        title="previous chapter">Integrating QuantumGraph SDK</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="using-web-ui.html"
+                        title="next chapter">Using Web UI</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/using-quantumgraph-sdk.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="using-web-ui.html" title="Using Web UI"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="integrating-quantumgraph-sdk.html" title="Integrating QuantumGraph SDK"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">QGDocs 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2015, QuantumGraph Engineers.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,187 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Using Web UI &mdash; QGDocs 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="QGDocs 1.0 documentation" href="index.html" />
+    <link rel="prev" title="Using QuantumGraph SDK" href="using-quantumgraph-sdk.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="using-quantumgraph-sdk.html" title="Using QuantumGraph SDK"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">QGDocs 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="using-web-ui">
+<h1>Using Web UI<a class="headerlink" href="#using-web-ui" title="Permalink to this headline">¶</a></h1>
+<p>You have integrated the SDK. You have also started logging some events and user profile parameters. Now you are ready to send some notifications to the users!</p>
+<p>Go to <a class="reference external" href="http://mobile.quantumgraph.com">http://mobile.quantumgraph.com</a></p>
+<p>Use your username and password to login.</p>
+<dl class="docutils">
+<dt>You see four sections</dt>
+<dd><ol class="first last arabic simple">
+<li>Campaigns</li>
+<li>Segments</li>
+<li>Last Modified Users</li>
+<li>Latest Activities</li>
+</ol>
+</dd>
+</dl>
+<div class="section" id="last-modified-users">
+<h2>1. Last Modified Users<a class="headerlink" href="#last-modified-users" title="Permalink to this headline">¶</a></h2>
+<p>First you should go to the section titled “View Latest Users”. This section shows details of last few users which have been active on the app. Once you do some activity on the app, you should be able to see a user corresponding to you in the app. (You can recognize yourself using some of the fields that you have been logging, like email or username)</p>
+</div>
+<div class="section" id="latest-activities">
+<h2>2. Latest Activities<a class="headerlink" href="#latest-activities" title="Permalink to this headline">¶</a></h2>
+<p>Then you should first is to go to “Latest Activities”. Here you can see the information regarding last few events which have happened on the app.</p>
+<p>You should perform some activity in the app which logs a new event, and check that you can see the event.</p>
+<p>Once you are able to your profile and activities in “Last Modified Users” and “Latest Activities” tabs, you know that QG servers are receiving the data properly.</p>
+</div>
+<div class="section" id="segments">
+<h2>3. Segments<a class="headerlink" href="#segments" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt>A segment is a set of users. In this tab, you specify the criteria for a segment. Users which satisfy all the criteria specified will constitute the segment.</dt>
+<dd>If you do not specify any criteria, segment will contain all the app users.
+We have already created a segment for you called “AllUsers”. This segment has no conditions and thus all the users belong to it.</dd>
+</dl>
+</div>
+<div class="section" id="campaigns">
+<h2>4. Campaigns<a class="headerlink" href="#campaigns" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt>Once you have created one or more segments, you are ready to create a campaign. You choose a creative type. Choose one of “Base”, “Icon”, “Big Image”or “Rolling”. You fill in all the fields.</dt>
+<dd><p class="first">As a first step, just choose the “Icon” or “Big Image” type and specify various fields. In this step, fill the same strings in “custom” and “default” fields. Select one of the segments, and click “Add Campaign”. Don’t worry, no notifications will go out yet.</p>
+<p>You can click “Run” to send the notifications to the users. Refresh the screen after some time and you should see some stats about how many notifications were sent. If you are a part of the segment, you should receive a notification too.</p>
+<p class="last">As a second step, you can customize the message in two ways:</p>
+</dd>
+</dl>
+<ol class="arabic">
+<li><dl class="first docutils">
+<dt>Suppose you have passed us variables in the user data (sometimes called ‘master data’) called ‘name’ and ‘city’. Then, if while creating a campaign, in the “custom” title or message you write:</dt>
+<dd><dl class="first last docutils">
+<dt>Hello $name, you live in $city</dt>
+<dd><p class="first last">Then, for each user, $name and $city will be substituted by the actual variable values. For those users in the segment for whom one of these variables is not present, the “default” string provided by you will be used.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</li>
+<li><p class="first">Suppose you provided us an event called “VIEWED_PRODUCT” and in the parameters you specified:</p>
+<div class="highlight-python"><div class="highlight"><pre>{
+   ‘name’: ‘abccamera’,
+   ‘pid’: 123,
+   ‘price’: 15999,
+   ‘image_url’: ‘http://mysite.com/abc-camera.jpg’
+   ‘redirect_url’: ‘myapp://myapp.com/123’
+}
+</pre></div>
+</div>
+</li>
+</ol>
+<p>(the names of the keys: ‘name’, ‘price’ etc are your choice).</p>
+<p>Then you can refer to ‘name’, ‘price’, ‘image_url’, ‘redirect_url’ as
+$E.VIEWED_PRODUCT.0.name
+$E.VIEWED_PRODUCT.0.price
+$E.VIEWED_PRODUCT.0.image_url
+$E.VIEWED_PRODUCT.0.redirect_url
+respectively.</p>
+<p>You can use the first two variables to customize the message, like this:</p>
+<p>Hello $name, the prices of $E.VIEWED_PRODUCT.0.name have fallen by 40%!
+And you can specify the last two variables to specify the image and redirect url for the notification.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Using Web UI</a><ul>
+<li><a class="reference internal" href="#last-modified-users">1. Last Modified Users</a></li>
+<li><a class="reference internal" href="#latest-activities">2. Latest Activities</a></li>
+<li><a class="reference internal" href="#segments">3. Segments</a></li>
+<li><a class="reference internal" href="#campaigns">4. Campaigns</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="using-quantumgraph-sdk.html"
+                        title="previous chapter">Using QuantumGraph SDK</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/using-web-ui.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="using-quantumgraph-sdk.html" title="Using QuantumGraph SDK"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">QGDocs 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2015, QuantumGraph Engineers.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
+    </div>
+  </body>
+</html>
