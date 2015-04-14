@@ -71,12 +71,6 @@ logger = QGEventsLogger.newLogger(context);
 </pre></div>
 </div>
 </li>
-<li><p class="first">Below lines must be present inside application tags else application throws runtime exception:</p>
-<div class="highlight-python"><div class="highlight"><pre>&lt;meta-data android:name=&quot;com.quantumgraph.sdk.ApplicationId&quot; android:value=&quot;&lt;your application id&gt;&quot;/&gt;
-&lt;meta-data android:name=&quot;com.quantumgraph.sdk.ClientId&quot; android:value=&quot;&lt;your client id&gt;&quot;/&gt;
-</pre></div>
-</div>
-</li>
 <li><p class="first">We need to know the GCM Id of the user.
 For that, first you need to know your app’s “Sender ID” from google play store. See how to get sender id here: <a class="reference external" href="http://developer.android.com/google/gcm/gs.html#create-proj">http://developer.android.com/google/gcm/gs.html#create-proj</a></p>
 <p>Once you know sender id, we provide a method using which you can get the GCM ID of that particular user:</p>
