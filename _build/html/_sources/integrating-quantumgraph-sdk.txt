@@ -20,6 +20,11 @@ Integration in Android Studio App
    (e) Add QGAnalytics to your product
    (f) Click “Apply” at the bottom.
 
+#. Add following lines to AndroidManifest.xml::
+
+   <meta-data android:name="com.quantumgraph.sdk.ClientId" android:value="<your-client-id>"/>
+   <meta-data android:name="com.quantumgraph.sdk.ApplicationId" android:value="<your-app-id>"/>
+
 Integration in Eclipse App
 -------------------------- 
 1. Extract QGAnalytics.tar.gz

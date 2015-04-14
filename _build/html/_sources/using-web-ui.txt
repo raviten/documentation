@@ -35,12 +35,13 @@ Once you are able to your profile and activities in “Last Modified Users” an
 3. Segments
 -----------
 A segment is a set of users. In this tab, you specify the criteria for a segment. Users which satisfy all the criteria specified will constitute the segment.
+
    If you do not specify any criteria, segment will contain all the app users.
-   We have already created a segment for you called “AllUsers”. This segment has no conditions and thus all the users belong to it.
 
 4. Campaigns
 ------------
 Once you have created one or more segments, you are ready to create a campaign. You choose a creative type. Choose one of “Base”, “Icon”, “Big Image”or “Rolling”. You fill in all the fields.
+
    As a first step, just choose the “Icon” or “Big Image” type and specify various fields. In this step, fill the same strings in “custom” and “default” fields. Select one of the segments, and click “Add Campaign”. Don’t worry, no notifications will go out yet.
    
    You can click “Run” to send the notifications to the users. Refresh the screen after some time and you should see some stats about how many notifications were sent. If you are a part of the segment, you should receive a notification too.
