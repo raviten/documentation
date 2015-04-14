@@ -21,12 +21,6 @@ Firstly, we need to know some book keeping details:
       logger = QGEventsLogger.newLogger(context);
 
 
-#. Below lines must be present inside application tags else application throws runtime exception::
-
-      <meta-data android:name="com.quantumgraph.sdk.ApplicationId" android:value="<your application id>"/>
-      <meta-data android:name="com.quantumgraph.sdk.ClientId" android:value="<your client id>"/>
-
-
 #. We need to know the GCM Id of the user.
    For that, first you need to know your app’s “Sender ID” from google play store. See how to get sender id here: http://developer.android.com/google/gcm/gs.html#create-proj
    
