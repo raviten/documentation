@@ -60,14 +60,14 @@
 </pre></div>
 </div>
 <p>Declare a static class variable called “logger”:</p>
-<div class="highlight-python"><div class="highlight"><pre>static QGEventsLogger logger;
+<div class="highlight-python"><div class="highlight"><pre>static QGLogger logger;
 </pre></div>
 </div>
 </li>
 <li><p class="first">In onCreate() implementation of your Main activity must be called on the application starts, have the following code:</p>
 <div class="highlight-python"><div class="highlight"><pre>//context must be of activity context
-QGEventsogger.activateApp(context);
-logger = QGEventsLogger.newLogger(context);
+QGLogger.activateApp(context);
+logger = QGLogger.newLogger(context);
 </pre></div>
 </div>
 </li>

@@ -12,13 +12,13 @@ Firstly, we need to know some book keeping details:
 
    Declare a static class variable called “logger”::
 
-      static QGEventsLogger logger;
+      static QGLogger logger;
 
 #. In onCreate() implementation of your Main activity must be called on the application starts, have the following code::
 
       //context must be of activity context
-      QGEventsogger.activateApp(context);
-      logger = QGEventsLogger.newLogger(context);
+      QGLogger.activateApp(context);
+      logger = QGLogger.newLogger(context);
 
 
 #. We need to know the GCM Id of the user.
