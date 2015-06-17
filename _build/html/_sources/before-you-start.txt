@@ -10,5 +10,5 @@ Before you start, you need to do the following:
 
    You need to give it to us for us to be able to send notifications on behalf of your app.
 
-#. Get credentials for web app.
+#. Get credentials for your web app.
    Contact us to get username and password.
