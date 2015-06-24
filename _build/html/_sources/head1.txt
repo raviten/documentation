@@ -1,3 +1,0 @@
-Integrating QuantumGraph SDK
-============================
-something 1

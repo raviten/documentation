@@ -3,17 +3,17 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to QuantumGraph's documentation!
-========================================
+Welcome to QGraph's documentation!
+==================================
 
 Contents:
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
 
    intro
-   before-you-start
-   integrating-quantumgraph-sdk
-   using-quantumgraph-sdk
+   basics
+   integrating-qgraph-sdk
    using-web-ui
-
+   best-practices
+   downloads

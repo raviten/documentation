@@ -1,0 +1,247 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Integrating QGraph SDK &mdash; QGDocs 1.0 documentation</title>
+  
+
+  
+  
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="QGDocs 1.0 documentation" href="index.html"/>
+        <link rel="next" title="Using Web UI" href="using-web-ui.html"/>
+        <link rel="prev" title="Basics" href="basics.html"/> 
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+          <a href="index.html" class="fa fa-home"> QGDocs</a>
+        
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="intro.html">Introduction</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="intro.html#why-qgraph">Why QGraph?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="intro.html#how-do-i-get-started">How do I get started?</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="basics.html">Basics</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Integrating QGraph SDK</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#integration-in-android-studio-app">Integration in Android Studio App</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#using-android-sdk">Using Android SDK</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="using-web-ui.html">Using Web UI</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="using-web-ui.html#last-modified-users">1. Last Modified Users</a></li>
+<li class="toctree-l2"><a class="reference internal" href="using-web-ui.html#latest-activities">2. Latest Activities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="using-web-ui.html#segments">3. Segments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="using-web-ui.html#campaigns">4. Campaigns</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="best-practices.html">Best Practices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="downloads.html">Downloads</a></li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">QGDocs</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Integrating QGraph SDK</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          <a href="_sources/integrating-qgraph-sdk.txt" rel="nofollow"> View page source</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
+            
+  <div class="section" id="integrating-qgraph-sdk">
+<h1>Integrating QGraph SDK<a class="headerlink" href="#integrating-qgraph-sdk" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="integration-in-android-studio-app">
+<h2>Integration in Android Studio App<a class="headerlink" href="#integration-in-android-studio-app" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p class="first">Download QG.aar from
+<a class="reference external" href="http://app.qgraph.io/static/sdk/android/QG.aar">http://app.qgraph.io/static/sdk/android/QG.aar</a>.</p>
+<p>Put it in /libs folder of your app. Make a /libs folder if it does not already exist.</p>
+<img alt="_images/libs.png" src="_images/libs.png" />
+</li>
+<li><p class="first">Right click on project name and click on &#8220;Open Module Settings&#8221;</p>
+<img alt="_images/open-module-settings.png" src="_images/open-module-settings.png" />
+</li>
+<li><p class="first">Click on &#8220;+&#8221; button at the top left corner, select &#8220;Import .AAR package&#8221; option and navigate to QG.aar file in /libs folder of your app.</p>
+<img alt="_images/add-aar.png" src="_images/add-aar.png" />
+</li>
+<li><p class="first">In the same window, select your app in &#8220;Modules&#8221; sections from left, select &#8220;Dependecies&#8221; tab in top menu and click &#8220;+&#8221; button at bottom left. Select &#8220;Module dependency&#8221; and add &#8220;QG&#8221; as dependency. Select &#8220;OK&#8221; once that is done.</p>
+<img alt="_images/add-aar-to-project.png" src="_images/add-aar-to-project.png" />
+</li>
+</ol>
+</div>
+<div class="section" id="using-android-sdk">
+<h2>Using Android SDK<a class="headerlink" href="#using-android-sdk" title="Permalink to this headline">¶</a></h2>
+<p>Follow these steps to use our android SDK</p>
+<div class="section" id="import-qg-sdk-in-your-activity">
+<h3>Import QG SDK in your activity<a class="headerlink" href="#import-qg-sdk-in-your-activity" title="Permalink to this headline">¶</a></h3>
+<p>In all the activity classes, starting with the class for the main activity, import QG SDK:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">com.quantumgraph.sdk.QG</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="initialization-and-cleanup-of-sdk">
+<h3>Initialization and cleanup of SDK<a class="headerlink" href="#initialization-and-cleanup-of-sdk" title="Permalink to this headline">¶</a></h3>
+<p>In the <code class="docutils literal"><span class="pre">onStart()</span></code> function of your activity, do the following:</p>
+<div class="highlight-python"><div class="highlight"><pre>QG qg = QG.getInstance();
+qg.onStart(getApplicationContext(), &lt;your app id&gt;, &lt;your sender id&gt;);
+</pre></div>
+</div>
+<p>App id for your app is available from the settings page. Sender id is a string
+that Google provides to you for getting registration id for users. You will
+get the sender id for your app during the set up phase in our web interface.</p>
+<p>In the <code class="docutils literal"><span class="pre">onStop()</span></code> function of your activity, do the following:</p>
+<div class="highlight-python"><div class="highlight"><pre>QG qg = QG.getInstance();
+qg.onStop();
+</pre></div>
+</div>
+</div>
+<div class="section" id="logging-user-profiles">
+<h3>Logging user profiles<a class="headerlink" href="#logging-user-profiles" title="Permalink to this headline">¶</a></h3>
+<p>User profiles are information about your users, like their name, city, date of birth
+or any other information that you may wish to track. You log user profiles by using one
+of the following functions:</p>
+<div class="highlight-python"><div class="highlight"><pre>qg.setUserName(
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="using-web-ui.html" class="btn btn-neutral float-right" title="Using Web UI">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="basics.html" class="btn btn-neutral" title="Basics"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, QuantumGraph Engineers.
+    </p>
+  </div>
+
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

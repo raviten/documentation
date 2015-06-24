@@ -1,3 +1,0 @@
-This is head 2
-==============
-this is something
