@@ -169,9 +169,195 @@ qg.onStop();
 <div class="section" id="logging-user-profiles">
 <h3>Logging user profiles<a class="headerlink" href="#logging-user-profiles" title="Permalink to this headline">¶</a></h3>
 <p>User profiles are information about your users, like their name, city, date of birth
-or any other information that you may wish to track. You log user profiles by using one
-of the following functions:</p>
-<div class="highlight-python"><div class="highlight"><pre>qg.setUserName(
+or any other information that you may wish to track. You log user profiles by using one or more of the following functions:</p>
+<div class="highlight-python"><div class="highlight"><pre>qg.setUserId(String userId);
+</pre></div>
+</div>
+<p>userId is the id of the user. It might be email, or username, or facebook id, or any other form of id that you may wish to keep.</p>
+<p>Other functions that you may user are:</p>
+<div class="highlight-python"><div class="highlight"><pre>qg.setName(String name);
+qg.setFirstName(String firstName);
+qg.setLastName(String lastName);
+qg.setCity(String city);
+qg.setEmail(String email);
+qg.setDayOfBirth(int day);
+qg.setMonthOfBirth(int month);
+qg.setYearOfBirth(int year);
+</pre></div>
+</div>
+<p>Other than these functions, you can log your own custom user parameters. You do it using:</p>
+<div class="highlight-python"><div class="highlight"><pre>qg.setCustomeUserParameter(String key, E value);
+</pre></div>
+</div>
+<p>For instance, you may wish to have the user&#8217;s current rating like this:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">qg</span><span class="o">.</span><span class="n">setCustomeUserParameter</span><span class="p">(</span><span class="s">&quot;current_rating&quot;</span><span class="p">,</span> <span class="mi">123</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>As implied by the function definition, the value can be of any data type.</p>
+<p>Once user profile is set, you can use this to create personalized messages (For example: &#8220;Hi John, exciting deals are available in Mountain View&#8221;), or to create user segments (For example you can create a segment of users who were born after 1990 and live in Mountain View)</p>
+</div>
+<div class="section" id="logging-events">
+<h3>Logging events<a class="headerlink" href="#logging-events" title="Permalink to this headline">¶</a></h3>
+<p>Events are the activities that a user performs in your app, for example, view the products, playing a game or listening to a music. Each event has a name (for instance, the event of viewing a product is called <code class="docutils literal"><span class="pre">product_viewed</span></code>), and can have some parameters. For instance,
+for event <code class="docutils literal"><span class="pre">product_viewed</span></code>, the parameters are <code class="docutils literal"><span class="pre">id</span></code> (the id of the product viewed), <code class="docutils literal"><span class="pre">name</span></code> (name of the product viewed), <code class="docutils literal"><span class="pre">image_url</span></code> (image url of the product viewed), <code class="docutils literal"><span class="pre">deep_link</span></code> (a deep link which takes one to the product page in the app), and so on.</p>
+<p>It is not necessary that you provide all the parameters for a given event. You can choose to provide whatever parameters are relevant to you.</p>
+<p>Once you log event information to use, you can segment users on the basis of the events (For example, you can create a segment consisting of users have not launched for past 7 days, or you can create a segment consiting of users who, in last 7 days, have purchased a product whose value is more than $1000)</p>
+<p>You can also define your events, and your own parameters for any event. However, if you do that, you will need to sync up with us to be able to segment the users on the basis of these events or customize your creatives based on these events.</p>
+<p>Here is how you set up some of the popular events.</p>
+<p><strong>Registration Completed</strong></p>
+<p>This event does not have any parameters:</p>
+<div class="highlight-python"><div class="highlight"><pre>QG qg = QG.getInstance();
+JSONObject registrationDetails = new JSONObject();
+try {
+   qg.logEvent(&quot;registration_complted&quot;, registrationDetails);
+}
+</pre></div>
+</div>
+<p><strong>Category Viewed</strong></p>
+<p>This event has one paraemter:</p>
+<div class="highlight-python"><div class="highlight"><pre>QG qg = QG.getInstance();
+JSONObject categoryDetails = new JSONObject();
+try {
+   categoryDetails.put(&quot;category&quot;, &quot;apparels&quot;);
+}
+qg.logEvent(&quot;category_viewed&quot;, productDetails);
+</pre></div>
+</div>
+<p><strong>Product Viewed</strong></p>
+<p>You may choose to have the following fields:</p>
+<div class="highlight-python"><div class="highlight"><pre>QG qg = QG.getInstance();
+JSONObject productDetails = new JSONObject();
+try {
+   productDetails.put(&quot;id&quot;, &quot;123&quot;);
+   productDetails.put(&quot;name&quot;, &quot;Nikon Camera&quot;);
+   productDetails.put(&quot;image_url&quot;, &quot;http://mysite.com/products/123.png&quot;);
+   productDetails.put(&quot;deep_link&quot;, &quot;myapp//products?id=123&quot;);
+   productDetails.put(&quot;type&quot;, &quot;new&quot;);
+   productDetails.put(&quot;category&quot;, &quot;electronics&quot;);
+   productDetails.put(&quot;brand&quot;, &quot;Nikon&quot;);
+   productDetails.put(&quot;color&quot;, &quot;white&quot;);
+   productDetails.put(&quot;size&quot;, &quot;small&quot;);
+   productDetails.put(&quot;price&quot;, 6999);
+}
+qg.logEvent(&quot;product_viewed&quot;, productDetails);
+</pre></div>
+</div>
+<p><strong>Product Added to Cart</strong>:</p>
+<div class="highlight-python"><div class="highlight"><pre>QG qg = QG.getInstance();
+JSONObject productDetails = new JSONObject();
+try {
+   productDetails.put(&quot;id&quot;, &quot;123&quot;);
+   productDetails.put(&quot;name&quot;, &quot;Nikon Camera&quot;);
+   productDetails.put(&quot;image_url&quot;, &quot;http://mysite.com/products/123.png&quot;);
+   productDetails.put(&quot;deep_link&quot;, &quot;myapp//products?id=123&quot;);
+   productDetails.put(&quot;type&quot;, &quot;new&quot;);
+   productDetails.put(&quot;category&quot;, &quot;electronics&quot;);
+   productDetails.put(&quot;brand&quot;, &quot;Nikon&quot;);
+   productDetails.put(&quot;color&quot;, &quot;white&quot;);
+   productDetails.put(&quot;size&quot;, &quot;small&quot;);
+   productDetails.put(&quot;price&quot;, 6999);
+}
+qg.logEvent(&quot;product_added_to_cart&quot;, productDetails);
+</pre></div>
+</div>
+<p><strong>Product Added to Wishlist</strong>:</p>
+<div class="highlight-python"><div class="highlight"><pre>QG qg = QG.getInstance();
+JSONObject productDetails = new JSONObject();
+try {
+   productDetails.put(&quot;id&quot;, &quot;123&quot;);
+   productDetails.put(&quot;name&quot;, &quot;Nikon Camera&quot;);
+   productDetails.put(&quot;image_url&quot;, &quot;http://mysite.com/products/123.png&quot;);
+   productDetails.put(&quot;deep_link&quot;, &quot;myapp//products?id=123&quot;);
+   productDetails.put(&quot;type&quot;, &quot;new&quot;);
+   productDetails.put(&quot;category&quot;, &quot;electronics&quot;);
+   productDetails.put(&quot;brand&quot;, &quot;Nikon&quot;);
+   productDetails.put(&quot;color&quot;, &quot;white&quot;);
+   productDetails.put(&quot;size&quot;, &quot;small&quot;);
+   productDetails.put(&quot;price&quot;, 6999);
+}
+qg.logEvent(&quot;product_added_to_wishlist&quot;, productDetails);
+</pre></div>
+</div>
+<p><strong>Product Purchased</strong>:</p>
+<div class="highlight-python"><div class="highlight"><pre>QG qg = QG.getInstance();
+JSONObject productDetails = new JSONObject();
+try {
+   productDetails.put(&quot;id&quot;, &quot;123&quot;);
+   productDetails.put(&quot;name&quot;, &quot;Nikon Camera&quot;);
+   productDetails.put(&quot;image_url&quot;, &quot;http://mysite.com/products/123.png&quot;);
+   productDetails.put(&quot;deep_link&quot;, &quot;myapp//products?id=123&quot;);
+   productDetails.put(&quot;type&quot;, &quot;new&quot;);
+   productDetails.put(&quot;category&quot;, &quot;electronics&quot;);
+   productDetails.put(&quot;brand&quot;, &quot;Nikon&quot;);
+   productDetails.put(&quot;color&quot;, &quot;white&quot;);
+   productDetails.put(&quot;size&quot;, &quot;small&quot;);
+   productDetails.put(&quot;price&quot;, 6999);
+}
+qg.logEvent(&quot;product_purchased&quot;, productDetails);
+</pre></div>
+</div>
+<p><strong>Checkout Initiated</strong>:</p>
+<div class="highlight-python"><div class="highlight"><pre>QG qg = QG.getInstance();
+JSONObject checkoutDetails = new JSONObject();
+try {
+   productDetails.put(&quot;num_products&quot;, 2);
+   productDetails.put(&quot;cart_value&quot;, 12998.44);
+   productDetails.put(&quot;deep_link&quot;, &quot;myapp://myapp/cart&quot;);
+}
+qg.logEvent(&quot;checkout_initiated&quot;, checkoutDetails);
+</pre></div>
+</div>
+<p><strong>Checkout Completed</strong>:</p>
+<div class="highlight-python"><div class="highlight"><pre>QG qg = QG.getInstance();
+JSONObject checkoutCompleted = new JSONObject();
+try {
+   productDetails.put(&quot;num_products&quot;, 2);
+   productDetails.put(&quot;cart_value&quot;, 12998.44);
+   productDetails.put(&quot;deep_link&quot;, &quot;myapp://myapp/cart&quot;);
+}
+qg.logEvent(&quot;checkout_completed&quot;, checkoutDetails);
+</pre></div>
+</div>
+<p><strong>Product Rated</strong>:</p>
+<div class="highlight-python"><div class="highlight"><pre>QG qg = QG.getInstance();
+JSONObject rating = new JSONObject();
+try {
+   rating.put(&quot;id&quot;, &quot;1232&quot;);
+   rating.put(&quot;rating&quot;, 2);
+}
+qg.logEvent(&quot;product_rated&quot;, rating);
+</pre></div>
+</div>
+<p><strong>Searched</strong>:</p>
+<div class="highlight-python"><div class="highlight"><pre>QG qg = QG.getInstance();
+JSONObject search = new JSONObject();
+try {
+   search.put(&quot;id&quot;, &quot;1232&quot;);
+   search.put(&quot;rating&quot;, 2);
+}
+qg.logEvent(&quot;product_rated&quot;, rating);
+</pre></div>
+</div>
+<p><strong>Reached Level</strong>:</p>
+<div class="highlight-python"><div class="highlight"><pre>QG qg = QG.getInstance();
+JSONObject level = new JSONObject();
+try {
+   level.put(&quot;level&quot;, 23);
+}
+qg.logEvent(&quot;level&quot;, rating);
+</pre></div>
+</div>
+<p><strong>Your custom events</strong></p>
+<p>Apart from above predefined events, you can create your own custom events, and
+have custom parameters in them:</p>
+<div class="highlight-python"><div class="highlight"><pre>QG qg = QG.getInstance();
+JSONObject json = new JSONObject();
+try {
+   json.put(&quot;my_param&quot;, &quot;some value&quot;);
+   json.put(&quot;some_other_param&quot;, 123);
+   json.put(&quot;what_ever&quot;, 1234.23);
+}
+qg.logEvent(&quot;my_custom_event&quot;, json);
 </pre></div>
 </div>
 </div>
