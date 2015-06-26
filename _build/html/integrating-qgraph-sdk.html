@@ -71,6 +71,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="basics.html">Basics</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="basics.html#how-does-it-work">How does it work?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="basics.html#user-profiles-and-events">User Profiles and Events</a></li>
 </ul>
 </li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Integrating QGraph SDK</a><ul>
@@ -79,13 +80,12 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="using-web-ui.html">Using Web UI</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="using-web-ui.html#last-modified-users">1. Last Modified Users</a></li>
-<li class="toctree-l2"><a class="reference internal" href="using-web-ui.html#latest-activities">2. Latest Activities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="using-web-ui.html#recent-users">1. Recent Users</a></li>
+<li class="toctree-l2"><a class="reference internal" href="using-web-ui.html#recent-activities">2. Recent Activities</a></li>
 <li class="toctree-l2"><a class="reference internal" href="using-web-ui.html#segments">3. Segments</a></li>
 <li class="toctree-l2"><a class="reference internal" href="using-web-ui.html#campaigns">4. Campaigns</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="best-practices.html">Best Practices</a></li>
 <li class="toctree-l1"><a class="reference internal" href="downloads.html">Downloads</a></li>
 </ul>
 
@@ -189,11 +189,11 @@ qg.setYearOfBirth(int year);
 </pre></div>
 </div>
 <p>Other than these functions, you can log your own custom user parameters. You do it using:</p>
-<div class="highlight-python"><div class="highlight"><pre>qg.setCustomeUserParameter(String key, E value);
+<div class="highlight-python"><div class="highlight"><pre>qg.setCustomUserParameter(String key, E value);
 </pre></div>
 </div>
 <p>For instance, you may wish to have the user&#8217;s current rating like this:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">qg</span><span class="o">.</span><span class="n">setCustomeUserParameter</span><span class="p">(</span><span class="s">&quot;current_rating&quot;</span><span class="p">,</span> <span class="mi">123</span><span class="p">);</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">qg</span><span class="o">.</span><span class="n">setCustomUserParameter</span><span class="p">(</span><span class="s">&quot;current_rating&quot;</span><span class="p">,</span> <span class="mi">123</span><span class="p">);</span>
 </pre></div>
 </div>
 <p>As implied by the function definition, the value can be of any data type.</p>

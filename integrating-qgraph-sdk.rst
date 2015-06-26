@@ -71,11 +71,11 @@ Other functions that you may user are::
 
 Other than these functions, you can log your own custom user parameters. You do it using::
 
-   qg.setCustomeUserParameter(String key, E value);
+   qg.setCustomUserParameter(String key, E value);
 
 For instance, you may wish to have the user's current rating like this::
 
-   qg.setCustomeUserParameter("current_rating", 123);
+   qg.setCustomUserParameter("current_rating", 123);
 
 As implied by the function definition, the value can be of any data type.
 
