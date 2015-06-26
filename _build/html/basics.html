@@ -71,6 +71,7 @@
 </li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Basics</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#how-does-it-work">How does it work?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#user-profiles-and-events">User Profiles and Events</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="integrating-qgraph-sdk.html">Integrating QGraph SDK</a><ul>
@@ -126,13 +127,26 @@
 <h1>Basics<a class="headerlink" href="#basics" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="how-does-it-work">
 <h2>How does it work?<a class="headerlink" href="#how-does-it-work" title="Permalink to this headline">¶</a></h2>
-<p>Here is a 1000 foot overview of how QGraph SDK sends notifications to your app users.</p>
+<p>Here is a thousand feet overview of how QGraph SDK sends notifications to your app users.</p>
 <ol class="arabic simple">
 <li>You register at our site, download the SDK and integrate the SDK in your app. SDK provides you with some functions that you can call to send us data related to your app users.</li>
 <li>You send us user data by calling the functions of the SDK. There are two types of data: user profile data, like the name of user, gender of user, city of user etc) and event (activity) data, like a user viewing a product, a user purchasing a product, etc.</li>
 <li>You go to our web panel at <a class="reference external" href="http://qgraph.io">http://qgraph.io</a>. You create one more segments. A segment is a set of users. For instance you can create a segment of the users who reside in Bangalore and have not opened your app in last 7 days. You also create a campaign. A campaign is a segment together with a creative (i.e. the title, the message, the image etc of the notification). Once you have created a campaign, you send the notification.</li>
 <li>After you send the notification, you can go to respective campaign and view statistics around how many of those notifications were opned, and what events happend as a result of notifications.</li>
 </ol>
+</div>
+<div class="section" id="user-profiles-and-events">
+<h2>User Profiles and Events<a class="headerlink" href="#user-profiles-and-events" title="Permalink to this headline">¶</a></h2>
+<p>Nextly you need to know about user profiles and events.</p>
+<div class="section" id="user-profiles">
+<h3>User Profiles<a class="headerlink" href="#user-profiles" title="Permalink to this headline">¶</a></h3>
+<p>User profile is information regarding attributes of the user: for instance his name, email, city,
+gender and so on. User profile may contain information that is specific to your app, for example, the maximum level attained in a gaming app, total lifetime purchase made by a user, or his interests. Each user profile item has a &#8220;key&#8221; and a &#8220;value&#8221;. For instance for the name of a person, the key is &#8220;name&#8221; and value might be &#8220;John Appleseed&#8221;.</p>
+</div>
+<div class="section" id="events">
+<h3>Events<a class="headerlink" href="#events" title="Permalink to this headline">¶</a></h3>
+<p>Events are the activities that a user performances, for instance viewind a product, purchasing a product, playing a game or liking an item. Each event has a name, say &#8220;product_viewed&#8221;, or &#8220;product_purchased&#8221;. Each event also has some parameters which consist of &#8220;keys&#8221; and &#8220;values&#8221;. For instance, for the event &#8220;product_viewed&#8221;, the parameter keys would be &#8220;id&#8221;, &#8220;name&#8221;, &#8220;img_url&#8221;, &#8220;deep_link&#8221; etc with sample values 123, &#8220;Nikon Camera&#8221;, &#8220;<a class="reference external" href="http://mysite/product/123.png">http://mysite/product/123.png</a>&#8221; and &#8220;myapp://myapp/product/123&#8221; respectively.</p>
+</div>
 </div>
 </div>
 

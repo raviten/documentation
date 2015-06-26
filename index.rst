@@ -15,5 +15,4 @@ Contents:
    basics
    integrating-qgraph-sdk
    using-web-ui
-   best-practices
    downloads
