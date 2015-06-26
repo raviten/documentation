@@ -166,24 +166,20 @@
 </div>
 <div class="section" id="campaigns">
 <h2>4. Campaigns<a class="headerlink" href="#campaigns" title="Permalink to this headline">¶</a></h2>
-<p>Once you have created one or more segments, you are ready to create a campaign. You choose a creative type. Choose one of “Base”, “Icon”, “Big Image”or “Rolling”. You fill in all the fields.</p>
-<blockquote>
-<div><p>As a first step, just choose the “Icon” or “Big Image” type and specify various fields. In this step, fill the same strings in “custom” and “default” fields. Select one of the segments, and click “Add Campaign”. Don’t worry, no notifications will go out yet.</p>
-<p>You can click “Run” to send the notifications to the users. Refresh the screen after some time and you should see some stats about how many notifications were sent. If you are a part of the segment, you should receive a notification too.</p>
+<p>Once you have created one or more segments, you are ready to create a campaign. You choose a creative type. Choose one of &#8220;Base&#8221;, &#8220;Icon&#8221;, &#8220;Big Image&#8221; or &#8220;Rolling&#8221;. You fill in all the fields.</p>
+<p>As a first step, just choose the &#8220;Icon&#8221; or &#8220;Big Image&#8221; type and specify various fields. In this step, fill the same strings in &#8220;custom&#8221; and &#8220;default&#8221; fields. Select one of the segments, and click &#8220;Add Campaign&#8221;. Don’t worry, no notifications will go out yet.</p>
+<p>You can click &#8220;Run&#8221; to send the notifications to the users. Refresh the screen after some time and you should see some stats about how many notifications were sent. If you are a part of the segment, you should receive a notification too.</p>
 <p>As a second step, you can customize the message in two ways:</p>
-</div></blockquote>
 <ol class="arabic">
-<li><dl class="first docutils">
-<dt>Suppose you have passed us variables in the user data (sometimes called ‘master data’) called ‘name’ and ‘city’. Then, if while creating a campaign, in the “custom” title or message you write:</dt>
-<dd><dl class="first last docutils">
-<dt>Hello $name, you live in $city</dt>
-<dd><p class="first last">Then, for each user, $name and $city will be substituted by the actual variable values. For those users in the segment for whom one of these variables is not present, the “default” string provided by you will be used.</p>
-</dd>
-</dl>
-</dd>
-</dl>
+<li><p class="first">Suppose you have passed us variables in the user profiles called &#8220;name&#8221; and &#8220;city&#8221;. Then, if while creating a campaign, in the &#8220;custom&#8221; title or message you write:</p>
+<blockquote>
+<div><p>Hello $name, you live in $city</p>
+</div></blockquote>
 </li>
-<li><p class="first">Suppose you provided us an event called “VIEWED_PRODUCT” and in the parameters you specified:</p>
+</ol>
+<p>Then, for each user, $name and $city will be substituted by the actual variable values. For those users in the segment for whom one of these variables is not present, the “default” string provided by you will be used.</p>
+<ol class="arabic" start="2">
+<li><p class="first">Suppose you provided us an event called <cite>product_viewed</cite> and in the parameters you specified:</p>
 <div class="highlight-python"><div class="highlight"><pre>{
    ‘name’: ‘abccamera’,
    ‘pid’: 123,
@@ -195,16 +191,15 @@
 </div>
 </li>
 </ol>
-<p>(the names of the keys: ‘name’, ‘price’ etc are your choice).</p>
-<p>Then you can refer to ‘name’, ‘price’, ‘image_url’, ‘redirect_url’ as
-$E.VIEWED_PRODUCT.0.name
-$E.VIEWED_PRODUCT.0.price
-$E.VIEWED_PRODUCT.0.image_url
-$E.VIEWED_PRODUCT.0.redirect_url
+<p>Then you can refer to &#8220;name&#8221;, &#8220;price&#8221;, &#8220;image_url&#8221;, &#8220;redirect_url&#8221; as
+$E.product_viewed.0.name
+$E.product_viewed.0.price
+$E.product_viewed.0.image_url
+$E.product_viewed.0.redirect_url
 respectively.</p>
 <p>You can use the first two variables to customize the message, like this:</p>
-<p>Hello $name, the prices of $E.VIEWED_PRODUCT.0.name have fallen by 40%!
-And you can specify the last two variables to specify the image and redirect url for the notification.</p>
+<p>Hello $name, the prices of $E.product_viewed.0.name have fallen by 40%!</p>
+<p>And you can specify the last two variables to specify the image and redirect url for the notification.</p>
 </div>
 </div>
 

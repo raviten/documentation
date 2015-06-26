@@ -42,19 +42,22 @@ A segment is a set of users. In this tab, you specify the criteria for a segment
 
 4. Campaigns
 ------------
-Once you have created one or more segments, you are ready to create a campaign. You choose a creative type. Choose one of “Base”, “Icon”, “Big Image”or “Rolling”. You fill in all the fields.
+Once you have created one or more segments, you are ready to create a campaign. You choose a creative type. Choose one of "Base", "Icon", "Big Image" or "Rolling". You fill in all the fields.
 
-   As a first step, just choose the “Icon” or “Big Image” type and specify various fields. In this step, fill the same strings in “custom” and “default” fields. Select one of the segments, and click “Add Campaign”. Don’t worry, no notifications will go out yet.
+As a first step, just choose the "Icon" or "Big Image" type and specify various fields. In this step, fill the same strings in "custom" and "default" fields. Select one of the segments, and click "Add Campaign". Don’t worry, no notifications will go out yet.
    
-   You can click “Run” to send the notifications to the users. Refresh the screen after some time and you should see some stats about how many notifications were sent. If you are a part of the segment, you should receive a notification too.
+You can click "Run" to send the notifications to the users. Refresh the screen after some time and you should see some stats about how many notifications were sent. If you are a part of the segment, you should receive a notification too.
 
-   As a second step, you can customize the message in two ways:
+As a second step, you can customize the message in two ways:
 
-(1) Suppose you have passed us variables in the user data (sometimes called ‘master data’) called ‘name’ and ‘city’. Then, if while creating a campaign, in the “custom” title or message you write:
+(1) Suppose you have passed us variables in the user profiles called "name" and "city". Then, if while creating a campaign, in the "custom" title or message you write:
+
 	Hello $name, you live in $city
-           Then, for each user, $name and $city will be substituted by the actual variable values. For those users in the segment for whom one of these variables is not present, the “default” string provided by you will be used.
 
-(2) Suppose you provided us an event called “VIEWED_PRODUCT” and in the parameters you specified::
+
+Then, for each user, $name and $city will be substituted by the actual variable values. For those users in the segment for whom one of these variables is not present, the “default” string provided by you will be used.
+
+(2) Suppose you provided us an event called `product_viewed` and in the parameters you specified::
 
       {
          ‘name’: ‘abccamera’,
@@ -64,16 +67,15 @@ Once you have created one or more segments, you are ready to create a campaign. 
          ‘redirect_url’: ‘myapp://myapp.com/123’
       }
 
-(the names of the keys: ‘name’, ‘price’ etc are your choice).
-
-Then you can refer to ‘name’, ‘price’, ‘image_url’, ‘redirect_url’ as 
-$E.VIEWED_PRODUCT.0.name
-$E.VIEWED_PRODUCT.0.price
-$E.VIEWED_PRODUCT.0.image_url
-$E.VIEWED_PRODUCT.0.redirect_url
+Then you can refer to "name", "price", "image_url", "redirect_url" as 
+$E.product_viewed.0.name
+$E.product_viewed.0.price
+$E.product_viewed.0.image_url
+$E.product_viewed.0.redirect_url
 respectively.
 
 You can use the first two variables to customize the message, like this:
 
-Hello $name, the prices of $E.VIEWED_PRODUCT.0.name have fallen by 40%!
+Hello $name, the prices of $E.product_viewed.0.name have fallen by 40%!
+
 And you can specify the last two variables to specify the image and redirect url for the notification.
