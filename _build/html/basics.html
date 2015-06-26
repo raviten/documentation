@@ -69,12 +69,13 @@
 <li class="toctree-l2"><a class="reference internal" href="intro.html#how-do-i-get-started">How do I get started?</a></li>
 </ul>
 </li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Basics</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Basics</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#how-does-it-work">How does it work?</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="integrating-qgraph-sdk.html">Integrating QGraph SDK</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="integrating-qgraph-sdk.html#integration-in-android-studio-app">Integration in Android Studio App</a></li>
 <li class="toctree-l2"><a class="reference internal" href="integrating-qgraph-sdk.html#using-android-sdk">Using Android SDK</a></li>
-<li class="toctree-l2"><a class="reference internal" href="integrating-qgraph-sdk.html#import-qg-sdk-in-your-activity">Import QG SDK in your activity</a></li>
-<li class="toctree-l2"><a class="reference internal" href="integrating-qgraph-sdk.html#getting-a-singleton-object-of-class-qg">Getting a singleton object of class QG</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="using-web-ui.html">Using Web UI</a><ul>
@@ -123,6 +124,16 @@
             
   <div class="section" id="basics">
 <h1>Basics<a class="headerlink" href="#basics" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="how-does-it-work">
+<h2>How does it work?<a class="headerlink" href="#how-does-it-work" title="Permalink to this headline">¶</a></h2>
+<p>Here is a 1000 foot overview of how QGraph SDK sends notifications to your app users.</p>
+<ol class="arabic simple">
+<li>You register at our site, download the SDK and integrate the SDK in your app. SDK provides you with some functions that you can call to send us data related to your app users.</li>
+<li>You send us user data by calling the functions of the SDK. There are two types of data: user profile data, like the name of user, gender of user, city of user etc) and event (activity) data, like a user viewing a product, a user purchasing a product, etc.</li>
+<li>You go to our web panel at <a class="reference external" href="http://qgraph.io">http://qgraph.io</a>. You create one more segments. A segment is a set of users. For instance you can create a segment of the users who reside in Bangalore and have not opened your app in last 7 days. You also create a campaign. A campaign is a segment together with a creative (i.e. the title, the message, the image etc of the notification). Once you have created a campaign, you send the notification.</li>
+<li>After you send the notification, you can go to respective campaign and view statistics around how many of those notifications were opned, and what events happend as a result of notifications.</li>
+</ol>
+</div>
 </div>
 
 
