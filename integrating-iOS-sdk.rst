@@ -56,8 +56,7 @@ combine the certificate and key into a single your_app_name.pem file::
 Finally send us your_app_name.pem file 
 
 Using iOS Sdk
-#####################################
-
+-------------
 In your iOS app, Go to File, add new Group to your app and name it as QGSdk.
 Add libQSdk.a and QGSdk.h in QGSdk group 
 
