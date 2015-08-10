@@ -13,6 +13,6 @@ Contents:
 
    intro
    basics
-   integrating-qgraph-sdk
+   integrating-android-sdk
    using-web-ui
    downloads
