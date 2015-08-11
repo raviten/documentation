@@ -247,10 +247,3 @@ have custom parameters in them::
     [event setObject:@"123" forKey:@"some_other_param"];
     [[QGSdk getSharedInstance] logEvent:@"my_custom_event" withParameters:event];
 
-
-
-
-
-
-
-
