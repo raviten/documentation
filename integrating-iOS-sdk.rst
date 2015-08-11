@@ -19,7 +19,7 @@ Follow these steps to generate PEM file
 Generating App ID and SSL Certificate.
 ######################################
 
-#. Log in to the iOS Dev Center and select the “Certificates, Identifiers and Profiles” form the right panel
+#. Log in to the iOS Dev Center and select the “Certificates, Identifiers and Profiles”
 #. Select Certificates in the iOS Apps section
 #. Go to App IDs in the sidebar and click the + button
 #. Fill the details for App ID, App Services (Check the push notification Checkbox) and Explicit App ID(Should be same as Bundle ID in your App)
@@ -58,6 +58,22 @@ combine the certificate and key into a single your_app_name.pem file::
    $ cat cert.pem keyfile.pem > your_app_name.pem;
 
 Finally send us your_app_name.pem file 
+
+Making the Provisioning Profile
+###############################
+
+#. Log in to the iOS Dev Center and select the “Certificates, Identifiers and Profiles”
+
+#.  Click the Provisioning Profiles button in the sidebar and click the + button. This will open up the iOS profile wizard
+
+#. Select the type of provisioning profile you need(Development/Distribution)
+
+#. Select your App ID for your app and click continue.
+
+#. Select the certificate you wish to include in the provisioning profile and click continue.
+
+#. Give your App name as Profile Name and click Generate.
+
 
 Using iOS Sdk
 -------------
