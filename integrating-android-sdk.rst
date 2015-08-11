@@ -1,28 +1,28 @@
 Android SDK integration
 =======================
+Test
+----
+#. This is item 1
+#. This is item 2
+#. This is item 3
 
 Integration in Android Studio App
 ---------------------------------
 
-#. Download QG.aar from
-   http://app.qgraph.io/static/sdk/android/QG.aar.
+#. Add dependencies to *app/build.gradle*::
 
-   Put it in /libs folder of your app. Make a /libs folder if it does not already exist.
+    compile "com.google.android.gms:play-services:7.5.0"
+    compile "com.quantumgraph.sdk:QG:1.0.4"
 
-   .. image:: libs.png
+#. If you would like to reach out to uninstalled users by email, add following line in *app/src/main/AndroidManifest.xml* outside the *<application>* tag::
 
-#. Right click on project name and click on "Open Module Settings"
+   <uses-permission android:name="android.permission.GET_ACCOUNTS" />
 
-   .. image:: open-module-settings.png
+#. If you would like us track the city of the user, add the following line in *app/src/main/AndroidManifest.xml* outside the *<application>* tag::
 
-#. Click on "+" button at the top left corner, select "Import .AAR package" option and navigate to QG.aar file in /libs folder of your app.
+   <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+   <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
-   .. image:: add-aar.png
-
-#. In the same window, select your app in "Modules" sections from left, select "Dependecies" tab in top menu and click "+" button at bottom left. Select "Module dependency" and add "QG" as dependency. Select "OK" once that is done.
-
-   .. image:: add-aar-to-project.png
-   
 Using Android SDK
 -----------------
 Follow these steps to use our android SDK
