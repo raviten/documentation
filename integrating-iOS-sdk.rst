@@ -1,8 +1,12 @@
 iOS SDK integration
-=======================
+===================
+Download
+--------
+You can download the SDK from
+   http://app.qgraph.io/static/sdk/ios/qgiossdk.tar.gz
 
 To enable push notification in app
----------------------------------
+----------------------------------
 
 #. You need a PEM file - to send push notification to the app. 
 
@@ -13,7 +17,7 @@ Generating PEM file
 Follow these steps to generate PEM file
 
 Generating App ID and SSL Certificate.
-#####################################
+######################################
 
 #. Log in to the iOS Dev Center and select the “Certificates, Identifiers and Profiles” form the right panel
 #. Select Certificates in the iOS Apps section
@@ -28,7 +32,7 @@ Generating App ID and SSL Certificate.
 #. In the next step it will ask you for generating a CSR
 
 Generating the Certificate Signing Request.
-##########################################
+###########################################
 
 #. Open Keychain Access on your Mac and choose the menu option Request a Certificate from a Certificate Authority
 #. Enter some descriptive name for Common Name 
@@ -84,7 +88,7 @@ Add the following code in Appdelegate.m to get the device token for the user::
     - (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
     {
             NSLog(@"My token is: %@", deviceToken);
-            [[QGSdk getSharedInstance] setToken:deviceToken]; t
+            [[QGSdk getSharedInstance] setToken:deviceToken];
     }
 
     - (void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError*)error
@@ -92,4 +96,24 @@ Add the following code in Appdelegate.m to get the device token for the user::
      	    NSLog(@"Failed to get token, error: %@", error);
     }
 
-QGSdk setToken method will log user’s token so that you can send push notification to the user.
+QGSdk setToken method will log user's token so that you can send push notification to the user.
+
+**Passing user profile information**
+
+You can use following methods to pass user profile prameters to us
+
+    - (void)setUserId:(NSString \*)userId;
+    - (void)setName:(NSString \*)name;
+    - (void)setFirstName:(NSString \*)name;
+    - (void)setLastName:(NSString \*)name;
+    - (void)setCity:(NSString \*)city;
+    - (void)setEmail:(NSString \*)email;
+    - (void)setDayOfBirth:(NSNumber \*)day;
+    - (void)setMonthOfBirth:(NSNumber \*)month;
+    - (void)setYearOfBirth:(NSNumber \*)year;
+
+**Passing event information**
+
+You can use following method to pass event information to us
+    - (void)logEvent:(NSString \*)name withParameters:(NSDictionary \*)parameters;
+
