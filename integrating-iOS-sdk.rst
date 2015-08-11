@@ -62,13 +62,15 @@ Finally send us your_app_name.pem file
 Using iOS Sdk
 -------------
 In your iOS app, Go to File, add new Group to your app and name it as QGSdk.
+
 Add libQSdk.a and QGSdk.h in QGSdk group 
 
-**In your AppDelegate.m**
+Registering for Remote Notification
+###################################
 
-Make changes in the method didFinishLaunchingWithOptions::
+In ``didFinishLaunchingWithOptions`` method of Appdelegate, add the following code for registering for remote notification::
 
-    - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+   - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
     [[UIApplication sharedApplication] registerForRemoteNotificationTypes:
     (UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
@@ -83,6 +85,7 @@ Make changes in the method didFinishLaunchingWithOptions::
 
 Just build and run the app to make sure that you receive a message that app would like to send push notification. If you get code signing error, make sure that proper provisioning profile is selected
 
+
 Add the following code in Appdelegate.m to get the device token for the user::
 
     - (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
@@ -96,11 +99,16 @@ Add the following code in Appdelegate.m to get the device token for the user::
      	    NSLog(@"Failed to get token, error: %@", error);
     }
 
-QGSdk setToken method will log user's token so that you can send push notification to the user.
+QGSdk ``setToken`` method will log user's token so that you can send push notification to the user
 
-**Passing user profile information**
+Logging user profile information
+################################
 
-You can use following methods to pass user profile prameters to us
+User profiles are information about your users, like their name, city, date of birth or any other information that you may wish to track. You log user profiles by using one or more of the following functions::
+     
+    - (void)setUserId:(NSString \*)userId;
+
+Ohter methods you may use to pass user profile prameters to us::
 
     - (void)setUserId:(NSString \*)userId;
     - (void)setName:(NSString \*)name;
@@ -112,8 +120,130 @@ You can use following methods to pass user profile prameters to us
     - (void)setMonthOfBirth:(NSNumber \*)month;
     - (void)setYearOfBirth:(NSNumber \*)year;
 
-**Passing event information**
+Other than these method, you can log your own custom user parameters. You do it using::
 
-You can use following method to pass event information to us
-    - (void)logEvent:(NSString \*)name withParameters:(NSDictionary \*)parameters;
+    - (void)setCustomKey:(NSString \*)key withValue:(id)value;
+
+For example, you may wish to have the user's current rating like this::
+
+    [[QGSdk getSharedInstance] setCustomKey:@"current rating" withValue:@"123"];
+
+
+Logging events information
+#########################
+Events are the activities that a user performs in your app, for example, view the products, playing a game or listening to a music. Each event has a name (for instance, the event of viewing a product is called ``product_viewed``), and can have some parameters. For instance, 
+for event ``product_viewed``, the parameters are ``id`` (the id of the product viewed), ``name`` (name of the product viewed), ``image_url`` (image url of the product viewed), ``deep_link`` (a deep link which takes one to the product page in the app), and so on.
+
+It is not necessary that you provide all the parameters for a given event. You can choose to provide whatever parameters are relevant to you.
+
+Once you log event information to use, you can segment users on the basis of the events (For example, you can create a segment consisting of users have not launched for past 7 days, or you can create a segment consiting of users who, in last 7 days, have purchased a product whose value is more than $1000)
+
+You can also define your events, and your own parameters for any event. However, if you do that, you will need to sync up with us to be able to segment the users on the basis of these events or customize your creatives based on these events.
+
+You can use the following method to pass event information to us::
+
+- (void)logEvent:(NSString \*)name withParameters:(NSDictionary \*)parameters;
+
+Here is how you set up some of the popular events.
+
+**Registration Completed**
+
+This event does not have any parameters::
+
+ [[QGSdk getSharedInstance] logEvent:@"registration_completed" withParameters:nil];
+
+
+**Category Viewed**
+
+This event has one paraemter::
+
+    NSMutableDictionary *categoryDetails = [[NSMutableDictionary alloc] init];
+    [CategoryDetails setObject:@"apparels" forKey: @"category"];
+                                   
+    [[QGSdk getSharedInstance] logEvent:@"category_viewed" withParameters:categoryDetails];
+
+**Product Viewed**
+
+You may choose to have the following fields::
+    
+   NSMutableDictionary *productDetails = [[NSMutableDictionary alloc] init];
+   [productDetails setObject:@"123" forKey:@"id"];                                      
+   [productDetails setObject:@"Nikon Camera" forKey:@"name"];
+   [productDetails setObject:@"http://mysite.com/products/123.png" forKey:@"image_url"];
+   [productDetails setObject:@"myapp//products?id=123" forKey:@"deep_link"];
+   [productDetails setObject:@"black" forKey:@"color"];
+   [productDetails setObject:@"electronics" forKey:@"category"];
+   [productDetails setObject:@"small" forKey:@"size"];
+   [productDetails setObject:@"6999" forKey:@"price"];
+   [[QGSdk getSharedInstance] logEvent:@"product_viewed" withParameters:productDetails];
+
+**Product Added to Wishlist**::
+    
+    NSMutableDictionary *productDetails = [[NSMutableDictionary alloc] init];
+    [productDetails setObject:@"123" forKey:@"id"];                                      
+    [productDetails setObject:@"Nikon Camera" forKey:@"name"];
+    [productDetails setObject:@"http://mysite.com/products/123.png" forKey:@"image_url"];
+    [productDetails setObject:@"myapp//products?id=123" forKey:@"deep_link"];
+    [productDetails setObject:@"black" forKey:@"color"];
+    [productDetails setObject:@"electronics" forKey:@"category"];
+    [prdouctDetails setObject:@"Nikon" forKey:@"brand"];
+    [productDetails setObject:@"small" forKey:@"size"];
+    [productDetails setObject:@"6999" forKey:@"price"];
+    [[QGSdk getSharedInstance] logEvent:@"product_added_to_wishlist" withParameters:productDetails];
+
+**Product Purchased**::
+    
+    NSMutableDictionary *productDetails = [[NSMutableDictionary alloc] init];
+    [productDetails setObject:@"123" forKey:@"id"];                                      
+    [productDetails setObject:@"Nikon Camera" forKey:@"name"];
+    [productDetails setObject:@"http://mysite.com/products/123.png" forKey:@"image_url"];
+    [productDetails setObject:@"myapp//products?id=123" forKey:@"deep_link"];
+    [productDetails setObject:@"black" forKey:@"color"];
+    [productDetails setObject:@"electronics" forKey:@"category"];
+    [productDetails setObject:@"small" forKey:@"size"];
+    [productDetails setObject:@"6999" forKey:@"price"];
+    [[QGSdk getSharedInstance] logEvent:@"product_purchased" withParameters:productDetails];
+
+**Checkout Initiated**::
+
+    NSMutableDictionary *checkoutDetails = [[NSMutableDictionary alloc] init];
+    [checkoutDetails setObject:@"2" forKey:@"num_products"];                                      
+    [checkoutDetails setObject:@"12998.44" forKey:@"cart_value"];
+    [checkoutDetails setObject:@"myapp://myapp/cart" forKey:@"deep_link"];
+    [[QGSdk getSharedInstance] logEvent:@"checkout_initiated" withParameters:checkoutDetails];
+
+
+**Product Rated**::
+    
+    NSMutableDictionary *productRated = [[NSMutableDictionary alloc] init];
+    
+    [productRated setObject:@"1232" forKey:@"id"];                                      
+    [productRated setObject:@"2" forKey:@"rating"];
+    [[QGSdk getSharedInstance] logEvent:@"product_rated" withParameters:productRated];
+
+**Searched**::
+
+     NSMutableDictionary *searchDetails = [[NSMutableDictionary alloc] init];
+     [searchDetails setObject:@"1232" forKey:@"id"];                                      
+     [searchDetails setObject:@"Nikon Camera" forKey:@"name"];
+     [[QGSdk getSharedInstance] logEvent:@"searched" withParameters:searched];
+
+
+**Reached Level**::
+    
+     NSMutableDictionary *level = [[NSMutableDictionary alloc] init];
+     [level setObject:@"23" forKey:@"level"];                                      
+     [[QGSdk getSharedInstance] logEvent:@"level" withParameters:level];
+
+
+**Your custom events**
+
+Apart from above predefined events, you can create your own custom events, and
+have custom parameters in them::
+    
+    NSMutableDictionary *event = [[NSMutableDictionary alloc] init];
+    [event setObject:@"2" forKey:@"num_products"];                                      
+    [event setObject:@"some_value" forKey:@"my_param"];
+    [event setObject:@"123" forKey:@"some_other_param"];
+    [[QGSdk getSharedInstance] logEvent:@"my_custom_event" withParameters:event];
 
