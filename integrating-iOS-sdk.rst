@@ -87,7 +87,8 @@ Registering for Remote Notification
 In ``didFinishLaunchingWithOptions`` method of Appdelegate, add the following code for registering for remote notification::
 
    - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    
+    UIUserNotificationType allNotificationTypes =
+    (UIUserNotificationTypeSound | UIUserNotificationTypeAlert | UIUserNotificationTypeBadge);    
     [[UIApplication sharedApplication] registerForRemoteNotificationTypes:
     (UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
     UserNotificationSettings *settings =
