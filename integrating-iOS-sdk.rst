@@ -21,7 +21,7 @@ The easiest way to integrate quantumgraph iOS SDK into your iOS project is to us
 Manual Integration
 ###################
 
-You can download the SDK from
+Download the SDK from
    http://app.qgraph.io/static/sdk/ios/qgiossdk.tar.gz
 
 #. In your Xcode project, Go to File, add new Group to your project and name it as QGSdk.
