@@ -1,10 +1,5 @@
 Android SDK integration
 =======================
-Test
-----
-#. This is item 1
-#. This is item 2
-#. This is item 3
 
 Integration in Android Studio App
 ---------------------------------
