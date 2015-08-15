@@ -8,7 +8,7 @@ Using Cocoapods
 
 The easiest way to integrate quantumgraph iOS SDK into your iOS project is to use CocoaPods.
 
-#. Install CocoaPods using ``gem install Cocoapods``
+#. Install CocoaPods using ``gem install cocoapods``
 
 #. If you are using Cocoapods for the first time, run ``pod setup`` to create a local CocoaPods spec mirror.
 
