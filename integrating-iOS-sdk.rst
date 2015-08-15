@@ -13,9 +13,7 @@ The easiest way to integrate quantumgraph iOS SDK into your iOS project is to us
 #. If you are using Cocoapods for the first time, run ``pod setup`` to create a local CocoaPods spec mirror.
 
 #. Create a file named ``Podfile`` in your Xcode project directory and add the following line in it.
-
  ``pod 'quantumgraph'``
-
 #. Run ``pod install`` in Xcode project directory. Cocoapods will downloads and install the quantumgraph iOS-SDK library and create a new Xcode workspace. From now on use should use this workspace.
 
 Manual Integration
