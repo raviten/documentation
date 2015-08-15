@@ -100,9 +100,6 @@ Making the Provisioning Profile
 
 Using iOS Sdk
 -------------
-In your iOS app, Go to File, add new Group to your app and name it as QGSdk.
-
-Add libQSdk.a and QGSdk.h in QGSdk group 
 
 Registering for Remote Notification
 ###################################
