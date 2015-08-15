@@ -28,16 +28,15 @@ You can download the SDK from
 
 #. Add libQSdk.a and QGSdk.h in QGSdk group 
 
+Generating PEM file
+-------------------
 
 To enable push notification in app
-----------------------------------
 
 #. You need a PEM file - to send push notification to the app. 
 
 #. You need to be signed with a provisioning profile that is configured for push.
 
-Generating PEM file
--------------------
 Follow these steps to generate PEM file
 
 Generating App ID and SSL Certificate.
@@ -111,16 +110,15 @@ Registering for Remote Notification
 In ``didFinishLaunchingWithOptions`` method of Appdelegate, add the following code for registering for remote notification::
 
    - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
     UIUserNotificationType allNotificationTypes =
-    (UIUserNotificationTypeSound | UIUserNotificationTypeAlert | UIUserNotificationTypeBadge);    
-    [[UIApplication sharedApplication] registerForRemoteNotificationTypes:
-    (UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
-    UserNotificationSettings *settings =
+    (UIUserNotificationTypeSound | UIUserNotificationTypeAlert | UIUserNotificationTypeBadge);
+    UIUserNotificationSettings *settings =
     [UIUserNotificationSettings settingsForTypes:allNotificationTypes categories:nil];
     [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
     [[UIApplication sharedApplication] registerForRemoteNotifications];
-    [[QGSdk getSharedInstance] onStart:@"<app_name> ];
-    [[QGSdk getSharedInstance] logEvent:@"app_launched" withParameters:nil];
+    [[QGSdk getSharedInstance] onStart:@"your_app_name"];
+    [[QGSdk getSharedInstance] logEvent:@"app_launched" withParameters:nil];    
     return YES;
     }
 
