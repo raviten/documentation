@@ -1,9 +1,33 @@
 iOS SDK integration
 ===================
-Download
---------
+Installing iOS SDK Library
+--------------------------
+
+Using Cocoapods
+###############
+
+The easiest way to integrate quantumgraph iOS SDK into your iOS project is to use CocoaPods.
+
+#. Install CocoaPods using ``gem install Cocoapods``
+
+#. If you are using Cocoapods for the first time, run ``pod setup`` to create a local CocoaPods spec mirror.
+
+#. Create a file named ``Podfile`` in your Xcode project directory and add the following line in it.
+
+ ``pod 'quantumgraph'``
+
+#. Run ``pod install`` in Xcode project directory. Cocoapods will downloads and install the quantumgraph iOS-SDK library and create a new Xcode workspace. From now on use should use this workspace.
+
+Manual Integration
+###################
+
 You can download the SDK from
    http://app.qgraph.io/static/sdk/ios/qgiossdk.tar.gz
+
+#. In your Xcode project, Go to File, add new Group to your project and name it as QGSdk.
+
+#. Add libQSdk.a and QGSdk.h in QGSdk group 
+
 
 To enable push notification in app
 ----------------------------------
