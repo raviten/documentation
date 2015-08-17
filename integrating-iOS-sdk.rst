@@ -1,5 +1,10 @@
 iOS SDK integration
 ===================
+For using quantumgraph iOS-SDK, do the following steps
+#. Integrate our quantumgraph iOS-SDK
+#. Generate a PEM file
+#. Using iOS-SDK
+
 Installing iOS SDK Library
 --------------------------
 
@@ -30,15 +35,6 @@ Download the SDK from
 
 Generating PEM file
 -------------------
-
-To enable push notification in app
-
-#. You need a PEM file - to send push notification to the app. 
-
-#. You need to be signed with a provisioning profile that is configured for push.
-
-Follow these steps to generate PEM file
-
 Generating App ID and SSL Certificate.
 ######################################
 
@@ -101,8 +97,8 @@ Making the Provisioning Profile
 Using iOS Sdk
 -------------
 
-Registering for Remote Notification
-###################################
+Appdelegate Changes
+###################
 
 In ``didFinishLaunchingWithOptions`` method of Appdelegate, add the following code for registering for remote notification::
 
