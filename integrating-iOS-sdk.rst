@@ -1,9 +1,11 @@
 iOS SDK integration
 ===================
-For using quantumgraph iOS-SDK, do the following steps
+For using quantumgraph iOS-SDK, do the following steps.
 
 #. Integrate our quantumgraph iOS-SDK
+
 #. Generate a PEM file
+
 #. Using iOS-SDK
 
 Installing iOS SDK Library
