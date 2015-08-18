@@ -7,7 +7,7 @@ Integration in Android Studio App
 #. Add dependencies to *app/build.gradle*::
 
     compile "com.google.android.gms:play-services:7.5.0"
-    compile "com.quantumgraph.sdk:QG:1.0.4"
+    compile "com.quantumgraph.sdk:QG:1.0.6"
 
 #. If you would like to reach out to uninstalled users by email, add following line in *app/src/main/AndroidManifest.xml* outside the *<application>* tag::
 
