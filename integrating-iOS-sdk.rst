@@ -103,6 +103,8 @@ Using iOS Sdk
 Appdelegate Changes
 ###################
 
+To initialise the library, in Appdelegate  add ``#import "QGSdk.h"``
+
 In ``didFinishLaunchingWithOptions`` method of Appdelegate, add the following code for registering for remote notification::
 
    - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
@@ -113,7 +115,7 @@ In ``didFinishLaunchingWithOptions`` method of Appdelegate, add the following co
     [UIUserNotificationSettings settingsForTypes:allNotificationTypes categories:nil];
     [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
     [[UIApplication sharedApplication] registerForRemoteNotifications];
-    [[QGSdk getSharedInstance] onStart:@"your_app_name"];
+    [[QGSdk getSharedInstance] onStart:@//"app_id"];
     [[QGSdk getSharedInstance] logEvent:@"app_launched" withParameters:nil];    
     return YES;
     }
@@ -141,23 +143,23 @@ Logging user profile information
 
 User profiles are information about your users, like their name, city, date of birth or any other information that you may wish to track. You log user profiles by using one or more of the following functions::
      
-    - (void)setUserId:(NSString \*)userId;
+    - (void)setUserId:(NSString *)userId;
 
 Ohter methods you may use to pass user profile prameters to us::
 
-    - (void)setUserId:(NSString \*)userId;
-    - (void)setName:(NSString \*)name;
-    - (void)setFirstName:(NSString \*)name;
-    - (void)setLastName:(NSString \*)name;
-    - (void)setCity:(NSString \*)city;
-    - (void)setEmail:(NSString \*)email;
-    - (void)setDayOfBirth:(NSNumber \*)day;
-    - (void)setMonthOfBirth:(NSNumber \*)month;
-    - (void)setYearOfBirth:(NSNumber \*)year;
+    - (void)setUserId:(NSString *)userId;
+    - (void)setName:(NSString *)name;
+    - (void)setFirstName:(NSString *)name;
+    - (void)setLastName:(NSString *)name;
+    - (void)setCity:(NSString *)city;
+    - (void)setEmail:(NSString *)email;
+    - (void)setDayOfBirth:(NSNumber *)day;
+    - (void)setMonthOfBirth:(NSNumber *)month;
+    - (void)setYearOfBirth:(NSNumber *)year;
 
 Other than these method, you can log your own custom user parameters. You do it using::
 
-    - (void)setCustomKey:(NSString \*)key withValue:(id)value;
+    - (void)setCustomKey:(NSString *)key withValue:(id)value;
 
 For example, you may wish to have the user's current rating like this::
 
@@ -165,7 +167,7 @@ For example, you may wish to have the user's current rating like this::
 
 
 Logging events information
-#########################
+##########################
 Events are the activities that a user performs in your app, for example, view the products, playing a game or listening to a music. Each event has a name (for instance, the event of viewing a product is called ``product_viewed``), and can have some parameters. For instance, 
 for event ``product_viewed``, the parameters are ``id`` (the id of the product viewed), ``name`` (name of the product viewed), ``image_url`` (image url of the product viewed), ``deep_link`` (a deep link which takes one to the product page in the app), and so on.
 
@@ -177,7 +179,7 @@ You can also define your events, and your own parameters for any event. However,
 
 You can use the following method to pass event information to us::
 
-- (void)logEvent:(NSString \*)name withParameters:(NSDictionary \*)parameters;
+- (void)logEvent:(NSString *)name withParameters:(NSDictionary *)parameters;
 
 Here is how you set up some of the popular events.
 
