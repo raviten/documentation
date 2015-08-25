@@ -1,8 +1,8 @@
 Android SDK integration
 =======================
 
-Integration in Android Studio App
----------------------------------
+Installation in Android Studio
+------------------------------
 
 #. Add dependencies to *app/build.gradle*::
 
@@ -250,3 +250,17 @@ have custom parameters in them::
       json.put("what_ever", 1234.23);
    }
    qg.logEvent("my_custom_event", json);
+
+Notification checklist
+----------------------
+Launcher image
+##############
+Make sure that you have an image called ``ic_launcher.png`` in your ``drawables/`` folder.
+We use this image to display as icon image if you don't set an icon image explicitly.
+
+Notification image
+##################
+
+Recommended sizes of images
+###########################
+
