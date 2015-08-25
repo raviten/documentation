@@ -7,7 +7,17 @@ Installation in Android Studio
 #. Add dependencies to *app/build.gradle*::
 
     compile "com.google.android.gms:play-services:7.5.0"
-    compile "com.quantumgraph.sdk:QG:1.0.6"
+    compile "com.quantumgraph.sdk:QG:1.0.7"
+
+#. Add QGraph broadcast receiver to *app/src/main/AndroidManifest.xml*::
+
+    <receiver android:name="com.quantumgraph.sdk.GcmBroadcastReceiver" android:permission="com.google.android.c2dm.permission.SEND">
+       <intent-filter>
+          <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
+          <action android:name="com.google.android.c2dm.intent.REGISTRATION"/>
+          <category android:name="YOUR-PACKAGE-NAME"/>
+       </intent-filter>
+    </receiver>
 
 #. If you would like to reach out to uninstalled users by email, add following line in *app/src/main/AndroidManifest.xml* outside the *<application>* tag::
 
@@ -257,10 +267,26 @@ Launcher image
 ##############
 Make sure that you have an image called ``ic_launcher.png`` in your ``drawables/`` folder.
 We use this image to display as icon image if you don't set an icon image explicitly.
+This image should be 192px x 192px or larger, with an aspect ratio of 1:1.
 
 Notification image
 ##################
+Make sure that you have an image called ``ic_notification.png`` in your ``drawables/`` foler.
+This is the image shown in the status bar when a notification arrives. As per Android
+guidelines (http://developer.android.com/design/patterns/notifications.html) this image should
+be a white image on a transparent background. The size of this image should be 72px x 72px or
+larger, with an aspect ratio of 1:1. This is what ic_notification.png should look like:
+https://developer.android.com/samples/MediaBrowserService/res/drawable-hdpi/ic_notification.png
 
-Recommended sizes of images
-###########################
+Recommended sizes of campaign images
+####################################
+When creating a campaign, you can set an icon image or a big image (or both). 
+
+Icon image should be 192px x 192px or larger, with aspect ratio of 1:1.
+
+Big image should be 1024px x 512px or larger, with aspect ratio close to 2:1.
+
+If you use smaller images, then on some devices, the images may not be able to occupy complete area and hence there may be white spaces surrounding the images.
+
+
 
