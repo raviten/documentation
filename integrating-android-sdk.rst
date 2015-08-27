@@ -9,21 +9,6 @@ Installation in Android Studio
     compile "com.google.android.gms:play-services:7.5.0"
     compile "com.quantumgraph.sdk:QG:1.0.7"
 
-#. Add the following snippet to *app/src/main/AndroidManifest.xml*, before *<application>* tag::
-   
-    <permission android:name="YOUR_PACKAGE_NAME.permission.C2D_MESSAGE" android:protectionLevel="signature" />
-    <uses-permission android:name="YOUR_PACKAGE_NAME.permission.C2D_MESSAGE" />
-
-#. Add QGraph broadcast receiver to *app/src/main/AndroidManifest.xml*::
-
-    <receiver android:name="com.quantumgraph.sdk.GcmBroadcastReceiver" android:permission="com.google.android.c2dm.permission.SEND">
-       <intent-filter>
-          <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
-          <action android:name="com.google.android.c2dm.intent.REGISTRATION"/>
-          <category android:name="YOUR-PACKAGE-NAME"/>
-       </intent-filter>
-    </receiver>
-
 #. If you would like to reach out to uninstalled users by email, add following line in *app/src/main/AndroidManifest.xml* outside the *<application>* tag::
 
    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
