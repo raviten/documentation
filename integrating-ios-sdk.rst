@@ -57,7 +57,7 @@ Generating App ID and SSL Certificate.
 Generating the Certificate Signing Request.
 ###########################################
 
-#. Open Keychain Access on your Mac and choose the menu option Request a Certificate from a Certificate Authority
+#. Open Keychain Access on your Mac and choose the menu option Certificate Assistant -> Request a Certificate from a Certificate Authority
 #. Enter some descriptive name for Common Name 
 #. Check Saved to disk option and click continue
 #. In the Keys section of the Keychain Access, a new private key would have appeared
