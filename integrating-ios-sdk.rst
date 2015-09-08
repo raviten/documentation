@@ -58,7 +58,7 @@ Generating the Certificate Signing Request.
 ###########################################
 
 #. Open Keychain Access on your Mac and choose the menu option Certificate Assistant -> Request a Certificate from a Certificate Authority
-#. Enter some descriptive name for Common Name 
+#. Enter some descriptive name for Common Name (Give your app name preferably)
 #. Check Saved to disk option and click continue
 #. In the Keys section of the Keychain Access, a new private key would have appeared
 #. Save the private key file as keyfile.p12 in a separate folder
