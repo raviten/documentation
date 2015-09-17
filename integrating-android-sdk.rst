@@ -278,5 +278,20 @@ Big image should be 1024px x 512px or larger, with aspect ratio close to 2:1.
 
 If you use smaller images, then on some devices, the images may not be able to occupy complete area and hence there may be white spaces surrounding the images.
 
+If you use your own Broadcast Receiver
+######################################
+QG SDK uses its own ``BroadcastReceiver``. In case you user your own ``BroadcastReceiver``
+you will need to ignore the messages sent by QGraph. We provide you a helper method
+``isQGMessage()`` to accomplish this. You need to include the following code in the
+``onHandleIntent()`` method of the ``IntentService`` associated with the ``BroadcastReceiver``::
 
-
+    @override
+    protected void onHandleIntent(Intent intent) {
+        Bundle extras = intent.getExtras()
+        /* If the message is from QGraph, its intent handler 
+           will handle it, and you should ignore the message. */
+       if (extras.containsKey("message") && QG.isQGMessage(extras.getString("message"))) {
+           return;
+       }
+    }
+    
