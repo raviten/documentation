@@ -295,3 +295,5 @@ you will need to ignore the messages sent by QGraph. We provide you a helper met
        }
     }
     
+Similarly, QGraph's ``IntentService`` too ignores any messages that have not originated
+from QGraph servers.
