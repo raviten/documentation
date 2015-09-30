@@ -13,12 +13,12 @@ Installation in Android Studio
 
    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
 
-#. If you would like us track the city of the user, add the following line in *app/src/main/AndroidManifest.xml* outside the *<application>* tag::
+#. If you would like us to track the city of the user, add the following line in *app/src/main/AndroidManifest.xml* outside the *<application>* tag::
 
    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
-#. If you would like us device id the user, add the following line in *app/src/main/AndroidManifest.xml* outside the *<application>* tag::
+#. If you would like us to track device id the user, add the following line in *app/src/main/AndroidManifest.xml* outside the *<application>* tag::
 
    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
