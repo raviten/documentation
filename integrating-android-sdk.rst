@@ -7,7 +7,7 @@ Installation in Android Studio
 #. Add dependencies to *app/build.gradle*::
 
     compile "com.google.android.gms:play-services:7.5.0"
-    compile "com.quantumgraph.sdk:QG:1.0.11"
+    compile "com.quantumgraph.sdk:QG:1.1.0"
 
 #. If you would like to reach out to uninstalled users by email, add following line in *app/src/main/AndroidManifest.xml* outside the *<application>* tag::
 
@@ -17,6 +17,10 @@ Installation in Android Studio
 
    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+#. If you would like us device id the user, add the following line in *app/src/main/AndroidManifest.xml* outside the *<application>* tag::
+
+   <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
 Using Android SDK
 -----------------
@@ -32,8 +36,8 @@ Initialization and cleanup of SDK
 #################################
 In the ``onStart()`` function of your activity, do the following::
 
-   QG qg = QG.getInstance();
-   qg.onStart(getApplicationContext(), <your app id>, <your sender id>);
+   QG qg = QG.getInstance(getApplicationContext());
+   qg.onStart(<your app id>, <your sender id>);
 
 App id for your app is available from the settings page. Sender id is a string
 that Google provides to you for getting registration id for users. You will
@@ -41,7 +45,7 @@ get the sender id for your app during the set up phase in our web interface.
 
 In the ``onStop()`` function of your activity, do the following::
 
-   QG qg = QG.getInstance();
+   QG qg = QG.getInstance(getApplicationContext());
    qg.onStop();
 
 Logging user profiles
@@ -93,28 +97,30 @@ Here is how you set up some of the popular events.
 
 This event does not have any parameters::
 
-   QG qg = QG.getInstance();
+   QG qg = QG.getInstance(getApplicationContext());
    JSONObject registrationDetails = new JSONObject();
    try {
       qg.logEvent("registration_complted", registrationDetails);
+   } except (JSONException e) {
    }
 
 **Category Viewed**
 
 This event has one paraemter::
 
-   QG qg = QG.getInstance();
+   QG qg = QG.getInstance(getApplicationContext());
    JSONObject categoryDetails = new JSONObject();
    try {
       categoryDetails.put("category", "apparels");
+   } except (JsonException e) {
    }
-   qg.logEvent("category_viewed", productDetails);
+   qg.logEvent("category_viewed", categoryDetails);
 
 **Product Viewed**
 
 You may choose to have the following fields::
 
-   QG qg = QG.getInstance();
+   QG qg = QG.getInstance(getApplicationContext());
    JSONObject productDetails = new JSONObject();
    try {
       productDetails.put("id", "123");
@@ -127,12 +133,13 @@ You may choose to have the following fields::
       productDetails.put("color", "white");
       productDetails.put("size", "small");
       productDetails.put("price", 6999);
+   } except (JsonException e) {
    }
    qg.logEvent("product_viewed", productDetails);
 
 **Product Added to Cart**::
 
-   QG qg = QG.getInstance();
+   QG qg = QG.getInstance(getApplicationContext());
    JSONObject productDetails = new JSONObject();
    try {
       productDetails.put("id", "123");
@@ -145,12 +152,13 @@ You may choose to have the following fields::
       productDetails.put("color", "white");
       productDetails.put("size", "small");
       productDetails.put("price", 6999);
+   } except (JsonException e) {
    }
    qg.logEvent("product_added_to_cart", productDetails);
 
 **Product Added to Wishlist**::
 
-   QG qg = QG.getInstance();
+   QG qg = QG.getInstance(getApplicationContext());
    JSONObject productDetails = new JSONObject();
    try {
       productDetails.put("id", "123");
@@ -163,13 +171,14 @@ You may choose to have the following fields::
       productDetails.put("color", "white");
       productDetails.put("size", "small");
       productDetails.put("price", 6999);
+   } except (JsonException e) {
    }
    qg.logEvent("product_added_to_wishlist", productDetails);
 
 
 **Product Purchased**::
 
-   QG qg = QG.getInstance();
+   QG qg = QG.getInstance(getApplicationContext());
    JSONObject productDetails = new JSONObject();
    try {
       productDetails.put("id", "123");
@@ -182,58 +191,64 @@ You may choose to have the following fields::
       productDetails.put("color", "white");
       productDetails.put("size", "small");
       productDetails.put("price", 6999);
+   } except (JsonException e) {
    }
    qg.logEvent("product_purchased", productDetails);
 
 
 **Checkout Initiated**::
 
-   QG qg = QG.getInstance();
+   QG qg = QG.getInstance(getApplicationContext());
    JSONObject checkoutDetails = new JSONObject();
    try {
       productDetails.put("num_products", 2);
       productDetails.put("cart_value", 12998.44);
       productDetails.put("deep_link", "myapp://myapp/cart");
+   } except (JsonException e) {
    }
    qg.logEvent("checkout_initiated", checkoutDetails);
 
 **Checkout Completed**::
 
-   QG qg = QG.getInstance();
+   QG qg = QG.getInstance(getApplicationContext());
    JSONObject checkoutCompleted = new JSONObject();
    try {
       productDetails.put("num_products", 2);
       productDetails.put("cart_value", 12998.44);
       productDetails.put("deep_link", "myapp://myapp/cart");
+   } except (JsonException e) {
    }
    qg.logEvent("checkout_completed", checkoutDetails);
 
 **Product Rated**::
 
-   QG qg = QG.getInstance();
+   QG qg = QG.getInstance(getApplicationContext());
    JSONObject rating = new JSONObject();
    try {
       rating.put("id", "1232");
       rating.put("rating", 2);
+   } except (JsonException e) {
    }
    qg.logEvent("product_rated", rating);
 
 **Searched**::
 
-   QG qg = QG.getInstance();
+   QG qg = QG.getInstance(getApplicationContext());
    JSONObject search = new JSONObject();
    try {
       search.put("id", "1232");
       search.put("rating", 2);
+   } except (JsonException e) {
    }
    qg.logEvent("product_rated", rating);
 
 **Reached Level**::
 
-   QG qg = QG.getInstance();
+   QG qg = QG.getInstance(getApplicationContext());
    JSONObject level = new JSONObject();
    try {
       level.put("level", 23);
+   } except (JsonException e) {
    }
    qg.logEvent("level", rating);
 
@@ -242,12 +257,13 @@ You may choose to have the following fields::
 Apart from above predefined events, you can create your own custom events, and
 have custom parameters in them::
 
-   QG qg = QG.getInstance();
+   QG qg = QG.getInstance(getApplicationContext());
    JSONObject json = new JSONObject();
    try {
       json.put("my_param", "some value");
       json.put("some_other_param", 123);
       json.put("what_ever", 1234.23);
+   } except (JsonException e) {
    }
    qg.logEvent("my_custom_event", json);
 
