@@ -327,3 +327,21 @@ you will need to ignore the messages sent by QGraph. We provide you a helper met
     
 Similarly, QGraph's ``IntentService`` too ignores any messages that have not originated
 from QGraph servers.
+
+Receiving key value pairs in activity
+#####################################
+If you have set key value pairs in the campaign you can get them in the activity. Let's say
+you passed a key valled ``myKey`` in the campaign, then you can get its value as following::
+
+   @override
+   protected void onCreate(Bundle savedInstanceState) {
+      super.onCreate(savedInstanceState);
+      Intent intent = getIntent();
+      Bundle bundle = intent.getExtra();
+      String val = null;
+      if (bundle != null) {
+          val = bundle.getString("myKey");
+      }
+
+      /* More code */
+   }
