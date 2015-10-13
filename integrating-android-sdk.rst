@@ -7,7 +7,7 @@ Installation in Android Studio
 #. Add dependencies to *app/build.gradle*::
 
     compile "com.google.android.gms:play-services:7.5.0"
-    compile "com.quantumgraph.sdk:QG:1.1.0.1"
+    compile "com.quantumgraph.sdk:QG:1.1.4"
 
 #. If you would like to reach out to uninstalled users by email, add following line in *app/src/main/AndroidManifest.xml* outside the *<application>* tag::
 
@@ -34,7 +34,12 @@ In all the activity classes, starting with the class for the main activity, impo
 
 Initialization and cleanup of SDK
 #################################
-In the ``onStart()`` function of your activity, do the following::
+If you want to use QGraph's Sender Id and GCM key, in the ``onStart()`` function of your activity, do the following::
+
+   QG qg = QG.getInstance(getApplicationContext());
+   qg.onStart(<your app id>);
+
+If you want to use your Sender Id and GCM key, in the ``onStart()`` function of your activity, do the following::
 
    QG qg = QG.getInstance(getApplicationContext());
    qg.onStart(<your app id>, <your sender id>);
@@ -43,9 +48,14 @@ App id for your app is available from the settings page. Sender id is a string
 that Google provides to you for getting registration id for users. You will
 get the sender id for your app during the set up phase in our web interface.
 
-In case you want to track the emails of your users, do the following::
+We automatically track email, location and installed apps of your user. If you want to stop
+any of these trackings::
 
-   qg.trackUserEmail(true);
+   qg.setTracking(bool trackEmail, bool trackLocation, bool trackInstalledApps);
+
+For instance, if you want to track email of your user, but not location or installed apps, you
+call::
+   qg.setTracking(true, false, false);
 
 In the ``onStop()`` function of your activity, do the following::
 
