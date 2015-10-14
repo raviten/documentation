@@ -16,4 +16,5 @@ Contents:
    integrating-android-sdk
    integrating-ios-sdk
    using-web-ui
+   using-api
    downloads
