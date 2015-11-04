@@ -115,7 +115,7 @@ This event does not have any parameters::
    JSONObject registrationDetails = new JSONObject();
    try {
       qg.logEvent("registration_complted", registrationDetails);
-   } except (JSONException e) {
+   } catch (JSONException e) {
    }
 
 **Category Viewed**
@@ -126,7 +126,7 @@ This event has one paraemter::
    JSONObject categoryDetails = new JSONObject();
    try {
       categoryDetails.put("category", "apparels");
-   } except (JsonException e) {
+   } catch (JsonException e) {
    }
    qg.logEvent("category_viewed", categoryDetails);
 
@@ -147,7 +147,7 @@ You may choose to have the following fields::
       productDetails.put("color", "white");
       productDetails.put("size", "small");
       productDetails.put("price", 6999);
-   } except (JsonException e) {
+   } catch (JsonException e) {
    }
    qg.logEvent("product_viewed", productDetails);
 
@@ -166,7 +166,7 @@ You may choose to have the following fields::
       productDetails.put("color", "white");
       productDetails.put("size", "small");
       productDetails.put("price", 6999);
-   } except (JsonException e) {
+   } catch (JsonException e) {
    }
    qg.logEvent("product_added_to_cart", productDetails);
 
@@ -185,7 +185,7 @@ You may choose to have the following fields::
       productDetails.put("color", "white");
       productDetails.put("size", "small");
       productDetails.put("price", 6999);
-   } except (JsonException e) {
+   } catch (JsonException e) {
    }
    qg.logEvent("product_added_to_wishlist", productDetails);
 
@@ -205,7 +205,7 @@ You may choose to have the following fields::
       productDetails.put("color", "white");
       productDetails.put("size", "small");
       productDetails.put("price", 6999);
-   } except (JsonException e) {
+   } catch (JsonException e) {
    }
    qg.logEvent("product_purchased", productDetails);
 
@@ -218,7 +218,7 @@ You may choose to have the following fields::
       productDetails.put("num_products", 2);
       productDetails.put("cart_value", 12998.44);
       productDetails.put("deep_link", "myapp://myapp/cart");
-   } except (JsonException e) {
+   } catch (JsonException e) {
    }
    qg.logEvent("checkout_initiated", checkoutDetails);
 
@@ -230,7 +230,7 @@ You may choose to have the following fields::
       productDetails.put("num_products", 2);
       productDetails.put("cart_value", 12998.44);
       productDetails.put("deep_link", "myapp://myapp/cart");
-   } except (JsonException e) {
+   } catch (JsonException e) {
    }
    qg.logEvent("checkout_completed", checkoutDetails);
 
@@ -241,7 +241,7 @@ You may choose to have the following fields::
    try {
       rating.put("id", "1232");
       rating.put("rating", 2);
-   } except (JsonException e) {
+   } catch (JsonException e) {
    }
    qg.logEvent("product_rated", rating);
 
@@ -252,7 +252,7 @@ You may choose to have the following fields::
    try {
       search.put("id", "1232");
       search.put("rating", 2);
-   } except (JsonException e) {
+   } catch (JsonException e) {
    }
    qg.logEvent("product_rated", rating);
 
@@ -262,7 +262,7 @@ You may choose to have the following fields::
    JSONObject level = new JSONObject();
    try {
       level.put("level", 23);
-   } except (JsonException e) {
+   } catch (JsonException e) {
    }
    qg.logEvent("level", rating);
 
@@ -277,7 +277,7 @@ have custom parameters in them::
       json.put("my_param", "some value");
       json.put("some_other_param", 123);
       json.put("what_ever", 1234.23);
-   } except (JsonException e) {
+   } catch (JsonException e) {
    }
    qg.logEvent("my_custom_event", json);
 
