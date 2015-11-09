@@ -7,7 +7,7 @@ Installation in Android Studio
 #. Add dependencies to *app/build.gradle*::
 
     compile "com.google.android.gms:play-services:7.5.0"
-    compile "com.quantumgraph.sdk:QG:1.1.4"
+    compile "com.quantumgraph.sdk:QG:1.1.5.1"
 
 #. If you would like to reach out to uninstalled users by email, add following line in *app/src/main/AndroidManifest.xml* outside the *<application>* tag::
 
@@ -55,6 +55,7 @@ any of these trackings::
 
 For instance, if you want to track email of your user, but not location or installed apps, you
 call::
+
    qg.setTracking(true, false, false);
 
 In the ``onStop()`` function of your activity, do the following::
@@ -114,7 +115,7 @@ This event does not have any parameters::
    QG qg = QG.getInstance(getApplicationContext());
    JSONObject registrationDetails = new JSONObject();
    try {
-      qg.logEvent("registration_complted", registrationDetails);
+      qg.logEvent("registration_completed", registrationDetails);
    } catch (JSONException e) {
    }
 
@@ -215,9 +216,9 @@ You may choose to have the following fields::
    QG qg = QG.getInstance(getApplicationContext());
    JSONObject checkoutDetails = new JSONObject();
    try {
-      productDetails.put("num_products", 2);
-      productDetails.put("cart_value", 12998.44);
-      productDetails.put("deep_link", "myapp://myapp/cart");
+      checkoutDetails.put("num_products", 2);
+      checkoutDetails.put("cart_value", 12998.44);
+      checkoutDetails.put("deep_link", "myapp://myapp/cart");
    } catch (JsonException e) {
    }
    qg.logEvent("checkout_initiated", checkoutDetails);
@@ -227,9 +228,9 @@ You may choose to have the following fields::
    QG qg = QG.getInstance(getApplicationContext());
    JSONObject checkoutCompleted = new JSONObject();
    try {
-      productDetails.put("num_products", 2);
-      productDetails.put("cart_value", 12998.44);
-      productDetails.put("deep_link", "myapp://myapp/cart");
+      checkoutDetails.put("num_products", 2);
+      checkoutDetails.put("cart_value", 12998.44);
+      checkoutDetails.put("deep_link", "myapp://myapp/cart");
    } catch (JsonException e) {
    }
    qg.logEvent("checkout_completed", checkoutDetails);
