@@ -108,6 +108,14 @@ You can also define your events, and your own parameters for any event. However,
 
 You can optionally log a ``value to sum`` with an event. This value will be summed up when doing campaing attribution. For instance, if you pass this value in your checkout completed event, you will be able to view stats such as a particular campaign has been responsible to drive Rs 84,000 worth of sales.
 
+Thus, there are three variants of the function ``logEvent()`` which logs the event
+
+* ``logEvent(String eventName)``
+
+* ``logEvent(String eventName, JSONObject parameters)``
+
+* ``logEvent(String eventName, JSONObject parameters, double valueToSum)``
+
 Here is how you set up some of the popular events.
 
 **Registration Completed**
