@@ -106,6 +106,8 @@ Once you log event information to use, you can segment users on the basis of the
 
 You can also define your events, and your own parameters for any event. However, if you do that, you will need to sync up with us to be able to segment the users on the basis of these events or customize your creatives based on these events.
 
+You can optionally log a ``value to sum`` with an event. This value will be summed up when doing campaing attribution. For instance, if you pass this value in your checkout completed event, you will be able to view stats such as a particular campaign has been responsible to drive Rs 84,000 worth of sales.
+
 Here is how you set up some of the popular events.
 
 **Registration Completed**
@@ -208,7 +210,9 @@ You may choose to have the following fields::
       productDetails.put("price", 6999);
    } catch (JsonException e) {
    }
-   qg.logEvent("product_purchased", productDetails);
+   qg.logEvent("product_purchased", productDetails, 6999);
+   /* Or if you do not want to pass the third argument, you can simply write
+   qg.logEvent("product_purchased", productDetails);*/
 
 
 **Checkout Initiated**::
@@ -233,7 +237,9 @@ You may choose to have the following fields::
       checkoutDetails.put("deep_link", "myapp://myapp/cart");
    } catch (JsonException e) {
    }
-   qg.logEvent("checkout_completed", checkoutDetails);
+   qg.logEvent("checkout_completed", checkoutDetails, 12998.44);
+   /* Or if you do not want to pass the third argument, you can simply write
+   qg.logEvent("product_purchased", productDetails);*/
 
 **Product Rated**::
 
