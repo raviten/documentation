@@ -106,7 +106,7 @@ Once you log event information to use, you can segment users on the basis of the
 
 You can also define your events, and your own parameters for any event. However, if you do that, you will need to sync up with us to be able to segment the users on the basis of these events or customize your creatives based on these events.
 
-You can optionally log a ``value to sum`` with an event. This value will be summed up when doing campaing attribution. For instance, if you pass this value in your checkout completed event, you will be able to view stats such as a particular campaign has been responsible to drive Rs 84,000 worth of sales.
+You can optionally log a "value to sum" with an event. This value will be summed up when doing campaing attribution. For instance, if you pass this value in your checkout completed event, you will be able to view stats such as a particular campaign has been responsible to drive Rs 84,000 worth of sales.
 
 Thus, there are three variants of the function ``logEvent()`` which logs the event
 
