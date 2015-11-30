@@ -17,39 +17,53 @@ First you need to create a campaign. Go to https://app.qgraph.io, log in, go to 
 
 Once you have created the campaign, click on the campaign name to go its performance page. URL of the performance page looks like: ``https://app.qgraph.io/campaign/<campaign id>/performance``. Note down the campaign id for your campaign.
 
-Next you can make a HTTP POST request at ``https://app.qgraph.io/api/send-notification``. The POST body can be one of the two formats
-
-Using registration id of the users
-##################################
-In case you know the registration id of the users, you can use the following POST body::
+Next you can make a HTTP POST request at ``https://app.qgraph.io/api/send-notification``. The POST body is of the following format::
 
    {
       "cid": <campaign id>,
-      "registration_ids": ["registrationid 1", "registrationid 2", ..., "registrationid n" (upto 1000 registration ids)]
-      "message": {
-         "title": <title of the notification>
-         "message: <body of the notification>
-         "imageUrl": <url of the icon image> (optional)
-         "bigImageUrl": <url of the big image> (optional)
-         "deepLink": <deep link of notification> (optional)
-      }
+
+      "registration_ids": ["regd 1", "regid 2", ..., "regid n" (upto 500 registration ids)]
+      or
+      "user_ids": ["userid 1", "userid 2", ..., "userid n" (upto 500 userid)]
+      or
+      "emails": ["email 1", "email 2", ..., "email n" (upto 500 emails)]
+      
+      "message": <message in the format described below>
    }
 
 
-Using user ids of the users
-###########################
-If you do not know the registration id of the users, you should have set their user id's by calling the function ``setUserId()`` in your mobile app. Once you do that, you can use these user ids to send notifications, as follows::
+You need to provide either ``registration_ids`` or ``user_ids`` or ``emails``
+
+For a simple notification, ``message`` is of the following format::
 
    {
-      "cid": <campaign id>,
-      "user_ids": ["userid 1", "userid 2", ..., "userid n" (upto 1000 user ids)]
-      "message": {
-         "title": <title of the notification>
-         "message: <body of the notification>
-         "imageUrl": <url of the icon image> (optional)
-         "bigImageUrl": <url of the big image> (optional)
-         "deepLink": <deep link of notification> (optional)
-      }
+       "title": <title of the notification>,
+       "message: <body of the notification>,
+       "imageUrl": <url of the icon image> (optional),
+       "bigImageUrl": <url of the big image> (optional),
+       "deepLink": <deep link of notification> (optional)
+   }
+
+For banner notification, ``message`` is of the following format::
+
+   {
+       "title": <title of the notification>,
+       "message: <body of the notification>,
+       "contentImageUrl": <url of banner image>,
+       "deepLink": <deep link of notification> (optional)
+   }
+
+For animated banner notification, ``message`` is of the following format::
+
+   {
+       "title": <title of the notification>,
+       "message: <body of the notification>,
+       "deepLink": <deep link of notification> (optional)
+       "type": "animation"
+       "animation": {
+           "millisecondsToRefresh": <duration between two frames in milliseconds>,
+           "images": [url1, url2, ..., url n]
+       }
    }
 
 Getting user profiles
