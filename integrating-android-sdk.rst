@@ -63,6 +63,44 @@ In the ``onStop()`` function of your activity, do the following::
    QG qg = QG.getInstance(getApplicationContext());
    qg.onStop();
 
+Notes for Parse push notification users
+#######################################
+Parse reads the registration ids meant for QGraph SDK, and overwrites its own registration ids with these values.
+Hence, we need to make sure that the registration ids generated for QGraph are valid for parse as well.
+
+To make sure parse notifications work seamlessly alongside QGraph, you need to do two things.
+
+
+Firstly, change the arguments on ``onStart()`` function slightly.
+
+In case you selected the option "I will use QGraph's GCM Key" in step 1 of integration, you need to call ``onStart()`` as follows::
+
+    qg.onStart(<your app id>, "1076345567071,912856755471");
+
+``1076345567071`` is the Sender Id of Parse while ``912856755471`` is the sender if QGraph. We need to use them both to generate
+a registration id usable by both Parse and QGraph.
+
+In case you have selected the option "I have my own GCM Key" in step 1 of integration, you need to call ``onStart()`` as follows::
+
+   qg.onStart(<your app id>, "1076345567071,<Your sender id>");
+
+Secondly, make a change in your app's AndroidManifest.xml file.
+
+If you selected the option "I will use QGraph's GCM Key" in step 1 of integration, add these lines to the manifest::
+
+    <meta-data
+        android:name="com.parse.push.gcm_sender_id"
+        android:value="id:912856755471"/>;
+
+If you selected the option "I have my own GCM Key" in step 1 of integration, add thse lines to the manifest::
+
+    <meta-data
+        android:name="com.parse.push.gcm_sender_id"
+        android:value="id:<your sender id>"/>;
+
+
+
+
 Logging user profiles
 #####################
 User profiles are information about your users, like their name, city, date of birth
