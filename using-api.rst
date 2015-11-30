@@ -68,7 +68,7 @@ For animated banner notification, ``message`` is of the following format::
 
 Getting user profiles
 ---------------------
-2. Send a GET request to https://app.qgraph.io/api/get-user-profiles/. For instance, if your token is ``abcd``, the relevant call in curl would be::
+Send a GET request to https://app.qgraph.io/api/get-user-profiles/. For instance, if your token is ``abcd``, the relevant call in curl would be::
 
     curl -H "Authorization: Token abcd" https://app.qgraph.io/api/get-user-profiles/
 
