@@ -72,3 +72,9 @@ Send a GET request to https://app.qgraph.io/api/get-user-profiles/. For instance
 
     curl -H "Authorization: Token abcd" https://app.qgraph.io/api/get-user-profiles/
 
+You can optionally provide parameters ``start_date`` and ``end_date`` to the API call. If these parameters are provided, the API fetches
+entries only for the users who have installed the app on or after ``start_date``, but on or before ``end_date``. The format of the both the 
+arguments is ``yyyy-mm-dd``. A sample call would be::
+
+    curl -H "Authorization: Token abcd" https://app.qgraph.io/api/get-user-profiles/?start_date=2015-12-22&end_date=2015-12-25
+
