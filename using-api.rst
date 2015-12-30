@@ -72,9 +72,36 @@ Send a GET request to https://app.qgraph.io/api/get-user-profiles/. For instance
 
     curl -H "Authorization: Token abcd" https://app.qgraph.io/api/get-user-profiles/
 
+Specifying start and end dates
+##############################
 You can optionally provide parameters ``start_date`` and ``end_date`` to the API call. If these parameters are provided, the API fetches
 entries only for the users who have installed the app on or after ``start_date``, but on or before ``end_date``. The format of the both the 
 arguments is ``yyyy-mm-dd``. A sample call would be::
 
-    curl -H "Authorization: Token abcd" https://app.qgraph.io/api/get-user-profiles/?start_date=2015-12-22&end_date=2015-12-25
+    curl -H "Authorization: Token <your token>" https://app.qgraph.io/api/get-user-profiles/?start_date=2015-12-22&end_date=2015-12-25
 
+For faster response times, you should retrieve the data for small date ranges.
+
+Specifying specific fields to retrieve
+######################################
+You can get following fields using the api:
+
+#. *firstSeen*: Date when the user installed your app
+#. *mTime*: Latest date when the user accessed your app
+#. *monthlyActivity*: Number of days in last 30 days when the user accessed your app
+#. *email*: email of the user, if available
+#. *qgCity*: city of the user, if available
+#. *uninstallTime*: date when we detected that the user has uninstalled your app
+#. *user_id*: the user id set by ``setUserId()`` function of the SDK
+#. *qgType*: tells whether the install is a fresh one or a reinstall
+#. *qgSrc*: source of the install, if available
+#. *gcmId*: gcm registration id of the user
+#. *deviceId*: device id of the user
+
+By defaults, fields 1 through 9 above are returned by the API. However, you can specify what specific fields
+you want. For instance, if you want to get *firstSeen*, *uninstallTime* and *gcmId* of all the users who installed
+your app between December 1, 2015 and December 3, 2015, the relevant curl call would be::
+
+    curl -H "Authorization: Token <your token>" https://app.qgraph.io/api/get-user-profiles/?start_date=2015-12-01&end_date=2015-12-03&fields=firstSeen,uninstallTime,gcmId
+
+For faster response times, you should retrieve only the fields that you need.
