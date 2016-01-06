@@ -390,7 +390,7 @@ you passed a key valled ``myKey`` in the campaign, then you can get its value as
    protected void onCreate(Bundle savedInstanceState) {
       super.onCreate(savedInstanceState);
       Intent intent = getIntent();
-      Bundle bundle = intent.getExtra();
+      Bundle bundle = intent.getExtras();
       String val = null;
       if (bundle != null) {
           val = bundle.getString("myKey");
