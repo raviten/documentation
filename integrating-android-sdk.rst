@@ -22,6 +22,64 @@ Installation in Android Studio
 
    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
+Installation in Eclipse 
+-----------------------
+To integrate our SDK in eclipse, these are the steps:
+
+#. Add following permissions in *app/src/main/AndroidManifest.xml* outside the *<application>* tag::
+
+    <uses-permission android:name="com.google.android.c2dm.permission.SEND" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <uses-permission android:name="com.google.android.c2dm.intent.REGISTER" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+#. If you would like to reach out to uninstalled users by email, add following line in *app/src/main/AndroidManifest.xml* outside the *<application>* tag::
+
+   <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+
+#. If you would like us to track the city of the user, add the following line in *app/src/main/AndroidManifest.xml* outside the *<application>* tag::
+
+   <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+   <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+#. If you would like us to track device id the user, add the following line in *app/src/main/AndroidManifest.xml* outside the *<application>* tag::
+
+   <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
+#. Add following lines in *app/src/main/AndroidManifest.xml* inside the *<application>* tag::
+
+    <service
+       android:name="com.quantumgraph.sdk.GcmNotificationIntentService"
+       android:exported="false" >
+    </service>
+    <receiver
+       android:name="com.quantumgraph.sdk.GcmBroadcastReceiver"
+       android:enabled="true"
+       android:exported="true"
+       android:permission="com.google.android.c2dm.permission.SEND" >
+       <intent-filter>
+           <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+           <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+           <category android:name="PACKAGE_NAME_OF_YOUR_APP" />
+       </intent-filter>
+    </receiver>
+    <receiver
+        android:name="com.quantumgraph.sdk.NotificationIntentProcessor"
+        android:enabled="true"
+        android:exported="true" >
+    </receiver>
+
+#. Next, download the eclipse SDK as a library project from http://app.qgraph.io/static/sdk/android/QG-1.1.6.zip
+
+#. Now you can proceed in one of the two ways:
+   Either import this library project in eclipse in the same work space where your app resides. Then add QG project as a dependency in your project. 
+
+   or else, (a) unzip this file and import classes.jar in *libs/* directory of your project (b) import classes.jar in your project (c) copy *layouts/qg_carousel.xml*
+   and *layout/qg_full_content_view.xml* from the unzipped directory to *layout/* directory of your project (d) copy *drawable/avatar.png* from the unzipped
+   directory to *drawable/* directory of your project.
+
 Using Android SDK
 -----------------
 Follow these steps to use our android SDK
