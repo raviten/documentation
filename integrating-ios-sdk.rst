@@ -31,7 +31,7 @@ Manual Integration
 ###################
 
 Download the SDK from
-   http://app.qgraph.io/static/sdk/ios/QGSdk-1.0.7.zip
+   http://app.qgraph.io/static/sdk/ios/QGSdk-1.7.8.zip
 
 #. In your Xcode project, Go to File, add new Group to your project and name it as QGSdk.
 
