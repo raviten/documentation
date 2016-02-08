@@ -97,6 +97,7 @@ You can get following fields using the api:
 #. *qgSrc*: source of the install, if available
 #. *gcmId*: gcm registration id of the user
 #. *deviceId*: device id of the user
+#. *advId*: advertiser id of the user
 
 By defaults, fields 1 through 9 above are returned by the API. However, you can specify what specific fields
 you want. For instance, if you want to get *firstSeen*, *uninstallTime* and *gcmId* of all the users who installed
