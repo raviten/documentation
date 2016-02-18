@@ -7,7 +7,7 @@ Installation in Android Studio
 #. Add dependencies to *app/build.gradle*::
 
     compile "com.google.android.gms:play-services:8.1.0"
-    compile "com.quantumgraph.sdk:QG:1.1.8"
+    compile "com.quantumgraph.sdk:QG:1.1.8.1"
 
 #. If you would like to reach out to uninstalled users by email, add following line in *app/src/main/AndroidManifest.xml* outside the *<application>* tag::
 
@@ -135,7 +135,7 @@ In case you selected the option "I will use QGraph's GCM Key" in step 1 of integ
 
     qg.onStart(<your app id>, "1076345567071,912856755471");
 
-``1076345567071`` is the Sender Id of Parse while ``912856755471`` is the sender if QGraph. We need to use them both to generate
+``1076345567071`` is the Sender Id of Parse while ``912856755471`` is the sender of QGraph. We need to use them both to generate
 a registration id usable by both Parse and QGraph.
 
 In case you have selected the option "I have my own GCM Key" in step 1 of integration, you need to call ``onStart()`` as follows::
