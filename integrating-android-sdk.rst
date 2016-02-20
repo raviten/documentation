@@ -168,7 +168,7 @@ or any other information that you may wish to track. You log user profiles by us
 
 userId is the id of the user. It might be email, or username, or facebook id, or any other form of id that you may wish to keep.
 
-Other functions that you may user are::
+Other functions that you may use are::
 
    qg.setName(String name);
    qg.setFirstName(String firstName);
@@ -178,6 +178,7 @@ Other functions that you may user are::
    qg.setDayOfBirth(int day);
    qg.setMonthOfBirth(int month);
    qg.setYearOfBirth(int year);
+   qg.setPhoneNumber(String phoneNo);
 
 Other than these functions, you can log your own custom user parameters. You do it using::
 
@@ -190,6 +191,13 @@ For instance, you may wish to have the user's current rating like this::
 As implied by the function definition, the value can be of any data type.
 
 Once user profile is set, you can use this to create personalized messages (For example: "Hi John, exciting deals are available in Mountain View"), or to create user segments (For example you can create a segment of users who were born after 1990 and live in Mountain View)
+
+Apart from above user profile parameters, you can log the UTM source through which the user installed the app, using the following functions::
+   qg.setUtmSource(String utmSource);
+   qg.setUtmMedium(String utmMedium);
+   qg.setUtmTerm(String utmTerm);
+   qg.setUtmContent(String utmContent);
+   qg.setUtmCampaign(String utmCampaign);
 
 Logging events
 ##############
