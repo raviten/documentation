@@ -193,6 +193,7 @@ As implied by the function definition, the value can be of any data type.
 Once user profile is set, you can use this to create personalized messages (For example: "Hi John, exciting deals are available in Mountain View"), or to create user segments (For example you can create a segment of users who were born after 1990 and live in Mountain View)
 
 Apart from above user profile parameters, you can log the UTM source through which the user installed the app, using the following functions::
+
    qg.setUtmSource(String utmSource);
    qg.setUtmMedium(String utmMedium);
    qg.setUtmTerm(String utmTerm);
