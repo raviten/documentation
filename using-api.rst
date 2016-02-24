@@ -17,7 +17,7 @@ First you need to create a campaign. Go to https://app.qgraph.io, log in, go to 
 
 Once you have created the campaign, click on the campaign name to go its performance page. URL of the performance page looks like: ``https://app.qgraph.io/campaign/<campaign id>/performance``. Note down the campaign id for your campaign.
 
-Next you can make a HTTP POST request at ``https://app.qgraph.io/api/send-notification``. The POST body is of the following format::
+Next you can make a HTTP POST request at ``https://app.qgraph.io/api/send-notification/``. The POST body is of the following format::
 
    {
       "cid": <campaign id>,
