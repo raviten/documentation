@@ -37,6 +37,38 @@ Download the SDK from
 
 #. Add libQSdk.a and QGSdk.h in QGSdk group 
 
+Integration steps for Swift apps
+################################
+
+#. In xcode, create the header file and name it by your product module name followed by adding ``-Bridging-Header.h``.
+
+#. Add this statement in the bridging header file::
+
+      #import "QGSdk.h"
+       
+#. Add the following code in appdelegate::
+
+     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+          let settings = UIUserNotificationSettings(forTypes: [.Alert, .Badge, .Sound], categories: nil)
+          UIApplication.sharedApplication().registerUserNotificationSettings(settings)
+          UIApplication.sharedApplication().registerForRemoteNotifications()
+          let QG = QGSdk.getSharedInstance()
+          QG.onStart(<app_id>)
+          QG.logEvent("app_launched", withParameters: nil)
+          return true
+     }
+
+#. Add the following code to get device token::
+
+     func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData ) {
+         let QG = QGSdk.getSharedInstance()
+         NSLog("My token is: %@", deviceToken)
+         QG.setToken(deviceToken)
+     }
+     func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
+         print("Failed to get token, error: %@", error)
+     }
+
 Generating PEM file
 -------------------
 Generating App ID and SSL Certificate.
