@@ -37,6 +37,7 @@ You need to provide either ``registration_ids`` or ``user_ids`` or ``emails``
 For a simple notification, ``message`` is of the following format::
 
    {
+       "type": "basic",
        "title": <title of the notification>,
        "message: <body of the notification>,
        "imageUrl": <url of the icon image> (optional),
@@ -47,6 +48,7 @@ For a simple notification, ``message`` is of the following format::
 For banner notification, ``message`` is of the following format::
 
    {
+       "type": "banner",
        "title": <title of the notification>,
        "message: <body of the notification>,
        "contentImageUrl": <url of banner image>,
