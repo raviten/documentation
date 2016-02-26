@@ -52,10 +52,10 @@ As a second step, you can customize the message in two ways:
 
 (1) Suppose you have passed us variables in the user profiles called "name" and "city". Then, if while creating a campaign, in the "custom" title or message you write:
 
-	Hello $name, you live in $city
+	Hello {{name}}, you live in {{city}}.
 
 
-Then, for each user, $name and $city will be substituted by the actual variable values. For those users in the segment for whom one of these variables is not present, the “default” string provided by you will be used.
+Then, for each user, {{name}} and {{city}} will be substituted by the actual variable values. For those users in the segment for whom one of these variables is not present, the “default” string provided by you will be used.
 
 (2) Suppose you provided us an event called `product_viewed` and in the parameters you specified::
 
@@ -68,14 +68,14 @@ Then, for each user, $name and $city will be substituted by the actual variable 
       }
 
 Then you can refer to "name", "price", "image_url", "redirect_url" as 
-$E.product_viewed.0.name
-$E.product_viewed.0.price
-$E.product_viewed.0.image_url
-$E.product_viewed.0.redirect_url
+{{product_viewed.0.name}},
+{{product_viewed.0.price}},
+{{product_viewed.0.image_url}},
+{{product_viewed.0.redirect_url}}
 respectively.
 
 You can use the first two variables to customize the message, like this:
 
-Hello $name, the prices of $E.product_viewed.0.name have fallen by 40%!
+Hello {{name}}, the prices of {{product_viewed.0.name}} have fallen by 40%!
 
 And you can specify the last two variables to specify the image and redirect url for the notification.
