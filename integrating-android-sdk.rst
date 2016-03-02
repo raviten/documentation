@@ -71,7 +71,7 @@ To integrate our SDK in eclipse, these are the steps:
         android:exported="true" >
     </receiver>
 
-#. Next, download the eclipse SDK as a library project from http://app.qgraph.io/static/sdk/android/QG-1.1.6.zip
+#. Next, download the eclipse SDK as a library project from http://app.qgraph.io/static/sdk/android/QG-1.1.8.1.zip
 
 #. Now you can proceed in one of the two ways:
    Either import this library project in eclipse in the same work space where your app resides. Then add QG project as a dependency in your project. 

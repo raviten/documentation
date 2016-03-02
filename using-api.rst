@@ -29,12 +29,15 @@ Next you can make a HTTP POST request at ``https://app.qgraph.io/api/send-notifi
       "emails": ["email 1", "email 2", ..., "email n" (upto 500 emails)]
       
       "message": <message in the format described below>
+      "os": "android" or "ios-dev" or "ios-prod"
    }
 
 
-You need to provide either ``registration_ids`` or ``user_ids`` or ``emails``
+You need to provide either ``registration_ids`` or ``user_ids`` or ``emails``.
 
-For a simple notification, ``message`` is of the following format::
+If you want to send notification to android devices, use ``android`` for key ``os``. If you want to send notification to ios devices, use ``ios-dev`` or ``ios-prod``, depending on whether you want us to use development profile or production profile. (You should have uploaded the respective .pem file to us)
+
+For a simple android notification, ``message`` is of the following format::
 
    {
        "type": "basic",
@@ -45,7 +48,18 @@ For a simple notification, ``message`` is of the following format::
        "deepLink": <deep link of notification> (optional)
    }
 
-For banner notification, ``message`` is of the following format::
+For ios notification, ``message`` is of the following format::
+
+   { 
+        "aps": {
+           "alert": {
+               "title": <title of the notification>,
+               "body": <body of the notification>
+            }
+         }
+   }
+
+For banner notification (available only in android), ``message`` is of the following format::
 
    {
        "type": "banner",
@@ -55,7 +69,7 @@ For banner notification, ``message`` is of the following format::
        "deepLink": <deep link of notification> (optional)
    }
 
-For animated banner notification, ``message`` is of the following format::
+For animated banner notification (available only in android), ``message`` is of the following format::
 
    {
        "title": <title of the notification>,
