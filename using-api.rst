@@ -98,6 +98,14 @@ arguments is ``yyyy-mm-dd``. A sample call would be::
 
 For faster response times, you should retrieve the data for small date ranges.
 
+Specifying OS
+#############
+You can specify the ios for which you want to retrieve data. You specify this by
+providing a query parameter ``os`` whose values can be ``android`` (for android), ``ios-prod`` (for ios using production profile), or ``ios-dev``
+(for ios using development profile). Default value for ``os`` is ``android``. Here is an example of using this variable::
+
+    curl -H "Authorization: Token <your token>" https://app.qgraph.io/api/get-user-profiles/?start_date=2015-12-22&end_date=2015-12-25&os=android
+
 Specifying specific fields to retrieve
 ######################################
 You can get following fields using the api:
@@ -111,7 +119,7 @@ You can get following fields using the api:
 #. *user_id*: the user id set by ``setUserId()`` function of the SDK
 #. *qgType*: tells whether the install is a fresh one or a reinstall
 #. *qgSrc*: source of the install, if available
-#. *gcmId*: gcm registration id of the user
+#. *gcmId*: gcm registration id of the user in case of android and device token in case of ios
 #. *deviceId*: device id of the user
 #. *advId*: advertiser id of the user
 
