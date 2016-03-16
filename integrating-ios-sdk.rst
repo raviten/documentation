@@ -27,47 +27,32 @@ The easiest way to integrate quantumgraph iOS SDK into your iOS project is to us
 
 #. Run ``pod install`` in Xcode project directory. Cocoapods will downloads and install the quantumgraph iOS-SDK library and create a new Xcode workspace. From now on use should use this workspace.
 
-Manual Integration
+Manual installation
 ###################
 
 Download the SDK from
-   http://app.qgraph.io/static/sdk/ios/QGSdk-1.7.8.zip
+   http://app.qgraph.io/static/sdk/ios/QGSdk-1.8.1.zip
 
 #. In your Xcode project, Go to File, add new Group to your project and name it as QGSdk.
 
 #. Add libQSdk.a and QGSdk.h in QGSdk group 
 
-Integration steps for Swift apps
-################################
+Installation steps for Swift apps
+#################################
 
-#. In xcode, create the header file and name it by your product module name followed by adding ``-Bridging-Header.h``.
+#. In xcode, create the header file and name it by your product module name followed by adding ``-Bridging-Header.h``. File name should look like ``Project_Name-Bridging-Header.h``. Please make sure this header file is in root path of the project (although you can keep it anywhere).
 
-#. Add this statement in the bridging header file::
+#. Now Click on project tab to open Build Settings. In your project target -> Build Setting, search for ‘Objective-C Bridging Header’ and add path of the Project_Name-Bridging-Header.h. (Project_Name/Your_App_Name-Bridging-Header.h)
 
-      #import "QGSdk.h"
+   .. figure:: swift-bridging-header.png
+      :align: center
+
+#. Import SDK header file in the bridging header file. Your file should look like this::
        
-#. Add the following code in appdelegate::
-
-     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-          let settings = UIUserNotificationSettings(forTypes: [.Alert, .Badge, .Sound], categories: nil)
-          UIApplication.sharedApplication().registerUserNotificationSettings(settings)
-          UIApplication.sharedApplication().registerForRemoteNotifications()
-          let QG = QGSdk.getSharedInstance()
-          QG.onStart(<app_id>)
-          QG.logEvent("app_launched", withParameters: nil)
-          return true
-     }
-
-#. Add the following code to get device token::
-
-     func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData ) {
-         let QG = QGSdk.getSharedInstance()
-         NSLog("My token is: %@", deviceToken)
-         QG.setToken(deviceToken)
-     }
-     func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
-         print("Failed to get token, error: %@", error)
-     }
+    #ifndef Project_Name_Bridging_Header_h
+    #define Project_Name_Bridging_Header_h
+    #import "QGSdk.h"
+    #endif /* Project_Name_Bridging_Header_h */
 
 Generating PEM file
 -------------------
@@ -132,26 +117,55 @@ Making the Provisioning Profile
 
 Using iOS Sdk
 -------------
+Changes in info.plist file
+##########################
 
-Appdelegate Changes
-###################
+To allow the app to send data, you need to add following property in the info.plist file.
+
+In ‘Information Property List’ click on ‘+’ to add ‘App Transport Security Settings’ which is a dictionary. Now click on this dictionary to add one item. Add Boolean ‘Allow Arbitrary Loads’ and set its value to YES.
+
+   .. figure:: transport-security-settings.png
+      :align: center
+
+You may get following exception if above is not configured::
+
+   Transport security has blocked a cleartext HTTP (http://) resource load since it is insecure. Temporary exceptions can be configured via your app's Info.plist file.
+
+
+Appdelegate Changes for Objective C apps
+########################################
 
 To initialise the library, in Appdelegate  add ``#import "QGSdk.h"``
 
 In ``didFinishLaunchingWithOptions`` method of Appdelegate, add the following code for registering for remote notification::
 
-   - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    
-    UIUserNotificationType allNotificationTypes =
-    (UIUserNotificationTypeSound | UIUserNotificationTypeAlert | UIUserNotificationTypeBadge);
-    UIUserNotificationSettings *settings =
-    [UIUserNotificationSettings settingsForTypes:allNotificationTypes categories:nil];
-    [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
-    [[UIApplication sharedApplication] registerForRemoteNotifications];
-    [[QGSdk getSharedInstance] onStart:@<your app id>];
-    [[QGSdk getSharedInstance] logEvent:@"app_launched" withParameters:nil];    
-    return YES;
-    }
+  (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+      if (floor(NSFoundationVersionNumber) < NSFoundationVersionNumber_iOS_8_0) {
+          // here you go with iOS 7
+          [[UIApplication sharedApplication] registerForRemoteNotificationTypes: (UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
+      } else {
+          // registering push notification in ios 8 and above
+          UIUserNotificationType types = UIUserNotificationTypeAlert | UIUserNotificationTypeSound |
+          UIUserNotificationTypeBadge;
+          UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:types
+          categories:nil];
+          [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
+          [[UIApplication sharedApplication] registerForRemoteNotifications];
+      }
+      //replace <your app id> with the one you received from QGraph
+      [[QGSdk getSharedInstance] onStart:@"<YOUR APP ID>" setDevProfile:NO];
+      [[QGSdk getSharedInstance] logEvent:@"app_launched" withParameters:nil];
+      //add this method to track app launch through QGraph notification click 
+      [[QGSdk getSharedInstance] didFinishLaunchingWithOptions:launchOptions];
+  
+      return YES;
+  }
+
+
+For development profile, set Boolean to YES in the following method::
+
+   [[QGSdk getSharedInstance] onStart:@"<your app id>" setDevProfile:YES];
+
 
 Just build and run the app to make sure that you receive a message that app would like to send push notification. If you get code signing error, make sure that proper provisioning profile is selected
 
@@ -171,11 +185,98 @@ Add the following code in Appdelegate.m to get the device token for the user::
 
 QGSdk ``setToken`` method will log user's token so that you can send push notification to the user
 
-Working with development and production profiles
-################################################
-If you have separate development and production profiles, you need to provide us the pem files for both the profiles.
-Further, to be able to test using development profile, you need to append ``_dev`` to your app id in the ``onStart()`` call. For instance
-if your app id is ``da62d55d67b490ea4707``, then for development profile, you should put app id as ``da62d55d67b490ea4707_dev``.
+Add following code for tracking notification clicks::
+
+   - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+      [[QGSdk getSharedInstance] didReceiveRemoteNotification:userInfo];
+   }
+
+
+Appdelegate Changes for Swift Apps
+##################################
+
+Please make following changes in your AppDelegate.swift file::
+
+   func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+      // Override point for customization after application launch.
+      // Register for remote notification
+      let settings = UIUserNotificationSettings(forTypes: [.Alert, .Badge, .Sound], categories: nil)
+      UIApplication.sharedApplication().registerUserNotificationSettings(settings)
+      UIApplication.sharedApplication().registerForRemoteNotifications()
+   
+      let QG = QGSdk.getSharedInstance()
+      QG.onStart("your_app_id")
+      QG.logEvent("app_launched", withParameters: nil)
+      QG.setName("user_name")
+      
+      // to enable tracking app launch by qgraph notification click
+      QG.didFinishLaunchingWithOptions(launchOptions)
+     
+      return true;
+    }
+
+    func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
+        NSLog("My token is: %@", deviceToken)
+        QG.setToken(deviceToken)
+    }
+
+    func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
+        print("Failed to get token, error: %@", error.localizedDescription)
+    }
+
+    func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
+        let QG = QGSdk.getSharedInstance()
+        // to enable track click on notification
+        QG.didReceiveRemoteNotification(userInfo)
+    }
+
+Registering Your Actionable Notification Types
+##############################################
+Actionable notifications let you add custom action buttons to the standard iOS interfaces for local and push notifications. Actionable notifications give the user a quick and easy way to perform relevant tasks in response to a notification. Prior to iOS 8, user notifications had only one default action. In iOS 8 and later, the lock screen, notification banners, and notification entries in Notification Center can display one or two custom actions. Modal alerts can display up to four. When the user selects a custom action, iOS notifies your app so that you can perform the task associated with that action.
+
+For defining a notification action and its category, and to handle actionable notification, please refer the description in the apple docs.
+
+Action Category can be set in the dashboard while sending notification. While configuring to send notification through campaigns, use the categories defined in the app.
+
+Handling Push Notification
+##########################
+
+Notifications are delivered while the app is in foreground, background or not running state. We can handle them in the following delegate methods. 
+If the remote notification is tapped, the system launches the app and the app calls its delegate’s application:didFinishLaunchingWithOptions: method, passing in the notification payload (for remote notifications). Although application:didFinishLaunchingWithOptions: isn’t the best place to handle the notification, getting the payload at this point gives you the opportunity to start the update process before your handler method is called.
+
+For remote notifications, the system also calls the ``application:didReceiveRemoteNotification:fetchCompletionHandler:`` method of the app delegate.
+
+You can handle the notification and its payload as described::
+
+   - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+      // Please make sure you have added this method of the sdk earlier. 
+      [[QGSdk getSharedInstance] didFinishLaunchingWithOptions:launchOptions];
+      // Payload can be handled in this way
+      NSDictionary *notification = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
+      if (notification) {
+         // you custom methods…
+      }
+      return YES;
+   }
+
+The notification is delivered when the app is running in the foreground. The app calls the ``application:didReceiveRemoteNotification:fetchCompletionHandler:`` method of the app delegate. (If ``application:didReceiveRemoteNotification:fetchCompletionHandler:`` isn't implemented, the system calls ``application:didReceiveRemoteNotification:``.) However, it is advised to use application:didReceiveRemoteNotification:fetchCompletionHandler: method to handle push notification::
+
+  - (void)application:(UIApplication *)application
+     didReceiveRemoteNotification:(NSDictionary *)userInfo
+     fetchCompletionHandler:(void (^)(UIBackgroundFetchResult result))handler {
+     // Please make sure you add this method
+     [[QGSdk getSharedInstance] didReceiveRemoteNotification:userInfo];
+     handler(UIBackgroundFetchResultNoData);
+     NSLog(@"Notification Delivered”);
+     }
+
+You can also handle background operation using the above method once remote notification is delivered. For this make sure, wake app in background is selected while creating a campaign to send the notification.
+
+If you have implemented ``application:didReceiveLocalNotification:`` add method ``[[QGSdk getSharedInstance] didReceiveRemoteNotification:userInfo];`` inside it. Your implementation should look like::
+
+   - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+      [[QGSdk getSharedInstance] didReceiveRemoteNotification:userInfo];
+   }
 
 Logging user profile information
 ################################
