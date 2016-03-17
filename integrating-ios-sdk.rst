@@ -154,7 +154,6 @@ In ``didFinishLaunchingWithOptions`` method of Appdelegate, add the following co
       }
       //replace <your app id> with the one you received from QGraph
       [[QGSdk getSharedInstance] onStart:@"<YOUR APP ID>" setDevProfile:NO];
-      [[QGSdk getSharedInstance] logEvent:@"app_launched" withParameters:nil];
       //add this method to track app launch through QGraph notification click 
       [[QGSdk getSharedInstance] didFinishLaunchingWithOptions:launchOptions];
   
@@ -206,7 +205,6 @@ Please make following changes in your AppDelegate.swift file::
    
       let QG = QGSdk.getSharedInstance()
       QG.onStart("your_app_id")
-      QG.logEvent("app_launched", withParameters: nil)
       QG.setName("user_name")
       
       // to enable tracking app launch by qgraph notification click
@@ -259,7 +257,7 @@ You can handle the notification and its payload as described::
       return YES;
    }
 
-The notification is delivered when the app is running in the foreground. The app calls the ``application:didReceiveRemoteNotification:fetchCompletionHandler:`` method of the app delegate. (If ``application:didReceiveRemoteNotification:fetchCompletionHandler:`` isn't implemented, the system calls ``application:didReceiveRemoteNotification:``.) However, it is advised to use application:didReceiveRemoteNotification:fetchCompletionHandler: method to handle push notification::
+The notification is delivered when the app is running in the foreground. The app calls the ``application:didReceiveRemoteNotification:fetchCompletionHandler:`` method of the app delegate. (If ``application:didReceiveRemoteNotification:fetchCompletionHandler:`` isn't implemented, the system calls ``application:didReceiveRemoteNotification:``.) However, it is advised to use application:didReceiveRemoteNotification:fetchCompletionHandler: method to handle push notification. Please add ``[[QGSdk getSharedInstance] didReceiveRemoteNotification:userInfo];`` to your implementation::
 
   - (void)application:(UIApplication *)application
      didReceiveRemoteNotification:(NSDictionary *)userInfo
@@ -272,7 +270,7 @@ The notification is delivered when the app is running in the foreground. The app
 
 You can also handle background operation using the above method once remote notification is delivered. For this make sure, wake app in background is selected while creating a campaign to send the notification.
 
-If you have implemented ``application:didReceiveLocalNotification:`` add method ``[[QGSdk getSharedInstance] didReceiveRemoteNotification:userInfo];`` inside it. Your implementation should look like::
+If you have implemented ``application:didReceiveRemoteNotification:`` add method ``[[QGSdk getSharedInstance] didReceiveRemoteNotification:userInfo];`` inside it. Your implementation should look like::
 
    - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
       [[QGSdk getSharedInstance] didReceiveRemoteNotification:userInfo];
