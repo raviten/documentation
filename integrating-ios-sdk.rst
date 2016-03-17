@@ -25,7 +25,7 @@ The easiest way to integrate quantumgraph iOS SDK into your iOS project is to us
 
      pod 'quantumgraph'
 
-#. Run ``pod install`` in Xcode project directory. Cocoapods will downloads and install the quantumgraph iOS-SDK library and create a new Xcode workspace. From now on use should use this workspace.
+#. Run ``pod install`` in Xcode project directory. Cocoapods will downloads and install the quantumgraph iOS-SDK library and create a new Xcode workspace. From now on you should use this workspace.
 
 Manual installation
 ###################
@@ -42,7 +42,7 @@ Installation steps for Swift apps
 
 #. In xcode, create the header file and name it by your product module name followed by adding ``-Bridging-Header.h``. File name should look like ``Project_Name-Bridging-Header.h``. Please make sure this header file is in root path of the project (although you can keep it anywhere).
 
-#. Now Click on project tab to open Build Settings. In your project target -> Build Setting, search for ‘Objective-C Bridging Header’ and add path of the Project_Name-Bridging-Header.h. (Project_Name/Your_App_Name-Bridging-Header.h)
+#. Now Click on project tab to open Build Settings. In your project target -> Build Setting, search for ‘Objective-C Bridging Header’ and add path of the Project_Name-Bridging-Header.h. (Project_Name/Project_Name-Bridging-Header.h)
 
    .. figure:: swift-bridging-header.png
       :align: center
