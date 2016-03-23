@@ -7,7 +7,7 @@ Installation in Android Studio
 #. Add dependencies to *app/build.gradle*::
 
     compile "com.google.android.gms:play-services:8.1.0"
-    compile "com.quantumgraph.sdk:QG:1.1.8.1"
+    compile "com.quantumgraph.sdk:QG:1.1.10"
 
 #. If you would like to reach out to uninstalled users by email, add following line in *app/src/main/AndroidManifest.xml* outside the *<application>* tag::
 
@@ -71,7 +71,7 @@ To integrate our SDK in eclipse, these are the steps:
         android:exported="true" >
     </receiver>
 
-#. Next, download the eclipse SDK as a library project from http://app.qgraph.io/static/sdk/android/QG-1.1.8.1.zip
+#. Next, download the eclipse SDK as a library project from http://app.qgraph.io/static/sdk/android/QG-1.1.10.zip
 
 #. Now you can proceed in one of the two ways:
    Either import this library project in eclipse in the same work space where your app resides. Then add QG project as a dependency in your project. 
@@ -92,34 +92,34 @@ In all the activity classes, starting with the class for the main activity, impo
 
 Initialization and cleanup of SDK
 #################################
-If you want to use QGraph's Sender Id and GCM key, in the ``onStart()`` function of your activity, do the following::
+#. Define a variable called ``qg`` in your activity::
+   
+    private QG qg;
+   
+#. Add a line in ``onCreate()`` of your activity.  If you want to use QGraph's Sender Id and GCM key, in the ``onStart()`` function of your activity, do the following::
+    
+    QG qg = QG.getInstance(getApplication(), <your app id>);
 
-   QG qg = QG.getInstance(getApplicationContext());
-   qg.onStart(<your app id>);
+   If you want to use your Sender Id and GCM key, in the ``onStart()`` function of your activity, add the following::
 
-If you want to use your Sender Id and GCM key, in the ``onStart()`` function of your activity, do the following::
+    QG qg = QG.getInstance(getApplication(), <your app id>, <your sender id>);
 
-   QG qg = QG.getInstance(getApplicationContext());
-   qg.onStart(<your app id>, <your sender id>);
+   App id for your app is available from the settings page. Sender id is a string that Google provides to you for getting registration id for users. You will get the sender id for your app during the set up phase in our web interface.
 
-App id for your app is available from the settings page. Sender id is a string
-that Google provides to you for getting registration id for users. You will
-get the sender id for your app during the set up phase in our web interface.
+#. In the ``onStart()`` function of your activity, add the following::
+
+    qg.onStart();
 
 We automatically track email, location and installed apps of your user. If you want to stop
 any of these trackings::
 
-   qg.setTracking(bool trackEmail, bool trackLocation, bool trackInstalledApps);
+    qg.setTracking(bool trackEmail, bool trackLocation, bool trackInstalledApps);
 
 For instance, if you want to track email of your user, but not location or installed apps, you
 call::
 
-   qg.setTracking(true, false, false);
+    qg.setTracking(true, false, false);
 
-In the ``onStop()`` function of your activity, do the following::
-
-   QG qg = QG.getInstance(getApplicationContext());
-   qg.onStop();
 
 Notes for Parse push notification users
 #######################################
@@ -131,16 +131,16 @@ To make sure parse notifications work seamlessly alongside QGraph, you need to d
 
 Firstly, change the arguments on ``onStart()`` function slightly.
 
-In case you selected the option "I will use QGraph's GCM Key" in step 1 of integration, you need to call ``onStart()`` as follows::
+In case you selected the option "I will use QGraph's GCM Key" in step 1 of integration, you need to call ``getInstance()`` as follows::
 
-    qg.onStart(<your app id>, "1076345567071,912856755471");
+    qg.getInstance(getApplication(), <your app id>, "1076345567071,912856755471");
 
 ``1076345567071`` is the Sender Id of Parse while ``912856755471`` is the sender of QGraph. We need to use them both to generate
 a registration id usable by both Parse and QGraph.
 
-In case you have selected the option "I have my own GCM Key" in step 1 of integration, you need to call ``onStart()`` as follows::
+In case you have selected the option "I have my own GCM Key" in step 1 of integration, you need to call ``getInstance()`` as follows::
 
-   qg.onStart(<your app id>, "1076345567071,<Your sender id>");
+   qg.getInstance(getApplication(), <your app id>, "1076345567071,<Your sender id>");
 
 Secondly, make a change in your app's AndroidManifest.xml file.
 
