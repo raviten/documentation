@@ -2,7 +2,7 @@ iOS SDK integration
 ===================
 For using quantumgraph iOS-SDK, do the following steps.
 
-#. Integrate our quantumgraph iOS-SDK
+#. Install our quantumgraph iOS-SDK
 
 #. Generate a PEM file
 
@@ -25,17 +25,33 @@ The easiest way to integrate quantumgraph iOS SDK into your iOS project is to us
 
      pod 'quantumgraph'
 
+   Alternatively, in the terminal, in the xcode project directory, type::
+
+     pod init
+
+   Your pod file is created and now you can add ``pod 'quantumgraph'`` to the specific targets you want.
+
 #. Run ``pod install`` in Xcode project directory. Cocoapods will downloads and install the quantumgraph iOS-SDK library and create a new Xcode workspace. From now on you should use this workspace.
 
 Manual installation
 ###################
 
 Download the SDK from
-   http://app.qgraph.io/static/sdk/ios/QGSdk-1.8.1.zip
+   http://app.qgraph.io/static/sdk/ios/QGSdk-1.9.0.zip
 
 #. In your Xcode project, Go to File, add new Group to your project and name it as QGSdk.
 
 #. Add libQSdk.a and QGSdk.h in QGSdk group 
+
+#. Go to Project -> Target -> Build Phases. In the section "Link Binary with Libraries", add following frameworks:
+AdSupport.framework
+SystemConfiguration.framework
+CoreTelephony.framework
+CoreLocation.framework
+
+We track location only if you initialize location service. If you don't add location usage key in info.plist file, we don't track the location of the user.
+
+However, you do not need to add these frameworks if you use cocoapods.
 
 Installation steps for Swift apps
 #################################
@@ -117,15 +133,33 @@ Making the Provisioning Profile
 
 Using iOS Sdk
 -------------
-Changes in info.plist file
-##########################
+Changes in info.plist file (iOS SDK 9.0 and above)
+##################################################
 
 To allow the app to send data, you need to add following property in the info.plist file.
 
-In ‘Information Property List’ click on ‘+’ to add ‘App Transport Security Settings’ which is a dictionary. Now click on this dictionary to add one item. Add Boolean ‘Allow Arbitrary Loads’ and set its value to YES.
+In ‘Information Property List’ click on ‘+’ to add ‘App Transport Security Settings’ which is a dictionary. Now click on this dictionary to add one item. Add dictionary ‘Exception Domains’ which is a dictionary. In exception domains add ‘quantumgraph.com’ which is again a dictionary. In this domain add ’NSIncludeSubdomains’, ’NSTemporaryExceptionAllowsInsecureHTTPLoads’ and set these values to ‘YES’.
 
    .. figure:: transport-security-settings.png
       :align: center
+
+Alternatively, you can simply copy paste this to your ``info.plist`` xml file::
+
+   <key>NSAppTransportSecurity</key>
+   <dict>
+      <key>NSExceptionDomains</key>
+      <dict>
+         <key>quantumgraph.com</key>
+         <dict>
+            <key>NSIncludesSubdomains</key>
+            <true/>
+            <key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
+            <true/>
+         </dict>
+      </dict>
+   </dict>
+
+
 
 You may get following exception if above is not configured::
 
@@ -232,7 +266,7 @@ Registering Your Actionable Notification Types
 ##############################################
 Actionable notifications let you add custom action buttons to the standard iOS interfaces for local and push notifications. Actionable notifications give the user a quick and easy way to perform relevant tasks in response to a notification. Prior to iOS 8, user notifications had only one default action. In iOS 8 and later, the lock screen, notification banners, and notification entries in Notification Center can display one or two custom actions. Modal alerts can display up to four. When the user selects a custom action, iOS notifies your app so that you can perform the task associated with that action.
 
-For defining a notification action and its category, and to handle actionable notification, please refer the description in the apple docs.
+For defining a notification action and its category, and to handle actionable notification, please refer the description in the apple docs. (`Click here <https://developer.apple.com/library/ios/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Chapters/IPhoneOSClientImp.html>`_)
 
 Action Category can be set in the dashboard while sending notification. While configuring to send notification through campaigns, use the categories defined in the app.
 
@@ -240,9 +274,13 @@ Handling Push Notification
 ##########################
 
 Notifications are delivered while the app is in foreground, background or not running state. We can handle them in the following delegate methods. 
-If the remote notification is tapped, the system launches the app and the app calls its delegate’s application:didFinishLaunchingWithOptions: method, passing in the notification payload (for remote notifications). Although application:didFinishLaunchingWithOptions: isn’t the best place to handle the notification, getting the payload at this point gives you the opportunity to start the update process before your handler method is called.
+If the remote notification is tapped, the system launches the app and the app calls its delegate’s 
+`application:didFinishLaunchingWithOptions: <https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIApplicationDelegate_Protocol/index.html#//apple_ref/occ/intfm/UIApplicationDelegate/application:didFinishLaunchingWithOptions:>`_
+method, passing in the notification payload (for remote notifications). Although application:didFinishLaunchingWithOptions: isn’t the best place to handle the notification, getting the payload at this point gives you the opportunity to start the update process before your handler method is called.
 
-For remote notifications, the system also calls the ``application:didReceiveRemoteNotification:fetchCompletionHandler:`` method of the app delegate.
+For remote notifications, the system also calls the 
+`application:didReceiveRemoteNotification:fetchCompletionHandler: <https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIApplicationDelegate_Protocol/index.html#//apple_ref/occ/intfm/UIApplicationDelegate/application:didReceiveRemoteNotification:fetchCompletionHandler:>`_ 
+method of the app delegate.
 
 You can handle the notification and its payload as described::
 
@@ -257,7 +295,14 @@ You can handle the notification and its payload as described::
       return YES;
    }
 
-The notification is delivered when the app is running in the foreground. The app calls the ``application:didReceiveRemoteNotification:fetchCompletionHandler:`` method of the app delegate. (If ``application:didReceiveRemoteNotification:fetchCompletionHandler:`` isn't implemented, the system calls ``application:didReceiveRemoteNotification:``.) However, it is advised to use application:didReceiveRemoteNotification:fetchCompletionHandler: method to handle push notification. Please add ``[[QGSdk getSharedInstance] didReceiveRemoteNotification:userInfo];`` to your implementation::
+The notification is delivered when the app is running in the foreground. 
+The app calls the 
+`application:didReceiveRemoteNotification:fetchCompletionHandler: <https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIApplicationDelegate_Protocol/index.html#//apple_ref/occ/intfm/UIApplicationDelegate/application:didReceiveRemoteNotification:fetchCompletionHandler:>`_ 
+method of the app delegate. 
+(If ``application:didReceiveRemoteNotification:fetchCompletionHandler:`` isn't implemented, the system calls ``application:didReceiveRemoteNotification:``.) 
+However, it is advised to use 
+`application:didReceiveRemoteNotification:fetchCompletionHandler: <https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIApplicationDelegate_Protocol/index.html#//apple_ref/occ/intfm/UIApplicationDelegate/application:didReceiveRemoteNotification:fetchCompletionHandler:>`_ 
+method to handle push notification. Please add ``[[QGSdk getSharedInstance] didReceiveRemoteNotification:userInfo];`` to your implementation::
 
   - (void)application:(UIApplication *)application
      didReceiveRemoteNotification:(NSDictionary *)userInfo
@@ -270,7 +315,9 @@ The notification is delivered when the app is running in the foreground. The app
 
 You can also handle background operation using the above method once remote notification is delivered. For this make sure, wake app in background is selected while creating a campaign to send the notification.
 
-If you have implemented ``application:didReceiveRemoteNotification:`` add method ``[[QGSdk getSharedInstance] didReceiveRemoteNotification:userInfo];`` inside it. Your implementation should look like::
+If you have implemented 
+`application:didReceiveRemoteNotification: <https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIApplicationDelegate_Protocol/index.html#//apple_ref/occ/intfm/UIApplicationDelegate/application:didReceiveRemoteNotification:>`_ 
+add method ``[[QGSdk getSharedInstance] didReceiveRemoteNotification:userInfo];`` inside it. Your implementation should look like::
 
    - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
       [[QGSdk getSharedInstance] didReceiveRemoteNotification:userInfo];

@@ -145,7 +145,7 @@ Hence, we need to make sure that the registration ids generated for QGraph are v
 To make sure parse notifications work seamlessly alongside QGraph, you need to do two things.
 
 
-Firstly, change the arguments on ``onStart()`` function slightly.
+Firstly, change the arguments on ``onCreate()`` function slightly.
 
 In case you selected the option "I will use QGraph's GCM Key" in step 1 of integration, you need to call ``getInstance()`` as follows::
 
