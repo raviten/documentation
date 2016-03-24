@@ -50,26 +50,42 @@ To integrate our SDK in eclipse, these are the steps:
 
 #. Add following lines in *app/src/main/AndroidManifest.xml* inside the *<application>* tag::
 
-    <service
-       android:name="com.quantumgraph.sdk.GcmNotificationIntentService"
-       android:exported="false" >
-    </service>
     <receiver
-       android:name="com.quantumgraph.sdk.GcmBroadcastReceiver"
-       android:enabled="true"
+       android:name="com.google.android.gms.gcm.GcmReceiver"
        android:exported="true"
        android:permission="com.google.android.c2dm.permission.SEND" >
        <intent-filter>
-           <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-           <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
-           <category android:name="PACKAGE_NAME_OF_YOUR_APP" />
+          <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+          <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+          <category android:name="PACKAGE_NAME_OF_YOUR_APP" />
        </intent-filter>
     </receiver>
+    <service
+       android:name="com.quantumgraph.sdk.QGInstanceIdListener"
+       android:exported="false">
+       <intent-filter>
+          <!-- Receives the Refresh token message. -->
+          <action android:name="com.google.android.gms.iid.InstanceID"/>
+       </intent-filter>
+    </service>
+    <service
+       android:name="com.quantumgraph.sdk.QGGcmListenerService"
+       android:exported="false">
+       <intent-filter>
+          <!-- Receives the actual messages. -->
+          <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+       </intent-filter>
+    </service>
+    
     <receiver
-        android:name="com.quantumgraph.sdk.NotificationIntentProcessor"
-        android:enabled="true"
-        android:exported="true" >
+       android:name="com.quantumgraph.sdk.NotificationIntentProcessor"
+       android:enabled="true"
+       android:exported="true">
     </receiver>
+    <service
+       android:name="com.quantumgraph.sdk.GcmNotificationIntentService"
+       android:exported="true">
+    </service>
 
 #. Next, download the eclipse SDK as a library project from http://app.qgraph.io/static/sdk/android/QG-1.1.10.zip
 
@@ -96,11 +112,11 @@ Initialization and cleanup of SDK
    
     private QG qg;
    
-#. Add a line in ``onCreate()`` of your activity.  If you want to use QGraph's Sender Id and GCM key, in the ``onStart()`` function of your activity, do the following::
+#. Add a line in ``onCreate()`` of your activity.  If you want to use QGraph's Sender Id and GCM key, add the following::
     
     QG qg = QG.getInstance(getApplication(), <your app id>);
 
-   If you want to use your Sender Id and GCM key, in the ``onStart()`` function of your activity, add the following::
+   If you want to use your Sender Id and GCM key, add the following::
 
     QG qg = QG.getInstance(getApplication(), <your app id>, <your sender id>);
 
@@ -227,7 +243,7 @@ Here is how you set up some of the popular events.
 
 This event does not have any parameters::
 
-   QG qg = QG.getInstance(getApplicationContext());
+   QG qg = QG.getInstance(getApplication(), <your app id>, <your sender id> (omit if you use qg's sender id));
    JSONObject registrationDetails = new JSONObject();
    try {
       qg.logEvent("registration_completed", registrationDetails);
@@ -238,7 +254,7 @@ This event does not have any parameters::
 
 This event has one paraemter::
 
-   QG qg = QG.getInstance(getApplicationContext());
+   QG qg = QG.getInstance(getApplication(), <your app id>, <your sender id> (omit if you use qg's sender id));
    JSONObject categoryDetails = new JSONObject();
    try {
       categoryDetails.put("category", "apparels");
@@ -250,7 +266,7 @@ This event has one paraemter::
 
 You may choose to have the following fields::
 
-   QG qg = QG.getInstance(getApplicationContext());
+   QG qg = QG.getInstance(getApplication(), <your app id>, <your sender id> (omit if you use qg's sender id));
    JSONObject productDetails = new JSONObject();
    try {
       productDetails.put("id", "123");
@@ -269,7 +285,7 @@ You may choose to have the following fields::
 
 **Product Added to Cart**::
 
-   QG qg = QG.getInstance(getApplicationContext());
+   QG qg = QG.getInstance(getApplication(), <your app id>, <your sender id> (omit if you use qg's sender id));
    JSONObject productDetails = new JSONObject();
    try {
       productDetails.put("id", "123");
@@ -288,7 +304,7 @@ You may choose to have the following fields::
 
 **Product Added to Wishlist**::
 
-   QG qg = QG.getInstance(getApplicationContext());
+   QG qg = QG.getInstance(getApplication(), <your app id>, <your sender id> (omit if you use qg's sender id));
    JSONObject productDetails = new JSONObject();
    try {
       productDetails.put("id", "123");
@@ -308,7 +324,7 @@ You may choose to have the following fields::
 
 **Product Purchased**::
 
-   QG qg = QG.getInstance(getApplicationContext());
+   QG qg = QG.getInstance(getApplication(), <your app id>, <your sender id> (omit if you use qg's sender id));
    JSONObject productDetails = new JSONObject();
    try {
       productDetails.put("id", "123");
@@ -330,7 +346,7 @@ You may choose to have the following fields::
 
 **Checkout Initiated**::
 
-   QG qg = QG.getInstance(getApplicationContext());
+   QG qg = QG.getInstance(getApplication(), <your app id>, <your sender id> (omit if you use qg's sender id));
    JSONObject checkoutDetails = new JSONObject();
    try {
       checkoutDetails.put("num_products", 2);
@@ -342,7 +358,7 @@ You may choose to have the following fields::
 
 **Checkout Completed**::
 
-   QG qg = QG.getInstance(getApplicationContext());
+   QG qg = QG.getInstance(getApplication(), <your app id>, <your sender id> (omit if you use qg's sender id));
    JSONObject checkoutCompleted = new JSONObject();
    try {
       checkoutDetails.put("num_products", 2);
@@ -356,7 +372,7 @@ You may choose to have the following fields::
 
 **Product Rated**::
 
-   QG qg = QG.getInstance(getApplicationContext());
+   QG qg = QG.getInstance(getApplication(), <your app id>, <your sender id> (omit if you use qg's sender id));
    JSONObject rating = new JSONObject();
    try {
       rating.put("id", "1232");
@@ -367,7 +383,7 @@ You may choose to have the following fields::
 
 **Searched**::
 
-   QG qg = QG.getInstance(getApplicationContext());
+   QG qg = QG.getInstance(getApplication(), <your app id>, <your sender id> (omit if you use qg's sender id));
    JSONObject search = new JSONObject();
    try {
       search.put("id", "1232");
@@ -378,7 +394,7 @@ You may choose to have the following fields::
 
 **Reached Level**::
 
-   QG qg = QG.getInstance(getApplicationContext());
+   QG qg = QG.getInstance(getApplication(), <your app id>, <your sender id> (omit if you use qg's sender id));
    JSONObject level = new JSONObject();
    try {
       level.put("level", 23);
@@ -391,7 +407,7 @@ You may choose to have the following fields::
 Apart from above predefined events, you can create your own custom events, and
 have custom parameters in them::
 
-   QG qg = QG.getInstance(getApplicationContext());
+   QG qg = QG.getInstance(getApplication(), <your app id>, <your sender id> (omit if you use qg's sender id));
    JSONObject json = new JSONObject();
    try {
       json.put("my_param", "some value");
