@@ -114,11 +114,11 @@ Initialization and cleanup of SDK
    
 #. Add a line in ``onCreate()`` of your activity.  If you want to use QGraph's Sender Id and GCM key, add the following::
     
-    QG qg = QG.getInstance(getApplication(), <your app id>);
+    qg = QG.getInstance(getApplication(), <your app id>);
 
    If you want to use your Sender Id and GCM key, add the following::
 
-    QG qg = QG.getInstance(getApplication(), <your app id>, <your sender id>);
+    qg = QG.getInstance(getApplication(), <your app id>, <your sender id>);
 
    App id for your app is available from the settings page. Sender id is a string that Google provides to you for getting registration id for users. You will get the sender id for your app during the set up phase in our web interface.
 
