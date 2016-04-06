@@ -7,7 +7,7 @@ Installation in Android Studio
 #. Add dependencies to *app/build.gradle*::
 
     compile "com.google.android.gms:play-services:8.1.0"
-    compile "com.quantumgraph.sdk:QG:1.1.10"
+    compile "com.quantumgraph.sdk:QG:1.1.11"
 
 #. If you would like to reach out to uninstalled users by email, add following line in *app/src/main/AndroidManifest.xml* outside the *<application>* tag::
 
@@ -87,13 +87,14 @@ To integrate our SDK in eclipse, these are the steps:
        android:exported="true">
     </service>
 
-#. Next, download the eclipse SDK as a library project from http://app.qgraph.io/static/sdk/android/QG-1.1.10.zip
+#. Next, download the eclipse SDK as a library project from http://app.qgraph.io/static/sdk/android/QG-1.1.11.zip
 
 #. Now you can proceed in one of the two ways:
    Either import this library project in eclipse in the same work space where your app resides. Then add QG project as a dependency in your project. 
 
-   or else, (a) unzip this file and import classes.jar in *libs/* directory of your project (b) import classes.jar in your project (c) copy *layouts/qg_carousel.xml*
-   and *layout/qg_full_content_view.xml* from the unzipped directory to *layout/* directory of your project (d) copy *drawable/avatar.png* from the unzipped
+   or else, (a) unzip this file and import classes.jar in *libs/* directory of your project (b) import classes.jar in your project (c) copy *layouts/qg_slider_or_carousel.xml*
+   and *layout/qg_full_content_view.xml* from the unzipped directory to *layout/* directory of your project (d) copy *drawable/avatar.png*, *drawable/qg_close_button.png*,
+   *drawable/qg_inapp_callout_big_9.png*, *drawable/qg_next_button.png*, *drawable/qg_prev_button.png* from the unzipped
    directory to *drawable/* directory of your project.
 
 Using Android SDK
@@ -114,16 +115,17 @@ Initialization and cleanup of SDK
    
 #. Add a line in ``onCreate()`` of your activity.  If you want to use QGraph's Sender Id and GCM key, add the following::
     
-    qg = QG.getInstance(getApplication(), <your app id>);
+    QG.initializeSdk(getApplication(), <your app id>);
 
    If you want to use your Sender Id and GCM key, add the following::
 
-    qg = QG.getInstance(getApplication(), <your app id>, <your sender id>);
+    QG.initializeSdk(getApplication(), <your app id>, <your sender id>);
 
    App id for your app is available from the settings page. Sender id is a string that Google provides to you for getting registration id for users. You will get the sender id for your app during the set up phase in our web interface.
 
 #. In the ``onStart()`` function of your activity, add the following::
 
+    qg = QG.getInstance(getApplicationContext());
     qg.onStart();
 
 We automatically track email, location and installed apps of your user. If you want to stop
@@ -167,6 +169,14 @@ For instance, you may wish to have the user's current rating like this::
    qg.setCustomUserParameter("current_rating", 123);
 
 As implied by the function definition, the value can be of any data type.
+
+If you want to set multiple custom parameters at once, you can use ``qg.setCustomUserParameters()``. For example::
+
+   JSONObject jsonObject = new JSONObject();
+   jsonObject.put("gender", "male");
+   jsonObject.put("age", 23);
+   jsonObject.put("city", "London");
+   qg.setCustomUserParameters(jsonObject);
 
 Once user profile is set, you can use this to create personalized messages (For example: "Hi John, exciting deals are available in Mountain View"), or to create user segments (For example you can create a segment of users who were born after 1990 and live in Mountain View)
 
