@@ -7,7 +7,7 @@ Installation in Android Studio
 #. Add dependencies to *app/build.gradle*::
 
     compile "com.google.android.gms:play-services:8.1.0"
-    compile "com.quantumgraph.sdk:QG:1.1.11"
+    compile "com.quantumgraph.sdk:QG:1.1.11.1"
 
 #. If you would like to reach out to uninstalled users by email, add following line in *app/src/main/AndroidManifest.xml* outside the *<application>* tag::
 
@@ -88,7 +88,7 @@ To integrate our SDK in eclipse, these are the steps:
        android:exported="true">
     </service>
 
-#. Next, download the eclipse SDK as a library project from http://app.qgraph.io/static/sdk/android/QG-1.1.11.zip
+#. Next, download the eclipse SDK as a library project from http://app.qgraph.io/static/sdk/android/QG-1.1.11.1.zip
 
 #. Now you can proceed in one of the two ways:
    Either import this library project in eclipse in the same work space where your app resides. Then add QG project as a dependency in your project. 
@@ -413,7 +413,7 @@ storage, please contact us at app@qgraph.io. We automatically store the notifica
 which arrive at the SDK, and you can access them at any point of time. Here is how
 you access stored notifications::
 
-   JSONArray storedNotifications = QG.getStoredNotification();
+   JSONArray storedNotifications = QG.getStoredNotifications();
 
 Different notifications have different fields. All of them have a ``title`` and
 ``message``. They may also have ``imageUrl`` (URL of icon image), ``bigImageUrl``
