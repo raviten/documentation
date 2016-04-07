@@ -216,7 +216,7 @@ Here is how you set up some of the popular events.
 
 This event does not have any parameters::
 
-   QG qg = QG.getInstance(getApplication(), <your app id>, <your sender id> (omit if you use qg's sender id));
+   QG qg = QG.getInstance(getApplicationContext());
    JSONObject registrationDetails = new JSONObject();
    try {
       qg.logEvent("registration_completed", registrationDetails);
@@ -227,7 +227,7 @@ This event does not have any parameters::
 
 This event has one paraemter::
 
-   QG qg = QG.getInstance(getApplication(), <your app id>, <your sender id> (omit if you use qg's sender id));
+   QG qg = QG.getInstance(getApplicationContext());
    JSONObject categoryDetails = new JSONObject();
    try {
       categoryDetails.put("category", "apparels");
@@ -239,7 +239,7 @@ This event has one paraemter::
 
 You may choose to have the following fields::
 
-   QG qg = QG.getInstance(getApplication(), <your app id>, <your sender id> (omit if you use qg's sender id));
+   QG qg = QG.getInstance(getApplicationContext());
    JSONObject productDetails = new JSONObject();
    try {
       productDetails.put("id", "123");
@@ -258,7 +258,7 @@ You may choose to have the following fields::
 
 **Product Added to Cart**::
 
-   QG qg = QG.getInstance(getApplication(), <your app id>, <your sender id> (omit if you use qg's sender id));
+   QG qg = QG.getInstance(getApplicationContext());
    JSONObject productDetails = new JSONObject();
    try {
       productDetails.put("id", "123");
@@ -277,7 +277,7 @@ You may choose to have the following fields::
 
 **Product Added to Wishlist**::
 
-   QG qg = QG.getInstance(getApplication(), <your app id>, <your sender id> (omit if you use qg's sender id));
+   QG qg = QG.getInstance(getApplicationContext());
    JSONObject productDetails = new JSONObject();
    try {
       productDetails.put("id", "123");
@@ -297,7 +297,7 @@ You may choose to have the following fields::
 
 **Product Purchased**::
 
-   QG qg = QG.getInstance(getApplication(), <your app id>, <your sender id> (omit if you use qg's sender id));
+   QG qg = QG.getInstance(getApplicationContext());
    JSONObject productDetails = new JSONObject();
    try {
       productDetails.put("id", "123");
@@ -319,7 +319,7 @@ You may choose to have the following fields::
 
 **Checkout Initiated**::
 
-   QG qg = QG.getInstance(getApplication(), <your app id>, <your sender id> (omit if you use qg's sender id));
+   QG qg = QG.getInstance(getApplicationContext());
    JSONObject checkoutDetails = new JSONObject();
    try {
       checkoutDetails.put("num_products", 2);
@@ -331,7 +331,7 @@ You may choose to have the following fields::
 
 **Checkout Completed**::
 
-   QG qg = QG.getInstance(getApplication(), <your app id>, <your sender id> (omit if you use qg's sender id));
+   QG qg = QG.getInstance(getApplicationContext());
    JSONObject checkoutCompleted = new JSONObject();
    try {
       checkoutDetails.put("num_products", 2);
@@ -345,7 +345,7 @@ You may choose to have the following fields::
 
 **Product Rated**::
 
-   QG qg = QG.getInstance(getApplication(), <your app id>, <your sender id> (omit if you use qg's sender id));
+   QG qg = QG.getInstance(getApplicationContext());
    JSONObject rating = new JSONObject();
    try {
       rating.put("id", "1232");
@@ -356,7 +356,7 @@ You may choose to have the following fields::
 
 **Searched**::
 
-   QG qg = QG.getInstance(getApplication(), <your app id>, <your sender id> (omit if you use qg's sender id));
+   QG qg = QG.getInstance(getApplicationContext());
    JSONObject search = new JSONObject();
    try {
       search.put("id", "1232");
@@ -367,7 +367,7 @@ You may choose to have the following fields::
 
 **Reached Level**::
 
-   QG qg = QG.getInstance(getApplication(), <your app id>, <your sender id> (omit if you use qg's sender id));
+   QG qg = QG.getInstance(getApplicationContext());
    JSONObject level = new JSONObject();
    try {
       level.put("level", 23);
@@ -380,7 +380,7 @@ You may choose to have the following fields::
 Apart from above predefined events, you can create your own custom events, and
 have custom parameters in them::
 
-   QG qg = QG.getInstance(getApplication(), <your app id>, <your sender id> (omit if you use qg's sender id));
+   QG qg = QG.getInstance(getApplicationContext());
    JSONObject json = new JSONObject();
    try {
       json.put("my_param", "some value");
@@ -389,6 +389,22 @@ have custom parameters in them::
    } catch (JsonException e) {
    }
    qg.logEvent("my_custom_event", json);
+
+
+**Logging mulitple events together**
+
+You can launch multiple events together. You call ``createEvent()`` to create an event. Here we log four events together. This example illustrates four ways in which we can create events::
+
+   QG qg = QG.getInstance(getApplicationContext());
+   JSONObject jsonObject = newJSONObject();
+   jsonObject.put("param1", "val");
+   jsonObject.put("param2", 123);
+   JSONArray jsonArray = new JSONArray();
+   jsonArray.put(qg.createEvent("eventA"));
+   jsonArray.put(qg.createEvent("eventB", 123.12));
+   jsonArray.put(qg.createEvent("eventC", jsonObject, 12.12));
+   jsonArray.put(qg.createEvent("eventD", jsonObject));
+   qg.logEvents(jsonArray);
 
 Notification checklist
 ----------------------
