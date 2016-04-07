@@ -396,15 +396,15 @@ have custom parameters in them::
 You can launch multiple events together. You call ``createEvent()`` to create an event. Here we log four events together. This example illustrates four ways in which we can create events::
 
    QG qg = QG.getInstance(getApplicationContext());
-   JSONObject jsonObject = newJSONObject();
-   jsonObject.put("param1", "val");
-   jsonObject.put("param2", 123);
-   JSONArray jsonArray = new JSONArray();
-   jsonArray.put(qg.createEvent("eventA"));
-   jsonArray.put(qg.createEvent("eventB", 123.12));
-   jsonArray.put(qg.createEvent("eventC", jsonObject, 12.12));
-   jsonArray.put(qg.createEvent("eventD", jsonObject));
-   qg.logEvents(jsonArray);
+   JSONObject eventParams = newJSONObject();
+   eventParams.put("param1", "val");
+   eventParams.put("param2", 123);
+   JSONArray eventsArray = new JSONArray();
+   eventsArray.put(qg.createEvent("eventA"));
+   eventsArray.put(qg.createEvent("eventB", 123.12));
+   eventsArray.put(qg.createEvent("eventC", eventParams, 12.12));
+   eventsArray.put(qg.createEvent("eventD", eventParams));
+   qg.logEvents(eventsArray);
 
 Notification checklist
 ----------------------
