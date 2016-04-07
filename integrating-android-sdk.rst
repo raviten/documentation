@@ -406,6 +406,21 @@ You can launch multiple events together. You call ``createEvent()`` to create an
    eventsArray.put(qg.createEvent("eventD", eventParams));
    qg.logEvents(eventsArray);
 
+Retrieving stored notifications
+###############################
+We provide the facility to store the notifications that you send. To enable notification
+storage, please contact us at app@qgraph.io. We automatically store the notifications
+which arrive at the SDK, and you can access them at any point of time. Here is how
+you access stored notifications::
+
+   JSONArray storedNotifications = QG.getStoredNotification();
+
+Different notifications have different fields. All of them have a ``title`` and
+``message``. They may also have ``imageUrl`` (URL of icon image), ``bigImageUrl``
+(URL of the big image), ``deepLink`` and some other fields depending on the type
+of the notification.
+
+
 Notification checklist
 ----------------------
 Launcher image
