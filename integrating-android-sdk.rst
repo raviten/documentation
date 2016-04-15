@@ -468,6 +468,22 @@ you will need to ignore the messages sent by QGraph. We provide you a helper met
 Similarly, QGraph's ``IntentService`` too ignores any messages that have not originated
 from QGraph servers.
 
+If you use your own Service to extend GCMListenerService
+########################################################
+If you use your own service that extends ``GCMListenerService``, following code snippet
+must be added in your service::
+
+   @Override
+   public void onMessageReceived(String from, Bundle data) { 
+       if (data.containsKey("message") && QG.isQGMessage(data.getString("message"))) {
+           Intent intent = new Intent(getApplicationContext(), GcmNotificationIntentService.class);
+           intent.setAction("QG");
+           intent.putExtras(data);
+           getApplicationContext().startService(intent);
+           return;
+       }
+   }
+   
 Receiving key value pairs in activity
 #####################################
 If you have set key value pairs in the campaign you can get them in the activity. Let's say
