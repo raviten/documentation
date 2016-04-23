@@ -37,7 +37,7 @@ Manual installation
 ###################
 
 Download the SDK from
-   http://app.qgraph.io/static/sdk/ios/QGSdk-1.9.0.zip
+   http://app.qgraph.io/static/sdk/ios/QGSdk-2.0.0.zip
 
 #. In your Xcode project, Go to File, add new Group to your project and name it as QGSdk.
 
@@ -131,7 +131,7 @@ Making the Provisioning Profile
 #. Give your App name as Profile Name and click Generate.
 
 
-Using iOS Sdk
+Using iOS SDK
 -------------
 Changes in info.plist file (iOS SDK 9.0 and above)
 ##################################################
@@ -213,16 +213,64 @@ Add the following code in Appdelegate.m to get the device token for the user::
 
     - (void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError*)error
     {
-     	    NSLog(@"Failed to get token, error: %@", error);
+     	    NSLog(@"Failed to get token, error: %@", error.localizedDescription);
     }
 
-QGSdk ``setToken`` method will log user's token so that you can send push notification to the user
+QGSdk ``setToken`` method will log user's token so that you can send push notification to the user.
 
-Add following code for tracking notification clicks::
+Handling Push Notification
+--------------------------
+Notifications are delivered while the app is in foreground, background or not running state.
+We can handle them in the following delegate methods.
 
-   - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
-      [[QGSdk getSharedInstance] didReceiveRemoteNotification:userInfo];
+If the remote notification is tapped, the system launches the app and the app calls its
+delgate's ``application:didFinishLaunchingWithOptions:`` method, passing in the notification payload (for remote notifications). Although ``application:didFinishLaunchingWithOptions:`` is not the best place to handle the notification, getting the payload at this point gives you the opportunity to start the update process before your handler method is called.
+
+For remote notifications, the system also calls the ``application:didReceiveRemoteNotification:fetchCompletionHandler:`` method of the app delegate.
+
+You can handle the notification and its payload as described::
+
+   - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+   
+      // Please make sure you have added this method of the sdk earlier. 
+      [[QGSdk getSharedInstance] application:application
+                            didFinishLaunchingWithOptions:launchOption];
+   
+       // Payload can be handled in this way
+       NSDictionary *notification = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
+       if (notification) {
+          // you custom methods…
+       }
+       return YES;
    }
+
+
+The notification is delivered when the app is running in the foreground. The app calls the
+``application:didReceiveRemoteNotification:fetchCompletionHandler:`` method of the app 
+delegate. (If ``application:didReceiveRemoteNotification:fetchCompletionHandler:`` is not 
+implemented, the system calls ``application:didReceiveRemoteNotification:``.) However, it 
+is advised to use ``application:didReceiveRemoteNotification:fetchCompletionHandler:`` 
+method to handle push notification.
+
+Implementation::
+
+   - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
+     fetchCompletionHandler:(void (^)(UIBackgroundFetchResult result))handler {
+         // Please make sure you add this method
+         [[QGSdk getSharedInstance] application:application
+                                             didReceiveRemoteNotification:userInfo];
+   
+         handler(UIBackgroundFetchResultNoData);
+         NSLog(@"Notification Delivered”);
+     }
+
+You can also handle background operation using the above method once remote notification is delivered. For this make sure, wake app in background is selected while creating a campaign to send the notification.
+
+If you have implemented ``application:didReceiveRemoteNotification:`` add method ``[[QGSdk getSharedInstance] application:application didReceiveRemoteNotification:userInfo];`` inside it. Your implementation should look like::
+   
+    - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+        [[QGSdk getSharedInstance] application:application didReceiveRemoteNotification:userInfo];
+    }
 
 
 Appdelegate Changes for Swift Apps
@@ -242,12 +290,13 @@ Please make following changes in your AppDelegate.swift file::
       QG.setName("user_name")
       
       // to enable tracking app launch by qgraph notification click
-      QG.didFinishLaunchingWithOptions(launchOptions)
+      QG.application(application, didFinishLaunchingWithOptions: launchOptions)
      
       return true;
     }
 
     func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
+        let QG = QGSdk.getSharedInstance()
         NSLog("My token is: %@", deviceToken)
         QG.setToken(deviceToken)
     }
@@ -262,6 +311,61 @@ Please make following changes in your AppDelegate.swift file::
         QG.didReceiveRemoteNotification(userInfo)
     }
 
+
+Click Through and View Through Attribution
+##########################################
+QGraph SDK attributes events for each notification clicked or viewed. Events are attributed on the basis of time interval specified for all log events. 
+
+Currently, click through attribution works for push notification clicked (sent via QGraph) and InApp notification clicked. View through attribution works only in the case of InApp notifications.
+
+
+By default click through attribution window (time interval) is set to 86400 seconds (24 hrs) and view through attribution window is set to 3600 seconds (1 hr). You can change this window any time using following apis::
+
+   // to set click through attribution window
+   - (void)setClickAttributionWindow:(NSInteger)seconds;
+   // to set view through attribution window
+   - (void)setAttributionWindow:(NSInteger)seconds;
+
+  To set a custom value, pass the time interval in seconds. e.g.: to set click attribution window to be 12 hrs::
+   [[QGSdk getSharedInstance] setClickAttributionWindow:43200];
+
+  To disable any of the click through or view through attribution, pass the value 0. E.g.::
+   [[QGSdk getSharedInstance] setAttributionWindow:0];
+
+
+In app Notification
+###################
+
+QGraph SDK supports InApp notification starting in sdk version 2.0.0. InApp notification are supported in two types: Textual and Image. Visit your QGraph account to create InApp Campaigns.
+
+These notifications are shown based on the log events app sends through our sdk and the matching conditions of the InApp Campaigns. Make sure to send appropriate log event (with parameter or valueToSum if any) for InApp notifications to work.
+
+By default, InApp notifications are enabled. You can enable/disable it anytime using following method in the sdk::
+
+   - (void)disableInAppCampaigns:(BOOL)disabled;
+
+eg. to disable::
+
+    [[QGSdk getSharedInstance] disableInAppCampaigns:YES];  
+
+Disabling it will restrict the device to get any new InApp campaigns. It will also 
+disable InApp notification to be drawn.
+
+For All InApp Notification, you can configure a deep link url from the dashboard 
+while creating an InApp campaign.
+
+There is tap event defined on textual and image InApps. When the user taps on text on 
+textual InApp or clicks on image in the image InApp and if there is a valid deep link 
+setup, you will get a call back in your AppDelegate.m in the following method:: 
+
+    - (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<NSString *,id> *)options;
+
+or::
+
+    - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(nullable NSString *)sourceApplication annotation:(id)annotation; (Deprecated in iOS_9)
+
+Here you can implement your deep link with the url.
+
 Registering Your Actionable Notification Types
 ##############################################
 Actionable notifications let you add custom action buttons to the standard iOS interfaces for local and push notifications. Actionable notifications give the user a quick and easy way to perform relevant tasks in response to a notification. Prior to iOS 8, user notifications had only one default action. In iOS 8 and later, the lock screen, notification banners, and notification entries in Notification Center can display one or two custom actions. Modal alerts can display up to four. When the user selects a custom action, iOS notifies your app so that you can perform the task associated with that action.
@@ -269,59 +373,6 @@ Actionable notifications let you add custom action buttons to the standard iOS i
 For defining a notification action and its category, and to handle actionable notification, please refer the description in the apple docs. (`Click here <https://developer.apple.com/library/ios/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Chapters/IPhoneOSClientImp.html>`_)
 
 Action Category can be set in the dashboard while sending notification. While configuring to send notification through campaigns, use the categories defined in the app.
-
-Handling Push Notification
-##########################
-
-Notifications are delivered while the app is in foreground, background or not running state. We can handle them in the following delegate methods. 
-If the remote notification is tapped, the system launches the app and the app calls its delegate’s 
-`application:didFinishLaunchingWithOptions: <https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIApplicationDelegate_Protocol/index.html#//apple_ref/occ/intfm/UIApplicationDelegate/application:didFinishLaunchingWithOptions:>`_
-method, passing in the notification payload (for remote notifications). Although application:didFinishLaunchingWithOptions: isn’t the best place to handle the notification, getting the payload at this point gives you the opportunity to start the update process before your handler method is called.
-
-For remote notifications, the system also calls the 
-`application:didReceiveRemoteNotification:fetchCompletionHandler: <https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIApplicationDelegate_Protocol/index.html#//apple_ref/occ/intfm/UIApplicationDelegate/application:didReceiveRemoteNotification:fetchCompletionHandler:>`_ 
-method of the app delegate.
-
-You can handle the notification and its payload as described::
-
-   - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-      // Please make sure you have added this method of the sdk earlier. 
-      [[QGSdk getSharedInstance] didFinishLaunchingWithOptions:launchOptions];
-      // Payload can be handled in this way
-      NSDictionary *notification = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
-      if (notification) {
-         // you custom methods…
-      }
-      return YES;
-   }
-
-The notification is delivered when the app is running in the foreground. 
-The app calls the 
-`application:didReceiveRemoteNotification:fetchCompletionHandler: <https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIApplicationDelegate_Protocol/index.html#//apple_ref/occ/intfm/UIApplicationDelegate/application:didReceiveRemoteNotification:fetchCompletionHandler:>`_ 
-method of the app delegate. 
-(If ``application:didReceiveRemoteNotification:fetchCompletionHandler:`` isn't implemented, the system calls ``application:didReceiveRemoteNotification:``.) 
-However, it is advised to use 
-`application:didReceiveRemoteNotification:fetchCompletionHandler: <https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIApplicationDelegate_Protocol/index.html#//apple_ref/occ/intfm/UIApplicationDelegate/application:didReceiveRemoteNotification:fetchCompletionHandler:>`_ 
-method to handle push notification. Please add ``[[QGSdk getSharedInstance] didReceiveRemoteNotification:userInfo];`` to your implementation::
-
-  - (void)application:(UIApplication *)application
-     didReceiveRemoteNotification:(NSDictionary *)userInfo
-     fetchCompletionHandler:(void (^)(UIBackgroundFetchResult result))handler {
-     // Please make sure you add this method
-     [[QGSdk getSharedInstance] didReceiveRemoteNotification:userInfo];
-     handler(UIBackgroundFetchResultNoData);
-     NSLog(@"Notification Delivered”);
-     }
-
-You can also handle background operation using the above method once remote notification is delivered. For this make sure, wake app in background is selected while creating a campaign to send the notification.
-
-If you have implemented 
-`application:didReceiveRemoteNotification: <https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIApplicationDelegate_Protocol/index.html#//apple_ref/occ/intfm/UIApplicationDelegate/application:didReceiveRemoteNotification:>`_ 
-add method ``[[QGSdk getSharedInstance] didReceiveRemoteNotification:userInfo];`` inside it. Your implementation should look like::
-
-   - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
-      [[QGSdk getSharedInstance] didReceiveRemoteNotification:userInfo];
-   }
 
 Logging user profile information
 ################################
