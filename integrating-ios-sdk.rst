@@ -166,12 +166,12 @@ You may get following exception if above is not configured::
    Transport security has blocked a cleartext HTTP (http://) resource load since it is insecure. Temporary exceptions can be configured via your app's Info.plist file.
 
 
-Appdelegate Changes for Objective C apps
+AppDelegate Changes for Objective C apps
 ########################################
 
-To initialise the library, in Appdelegate  add ``#import "QGSdk.h"``
+To initialise the library, in AppDelegate  add ``#import "QGSdk.h"``
 
-In ``didFinishLaunchingWithOptions`` method of Appdelegate, add the following code for registering for remote notification::
+In ``didFinishLaunchingWithOptions`` method of AppDelegate, add the following code for registering for remote notification::
 
   (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
       if (floor(NSFoundationVersionNumber) < NSFoundationVersionNumber_iOS_8_0) {
@@ -189,7 +189,7 @@ In ``didFinishLaunchingWithOptions`` method of Appdelegate, add the following co
       //replace <your app id> with the one you received from QGraph
       [[QGSdk getSharedInstance] onStart:@"<YOUR APP ID>" setDevProfile:NO];
       //add this method to track app launch through QGraph notification click 
-      [[QGSdk getSharedInstance] didFinishLaunchingWithOptions:launchOptions];
+      [[QGSdk getSharedInstance] application:application didFinishLaunchingWithOptions:launchOptions];
   
       return YES;
   }
@@ -203,7 +203,7 @@ For development profile, set Boolean to YES in the following method::
 Just build and run the app to make sure that you receive a message that app would like to send push notification. If you get code signing error, make sure that proper provisioning profile is selected
 
 
-Add the following code in Appdelegate.m to get the device token for the user::
+Add the following code in AppDelegate.m to get the device token for the user::
 
     - (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
     {
@@ -233,8 +233,7 @@ You can handle the notification and its payload as described::
    - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
    
       // Please make sure you have added this method of the sdk earlier. 
-      [[QGSdk getSharedInstance] application:application
-                            didFinishLaunchingWithOptions:launchOption];
+      [[QGSdk getSharedInstance] application:application didFinishLaunchingWithOptions:launchOption];
    
        // Payload can be handled in this way
        NSDictionary *notification = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
@@ -257,8 +256,7 @@ Implementation::
    - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
      fetchCompletionHandler:(void (^)(UIBackgroundFetchResult result))handler {
          // Please make sure you add this method
-         [[QGSdk getSharedInstance] application:application
-                                             didReceiveRemoteNotification:userInfo];
+         [[QGSdk getSharedInstance] application:application didReceiveRemoteNotification:userInfo];
    
          handler(UIBackgroundFetchResultNoData);
          NSLog(@"Notification Delivered”);
@@ -273,7 +271,7 @@ If you have implemented ``application:didReceiveRemoteNotification:`` add method
     }
 
 
-Appdelegate Changes for Swift Apps
+AppDelegate Changes for Swift Apps
 ##################################
 
 Please make following changes in your AppDelegate.swift file::
@@ -308,7 +306,7 @@ Please make following changes in your AppDelegate.swift file::
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
         let QG = QGSdk.getSharedInstance()
         // to enable track click on notification
-        QG.didReceiveRemoteNotification(userInfo)
+        QG.application(application, didReceiveRemoteNotification: userInfo)
     }
 
 
@@ -326,10 +324,12 @@ By default click through attribution window (time interval) is set to 86400 seco
    // to set view through attribution window
    - (void)setAttributionWindow:(NSInteger)seconds;
 
-  To set a custom value, pass the time interval in seconds. e.g.: to set click attribution window to be 12 hrs::
+To set a custom value, pass the time interval in seconds. e.g.: to set click attribution window to be 12 hrs::
+
    [[QGSdk getSharedInstance] setClickAttributionWindow:43200];
 
-  To disable any of the click through or view through attribution, pass the value 0. E.g.::
+To disable any of the click through or view through attribution, pass the value 0. E.g.::
+
    [[QGSdk getSharedInstance] setAttributionWindow:0];
 
 
