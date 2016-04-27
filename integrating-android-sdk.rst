@@ -420,6 +420,15 @@ Different notifications have different fields. All of them have a ``title`` and
 (URL of the big image), ``deepLink`` and some other fields depending on the type
 of the notification.
 
+InApp Notifications
+###################
+InApp notfications work by default and you do not have to do anything specific.
+
+In case you wish to disable in-app notifications in some Activity, call::
+
+    QG.getInstance(context).hideInApp(Activity activityInWhichInAppIsToBeHidden)
+
+Note that ``hideInApp(activity)`` should be called before ``onStart()`` of activity in which you wish to hide in-app gets called.
 
 Notification checklist
 ----------------------
@@ -438,15 +447,23 @@ be a white image on a transparent background. The size of this image should be 7
 larger, with an aspect ratio of 1:1. This is what ic_notification.png should look like:
 https://developer.android.com/samples/MediaBrowserService/res/drawable-hdpi/ic_notification.png
 
-Recommended sizes of campaign images
-####################################
-When creating a campaign, you can set an icon image or a big image (or both). 
+Recommended sizes of images
+###########################
+Follow are the recommended sizes of images:
 
-Icon image should be 192px x 192px or larger, with aspect ratio of 1:1.
+1. Big Image Notification - Big image should be 1024px x 512px or larger, with an aspect ratio close to 2:1
 
-Big image should be 1024px x 512px or larger, with aspect ratio close to 2:1.
+2. Icon Image - Icon image should be 192px x 192px or larger, with aspect ratio of 1:1
 
-If you use smaller images, then on some devices, the images may not be able to occupy complete area and hence there may be white spaces surrounding the images.
+3. Carousel Notification - Recommended image size is 600px x 600px, with aspect ratio of 1:1
+
+4. Slider Notification - 1024px x 512px or larger, with aspect ratio close to 2:1
+
+5. Static Banner Notification - 1024px x 170px with an aspect ratio of 6:1
+
+6. Animated Banner Notification - a series of images of 1024px x 170px with an aspect ratio of 6:1
+
+Depending on the screen's resolution android crops the image to fit it into the container. For this, we recommend that you do not have any text in the 10% margins of Big Image and Carousel.
 
 If you use your own Broadcast Receiver
 ######################################
