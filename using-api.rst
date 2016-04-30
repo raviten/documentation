@@ -82,6 +82,28 @@ For animated banner notification (available only in android), ``message`` is of 
        }
    }
 
+Specifying key value pairs
+##########################
+You can specify key value pairs in (both android and ios) notifications. To do this, include a key ``qgPayload``
+in your ``message`` dictionary. ``qgPayload`` should contain key-value pairs. For example, a sample ``message`` for android
+would be::
+
+   {
+       "type": "basic",
+       "title": <title of the notification>,
+       "message: <body of the notification>,
+       "imageUrl": <url of the icon image> (optional),
+       "bigImageUrl": <url of the big image> (optional),
+       "deepLink": <deep link of notification> (optional)
+       "qgPayload": {
+           "key1": "some value",
+           "key2": 123
+        }
+   }
+
+Key value pairs can then be extracted in your activity as described here: http://docs.qgraph.io/en/latest/integrating-android-sdk.html#receiving-key-value-pairs-in-activity
+
+
 Getting user profiles
 ---------------------
 Send a GET request to https://app.qgraph.io/api/get-user-profiles/. For instance, if your token is ``abcd``, the relevant call in curl would be::
