@@ -434,13 +434,13 @@ Notification checklist
 ----------------------
 Launcher image
 ##############
-Make sure that you have an image called ``ic_launcher.png`` in your ``drawables/`` folder.
+Make sure that you have an image called ``ic_launcher.png`` in your ``drawable/`` folder.
 We use this image to display as icon image if you don't set an icon image explicitly.
 This image should be 192px x 192px or larger, with an aspect ratio of 1:1.
 
 Notification image
 ##################
-Make sure that you have an image called ``ic_notification.png`` in your ``drawables/`` foler.
+Make sure that you have an image called ``ic_notification.png`` in your ``drawable/`` foler.
 This is the image shown in the status bar when a notification arrives. As per Android
 guidelines (http://developer.android.com/design/patterns/notifications.html) this image should
 be a white image on a transparent background. The size of this image should be 72px x 72px or
