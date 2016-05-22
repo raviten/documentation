@@ -97,6 +97,10 @@ To integrate our SDK in eclipse, these are the steps:
    copy *layouts/qg_slider_or_carousel.xml*, *layout/qg_full_content_view.xml* and *layout/qg_carousel_v2.xml* from the unzipped directory to *layout/* directory of your project (d) copy *drawable/avatar.png*, *drawable/left_border.xml*, *drawable/right_border.xml*, *drawable/top_border.xml*, *drawable/qg_close_button.png*, *drawable/qg_inapp_callout_big_9.png*, *drawable/qg_next_button.png*, *drawable/qg_prev_button.png* from the unzipped
    directory to *drawable/* directory of your project.
 
+Installation in Cordova
+-----------------------
+QGraph supports apps built with Cordova. Please look at our github plugin for cordova `here <https://github.com/quantumgraph/cordova>`_.
+
 Using Android SDK
 -----------------
 Follow these steps to use our android SDK
