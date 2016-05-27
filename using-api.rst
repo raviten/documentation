@@ -145,8 +145,7 @@ You can get following fields using the api:
 #. *deviceId*: device id of the user
 #. *advId*: advertiser id of the user
 
-By defaults, fields 1 through 9 above are returned by the API. However, you can specify what specific fields
-you want. For instance, if you want to get *firstSeen*, *uninstallTime* and *gcmId* of all the users who installed
+You can specify what specific fields you want. For instance, if you want to get *firstSeen*, *uninstallTime* and *gcmId* of all the users who installed
 your app between December 1, 2015 and December 3, 2015, the relevant curl call would be::
 
     curl -H "Authorization: Token <your token>" https://app.qgraph.io/api/get-user-profiles/?start_date=2015-12-01&end_date=2015-12-03&fields=firstSeen,uninstallTime,gcmId
