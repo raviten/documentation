@@ -132,17 +132,6 @@ Initialization and cleanup of SDK
     qg = QG.getInstance(getApplicationContext());
     qg.onStart();
 
-We automatically track email, location and installed apps of your user. If you want to stop
-any of these trackings::
-
-    qg.setTracking(bool trackEmail, bool trackLocation, bool trackInstalledApps);
-
-For instance, if you want to track email of your user, but not location or installed apps, you
-call::
-
-    qg.setTracking(true, false, false);
-
-
 Logging user profiles
 #####################
 User profiles are information about your users, like their name, city, date of birth
