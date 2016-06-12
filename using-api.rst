@@ -9,15 +9,15 @@ Note down the "API Token" for your account.
 2. You need to set Authorization key as ``"Token: <your API token>"`` in the header of your http requests.
 For instance, if using curl, you do it like this::
 
-   curl -H "Authorization: Token abcd" https://app.qgraph.io/api/<some endpoint>
+   curl -H "Authorization: Token abcd" <relevant api url>
 
 Sending notifications
 ---------------------
 First you need to create a campaign. Go to https://app.qgraph.io, log in, go to "Campaigns" tab and create a new campaign. You can fill any value in the campaign, they will be overridden by what you provide in the api call.
 
-Once you have created the campaign, click on the campaign name to go its performance page. URL of the performance page looks like: ``https://app.qgraph.io/campaign/<campaign id>/performance``. Note down the campaign id for your campaign.
+Once you have created the campaign, proceed to edit that campaign. URL of the performance page looks like: ``https://app.qgraph.io/#/edit_campaign/<campaign id>``. Note down the campaign id for your campaign.
 
-Next you can make a HTTP POST request at ``https://app.qgraph.io/api/send-notification/``. The POST body is of the following format::
+Next you can make a HTTP POST request at ``https://app.qgraph.io/api/v2/send-notification/``. The POST body is of the following format::
 
    {
       "cid": <campaign id>,
@@ -27,13 +27,14 @@ Next you can make a HTTP POST request at ``https://app.qgraph.io/api/send-notifi
       "user_ids": ["userid 1", "userid 2", ..., "userid n" (upto 500 userid)]
       or
       "emails": ["email 1", "email 2", ..., "email n" (upto 500 emails)]
+      or
+      "segment_id": <segment id>
       
       "message": <message in the format described below>
       "os": "android" or "ios-dev" or "ios-prod"
    }
 
-
-You need to provide either ``registration_ids`` or ``user_ids`` or ``emails``.
+You need to provide one of ``registration_ids``,  ``user_ids``, ``emails`` or ``segment_id``. In case you provide segment id, specified segment id must be a valid segment in your account, and notifications will go to that segment. To find segment id of a given segment, proceed to edit that segment. URL of the segment page is of the format ``https://app.qgraph.io/#/edit_segment/<segment id>``.
 
 If you want to send notification to android devices, use ``android`` for key ``os``. If you want to send notification to ios devices, use ``ios-dev`` or ``ios-prod``, depending on whether you want us to use development profile or production profile. (You should have uploaded the respective .pem file to us)
 
@@ -42,7 +43,7 @@ For a simple android notification, ``message`` is of the following format::
    {
        "type": "basic",
        "title": <title of the notification>,
-       "message: <body of the notification>,
+       "message": <body of the notification>,
        "imageUrl": <url of the icon image> (optional),
        "bigImageUrl": <url of the big image> (optional),
        "deepLink": <deep link of notification> (optional)
@@ -64,7 +65,7 @@ For banner notification (available only in android), ``message`` is of the follo
    {
        "type": "banner",
        "title": <title of the notification>,
-       "message: <body of the notification>,
+       "message": <body of the notification>,
        "contentImageUrl": <url of banner image>,
        "deepLink": <deep link of notification> (optional)
    }
@@ -73,7 +74,7 @@ For animated banner notification (available only in android), ``message`` is of 
 
    {
        "title": <title of the notification>,
-       "message: <body of the notification>,
+       "message": <body of the notification>,
        "deepLink": <deep link of notification> (optional)
        "type": "animation"
        "animation": {
