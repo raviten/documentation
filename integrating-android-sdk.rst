@@ -424,7 +424,7 @@ Note that ``hideInApp(activity)`` should be called before ``onStart()`` of activ
 
 Event Attribution
 #################
-To track how QG notifications are affecting the metrics on your app, we _attribute_
+To track how QG notifications are affecting the metrics on your app, we attribute
 some of your app events to QG notifications. We support two types of attributions:
 view through attribution and click through attribution. We view-through attribute
 an event to a notification if the event happens within 1 hour (this can be
