@@ -422,6 +422,33 @@ In case you wish to disable in-app notifications in some Activity, call::
 
 Note that ``hideInApp(activity)`` should be called before ``onStart()`` of activity in which you wish to hide in-app gets called.
 
+Event Attribution
+#################
+To track how QG notifications are affecting the metrics on your app, we _attribute_
+some of your app events to QG notifications. We support two types of attributions:
+view through attribution and click through attribution. We view-through attribute
+an event to a notification if the event happens within 1 hour (this can be
+configured) of a user receiving a notification. We click-through attribute an
+event to a notification if the event happens within 24 hours (this can be
+configured) of a user receiving a notification.
+
+You can see the attribution metrics on the performance page of the campaigns:
+
+   .. figure:: attributed-events.png
+
+
+
+You can change view through attribution window by using following function::
+
+    QG.getInstance(context).setAttributionWindow(long seconds);
+
+You can change click through attribution window by using following function::
+
+    QG.getInstance(context).setClickAttributionWindow(long seconds);
+
+
+
+
 Notification checklist
 ----------------------
 Launcher image
