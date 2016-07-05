@@ -37,17 +37,20 @@ Manual installation
 ###################
 
 Download the SDK from
-   http://app.qgraph.io/static/sdk/ios/QGSdk-2.2.0.zip
+   http://app.qgraph.io/static/sdk/ios/QGSdk-2.3.0.zip
 
-#. In your Xcode project, Go to File, add new Group to your project and name it as QGSdk.
+* In your Xcode project, Go to File, add new Group to your project and name it as QGSdk.
 
-#. Add libQSdk.a and QGSdk.h in QGSdk group 
+* Add libQSdk.a and QGSdk.h in QGSdk group 
 
-#. Go to Project -> Target -> Build Phases. In the section "Link Binary with Libraries", add following frameworks:
-AdSupport.framework
-SystemConfiguration.framework
-CoreTelephony.framework
-CoreLocation.framework
+* Go to Project -> Target -> Build Phases. In the section "Link Binary with Libraries", add following frameworks:
+
+   * AdSupport.framework
+   * SystemConfiguration.framework
+   * CoreTelephony.framework
+   * CoreLocation.framework
+   * ImageIO.framework
+   * MobileCoreServices.framework
 
 We track location only if you initialize location service. If you don't add location usage key in info.plist file, we don't track the location of the user.
 
@@ -133,38 +136,6 @@ Making the Provisioning Profile
 
 Using iOS SDK
 -------------
-Changes in info.plist file (iOS SDK 9.0 and above)
-##################################################
-
-To allow the app to send data, you need to add following property in the info.plist file.
-
-In ‘Information Property List’ click on ‘+’ to add ‘App Transport Security Settings’ which is a dictionary. Now click on this dictionary to add one item. Add dictionary ‘Exception Domains’ which is a dictionary. In exception domains add ‘quantumgraph.com’ which is again a dictionary. In this domain add ’NSIncludeSubdomains’, ’NSTemporaryExceptionAllowsInsecureHTTPLoads’ and set these values to ‘YES’.
-
-   .. figure:: transport-security-settings.png
-      :align: center
-
-Alternatively, you can simply copy paste this to your ``info.plist`` xml file::
-
-   <key>NSAppTransportSecurity</key>
-   <dict>
-      <key>NSExceptionDomains</key>
-      <dict>
-         <key>quantumgraph.com</key>
-         <dict>
-            <key>NSIncludesSubdomains</key>
-            <true/>
-            <key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
-            <true/>
-         </dict>
-      </dict>
-   </dict>
-
-
-
-You may get following exception if above is not configured::
-
-   Transport security has blocked a cleartext HTTP (http://) resource load since it is insecure. Temporary exceptions can be configured via your app's Info.plist file.
-
 
 AppDelegate Changes for Objective C apps
 ########################################
@@ -332,6 +303,33 @@ To disable any of the click through or view through attribution, pass the value 
 
    [[QGSdk getSharedInstance] setAttributionWindow:0];
 
+Configuring Batching
+####################
+
+Our SDK batches the network requests it makes to QGraph server, in order to optimize
+network usage. By default, it flushes data to the server every 15 seconds in release builds, and every second in debug builds. This interval is configurable using the following method::
+
+   [[QGSdk getSharedInstance] setFlushInterval:<flush interval in seconds>];
+
+
+Further, you can force the SDK to flush the data to server any time by calling the following function::
+
+   [[QGSdk getSharedInstance] flush];
+
+Furthermore, you can invoke a completion handler after flush using function::
+
+   [[QGSdk getSharedInstance] flushWithCompletion:^{
+      //some method
+   }];
+
+Matching mobile app users with mobile web users
+###############################################
+
+Our SDK can help you track your mobile app users across your app and mobile web. If you want to enable this functionality, you need to add **Safari Services Framework** in your app. 
+
+If you have added Safari Services Framework in your app, but would like to *disable* our tracking, use the following function::
+
+   [[QGSdk getSharedInstance] disableUserTrackingForSafari];
 
 In app Notification
 ###################

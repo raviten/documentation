@@ -7,7 +7,7 @@ Installation in Android Studio
 #. Add dependencies to *app/build.gradle*::
 
     compile "com.google.android.gms:play-services:8.1.0"
-    compile "com.quantumgraph.sdk:QG:1.1.12.2"
+    compile "com.quantumgraph.sdk:QG:1.1.13.1"
 
 #. If you would like to reach out to uninstalled users by email, add following line in *app/src/main/AndroidManifest.xml* outside the *<application>* tag::
 
@@ -21,6 +21,10 @@ Installation in Android Studio
 #. If you would like us to track device id the user, add the following line in *app/src/main/AndroidManifest.xml* outside the *<application>* tag::
 
    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
+#. If you would like to track your mobile app users across mobile app and mobile web, add following dependency to *app/build.gradle*::
+
+    compile "com.android.support:customtabs:23.4.0"
 
 Installation in Eclipse 
 -----------------------
@@ -162,14 +166,6 @@ For instance, you may wish to have the user's current rating like this::
    qg.setCustomUserParameter("current_rating", 123);
 
 As implied by the function definition, the value can be of any data type.
-
-If you want to set multiple custom parameters at once, you can use ``qg.setCustomUserParameters()``. For example::
-
-   JSONObject jsonObject = new JSONObject();
-   jsonObject.put("gender", "male");
-   jsonObject.put("age", 23);
-   jsonObject.put("city", "London");
-   qg.setCustomUserParameters(jsonObject);
 
 Once user profile is set, you can use this to create personalized messages (For example: "Hi John, exciting deals are available in Mountain View"), or to create user segments (For example you can create a segment of users who were born after 1990 and live in Mountain View)
 
@@ -383,21 +379,6 @@ have custom parameters in them::
    qg.logEvent("my_custom_event", json);
 
 
-**Logging mulitple events together**
-
-You can launch multiple events together. You call ``createEvent()`` to create an event. Here we log four events together. This example illustrates four ways in which we can create events::
-
-   QG qg = QG.getInstance(getApplicationContext());
-   JSONObject eventParams = newJSONObject();
-   eventParams.put("param1", "val");
-   eventParams.put("param2", 123);
-   JSONArray eventsArray = new JSONArray();
-   eventsArray.put(qg.createEvent("eventA"));
-   eventsArray.put(qg.createEvent("eventB", 123.12));
-   eventsArray.put(qg.createEvent("eventC", eventParams, 12.12));
-   eventsArray.put(qg.createEvent("eventD", eventParams));
-   qg.logEvents(eventsArray);
-
 Retrieving stored notifications
 ###############################
 We provide the facility to store the notifications that you send. To enable notification
@@ -405,12 +386,33 @@ storage, please contact us at app@qgraph.io. We automatically store the notifica
 which arrive at the SDK, and you can access them at any point of time. Here is how
 you access stored notifications::
 
-   JSONArray storedNotifications = QG.getStoredNotifications();
+   JSONArray storedNotifications = QG.getInstance(context).getStoredNotifications();
 
 Different notifications have different fields. All of them have a ``title`` and
 ``message``. They may also have ``imageUrl`` (URL of icon image), ``bigImageUrl``
 (URL of the big image), ``deepLink`` and some other fields depending on the type
 of the notification.
+
+Configuring Batching
+####################
+
+Our SDK batches the network requests it makes to QGraph server, in order to optimize
+network usage. It flushes data to the server every 15 seconds, or when number data points exceed 100. 
+
+You can force the SDK to flush the data to server any time by calling the following function::
+
+    QG.getSharedInstance(context).flush();
+
+Matching mobile app users with mobile web users
+###############################################
+
+Our SDK can help you track your mobile app users across your app and mobile web. If you want to enable this functionality, you need to add following dependency in *app/build.gradle*::
+
+    compile "com.android.support:customtabs:23.4.0"
+
+If you have added above dependency in your app, but would like to *disable* our tracking, use the following function::
+
+    QG.getInstance(context).disableUserTrackingForChrome();
 
 InApp Notifications
 ###################
