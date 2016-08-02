@@ -37,7 +37,7 @@ Manual installation
 ###################
 
 Download the SDK from
-   http://app.qgraph.io/static/sdk/ios/QGSdk-2.3.1.zip
+   http://app.qgraph.io/static/sdk/ios/QGSdk-2.3.2.zip
 
 * In your Xcode project, Go to File, add new Group to your project and name it as QGSdk.
 
@@ -155,7 +155,6 @@ In ``didFinishLaunchingWithOptions`` method of AppDelegate, add the following co
           UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:types
           categories:nil];
           [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
-          [[UIApplication sharedApplication] registerForRemoteNotifications];
       }
       //replace <your app id> with the one you received from QGraph
       [[QGSdk getSharedInstance] onStart:@"<YOUR APP ID>" setDevProfile:NO];
@@ -165,6 +164,8 @@ In ``didFinishLaunchingWithOptions`` method of AppDelegate, add the following co
       return YES;
   }
 
+
+Note that ``[[UIApplication sharedApplication] registerForRemoteNotifications]`` is called by our SDK for iOS 8 and iOS 9.
 
 For development profile, set Boolean to YES in the following method::
 
@@ -252,7 +253,6 @@ Please make following changes in your AppDelegate.swift file::
       // Register for remote notification
       let settings = UIUserNotificationSettings(forTypes: [.Alert, .Badge, .Sound], categories: nil)
       UIApplication.sharedApplication().registerUserNotificationSettings(settings)
-      UIApplication.sharedApplication().registerForRemoteNotifications()
    
       let QG = QGSdk.getSharedInstance()
       QG.onStart("your_app_id")
@@ -279,6 +279,8 @@ Please make following changes in your AppDelegate.swift file::
         // to enable track click on notification
         QG.application(application, didReceiveRemoteNotification: userInfo)
     }
+
+Note that ``UIApplication.sharedApplication().registerForRemoteNotifications()`` is called by our SDK for iOS 8 and iOS 9.
 
 
 Click Through and View Through Attribution
