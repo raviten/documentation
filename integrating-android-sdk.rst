@@ -7,7 +7,7 @@ Installation in Android Studio
 #. Add dependencies to *app/build.gradle*::
 
     compile "com.google.android.gms:play-services:8.1.0"
-    compile "com.quantumgraph.sdk:QG:1.1.13.1"
+    compile "com.quantumgraph.sdk:QG:2.0.0"
 
 #. If you would like to reach out to uninstalled users by email, add following line in *app/src/main/AndroidManifest.xml* outside the *<application>* tag::
 
@@ -98,7 +98,7 @@ To integrate our SDK in eclipse, these are the steps:
    Either import this library project in eclipse in the same work space where your app resides. Then add QG project as a dependency in your project. 
 
    or else, (a) unzip this file and import *classes.jar* in *libs/* directory of your project (b) import classes.jar in your project (c) 
-   copy *layouts/qg_slider_or_carousel.xml*, *layout/qg_full_content_view.xml* and *layout/qg_carousel_v2.xml* from the unzipped directory to *layout/* directory of your project (d) copy *drawable/avatar.png*, *drawable/left_border.xml*, *drawable/right_border.xml*, *drawable/top_border.xml*, *drawable/qg_close_button.png*, *drawable/qg_inapp_callout_big_9.png*, *drawable/qg_next_button.png*, *drawable/qg_prev_button.png* from the unzipped
+   copy *layout/custom_collapsed_notification.xml*, *layouts/qg_slider_or_carousel.xml*, *layout/qg_full_content_view.xml* and *layout/qg_carousel_v2.xml* from the unzipped directory to *layout/* directory of your project (d) copy *drawable/left_border.xml*, *drawable/right_border.xml*, *drawable/top_border.xml*, *drawable/qg_close_button.png*, *drawable/qg_inapp_callout_big_9.png*, *drawable/qg_next_button.png*, *drawable/qg_prev_button.png* from the unzipped
    directory to *drawable/* directory of your project.
 
 Installation in Cordova
