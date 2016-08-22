@@ -3,8 +3,7 @@ Web SDK integration
 
 Installing Web Pixel
 --------------------
-Integration instructions are different depending on whether your site is HTTPS or HTTP.
-Browsers support web push only for HTTPS websites. Thus integration is relatively straightforward if your website is HTTPS. In case your site is HTTP, we provide a backing HTTP site to support web push.
+Here we describe how you can integrate QGraph's pixel on your website. 
 
 If your site is HTTPS
 #####################
@@ -41,7 +40,7 @@ If your site is HTTPS
 
    In the above code, if you will shown a "fake prompt" if you set the variable ``fakePrompt`` to ``true``. Fake prompt is a prompt which appears on the website before the actual, system prompt apears. The advantage of showing fake prompt first is that in case the user decides not to subscribe to your notification now, you have more chances to request the user again. However, if the user declines to receive notifications on a system prompt, no further request is possible.
 
-   There are several more parameters which you tweak to set the behavior of the pixels. Here is a code snippet which uses all the allowed parameters::
+   There are several more parameters which you can tweak to set the behavior of the pixels. Here is a code snippet which uses all the allowed parameters::
 
     <script type="text/javascript">
         window.QGSettings = {
@@ -71,7 +70,20 @@ If your site is HTTPS
 If your site is HTTP
 ####################
 
-In case your site is HTTP, you need a backing HTTPS site to enable push notifications. If you would like to use your own backing HTTPS site, please contact app@qgraph.io for instructions. If you would like us to provided backing HTTPS site, enter an ``endpoint`` in the web panel for web push integration. Keep the endpoint similar to the name of your website. For example, if the name of your company is XYZ ECommere, then `xyz` may be a good endpoint to use.
+In case your site is HTTP, you need a backing HTTPS site to enable push notifications. QGraph provides a backing HTTPS site. If you would rather use your own backing HTTPS site, please contact app@qgraph.io for instructions. 
+
+#. Login to http://app.qgraph.io
+
+#. Go to "Setup" -> "Integrations" section on the side bar menu. Select "Web" from the three channels presented to you.
+
+#. Enter your website's URL and follow the instructions provided.
+
+#. Download the following files
+
+   #. https://s3-ap-southeast-1.amazonaws.com/qgraph-web-push/qg-service-worker.js 
+   #. https://s3-ap-southeast-1.amazonaws.com/qgraph-web-push/manifest.json
+
+   Copy above files to the root folder of your website.  Enter an ``endpoint`` in the web panel for web push integration. Keep the endpoint similar to the name of your website. For example, if the name of your company is XYZ ECommerce, then `xyz` may be a good endpoint to use.
 The web push notification will be delivered for the domain `xyz.qgr.ph`.
 
 In this case, basic pixel to use is::
@@ -124,7 +136,7 @@ Here is an advanced pixel with various options::
 
 Logging Data
 ------------
-QG web SDK provides you ways to send us data about the users. You can send us two types of data: the attributes of a user, like email, name, city etc. (what we call profile information) and the data related to the activity that the user is doing.
+QG web SDK provides you ways to send us data about the users. Once you send us the data you can segment on the basis of that data (E.g. send a web push to users meeting certain criterion) and customize on the basis of that data (E.g. insert the image of the product that the user has seen, or the image of the product that you recommend for the user). You can send us two types of data: the attributes of a user, like email, name, city etc. (what we call profile information) and the data related to the activity that the user is doing.
 
 Logging profile information
 ###########################
