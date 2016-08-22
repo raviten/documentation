@@ -71,7 +71,7 @@ If your site is HTTPS
 If your site is HTTP
 ####################
 
-In case your site is HTTP, you need a backing HTTPS site to enable push notifications. If you would like to use your own backing HTTPS site, please contact app@qgraph.io for instructions. If you would like us to provided backing HTTPS site, enter an ``endpoint`` in the web panel for web push integration. Keep the endpoint similar to your name. For example, if the name of your company is XYZ ECommere, then `xyz` may be a good endpoint to use.
+In case your site is HTTP, you need a backing HTTPS site to enable push notifications. If you would like to use your own backing HTTPS site, please contact app@qgraph.io for instructions. If you would like us to provided backing HTTPS site, enter an ``endpoint`` in the web panel for web push integration. Keep the endpoint similar to the name of your website. For example, if the name of your company is XYZ ECommere, then `xyz` may be a good endpoint to use.
 The web push notification will be delivered for the domain `xyz.qgr.ph`.
 
 In this case, basic pixel to use is::
