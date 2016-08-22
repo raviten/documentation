@@ -1,14 +1,14 @@
 Introduction
 ============
 
-QGraph is the User Engagement Platform for your mobile app.
+QGraph is the User Engagement Platform for your mobile app and websites.
 
-If you are an app developer you know that keeping your users engaged
-with your app is very important. The most important aspect of user
-engagement today is via push notifications.
+If you are an app or website developer you know that keeping your users engaged
+with your app or website is very important. Push (App push or web push), email
+and SMS are most important channels for app engagement.
 
 Using QGraph you can send relevant, timely and personalized push 
-notifications to your users.
+notifications, emails and SMS to your users.
 
 Why QGraph?
 -----------

@@ -15,6 +15,7 @@ Contents:
    basics
    integrating-android-sdk
    integrating-ios-sdk
+   integrating-web-sdk
    using-web-ui
    using-api
    downloads
