@@ -47,6 +47,7 @@ For a simple android notification, ``message`` is of the following format::
        "imageUrl": <url of the icon image> (optional),
        "bigImageUrl": <url of the big image> (optional),
        "deepLink": <deep link of notification> (optional)
+       "actions": [{1, <button 1 text>, <deep link if any>}, {2, <button 2 text>, <deep link if any>, {3, <button 3 text>, <deep link if any>}] <optional>
    }
 
 For ios notification, ``message`` is of the following format::
@@ -82,6 +83,7 @@ For animated banner notification (available only in android), ``message`` is of 
            "images": [url1, url2, ..., url n]
        }
    }
+
 
 Specifying key value pairs
 ##########################
