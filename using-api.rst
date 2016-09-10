@@ -50,6 +50,9 @@ For a simple android notification, ``message`` is of the following format::
        "actions": [{1, <button 1 text>, <deep link if any>}, {2, <button 2 text>, <deep link if any>, {3, <button 3 text>, <deep link if any>}] <optional>
    }
 
+
+If you would like a campaign with action buttons to be a poll campaign (where, on button press, response of the user is recorded, but the app does not open), set the key `poll` to `true` in the `message`.
+
 For ios notification, ``message`` is of the following format::
 
    { 
