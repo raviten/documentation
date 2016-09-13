@@ -47,11 +47,14 @@ For a simple android notification, ``message`` is of the following format::
        "imageUrl": <url of the icon image> (optional),
        "bigImageUrl": <url of the big image> (optional),
        "deepLink": <deep link of notification> (optional)
-       "actions": [{1, <button 1 text>, <deep link if any>}, {2, <button 2 text>, <deep link if any>, {3, <button 3 text>, <deep link if any>}] <optional>
+       "actions": [{"id": 1, "text": "<button 1 text>", "deepLink": "<deep link if any>"}, 
+                   {"id": 2, "text": "<button 2 text>", "deepLink": "<deep link if any>"}, 
+                   {"id": 3, "text": "<button 3 text>", "deepLink": "<deep link if any>"}] <optional>
    }
 
 
-If you would like a campaign with action buttons to be a poll campaign (where, on button press, response of the user is recorded, but the app does not open), set the key `poll` to `true` in the `message`.
+A note about action buttons:
+If you would like a campaign with action buttons to be a poll campaign (where, on button press, response of the user is recorded, but the app does not open), set the key `poll` to `true` in the `message`. You can send 1, 2 or 3 actions, and deep link within each button is optional.
 
 For ios notification, ``message`` is of the following format::
 
