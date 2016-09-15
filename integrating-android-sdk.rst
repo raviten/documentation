@@ -7,7 +7,7 @@ Installation in Android Studio
 #. Add dependencies to *app/build.gradle*::
 
     compile "com.google.android.gms:play-services:8.1.0"
-    compile "com.quantumgraph.sdk:QG:2.0.0.2"
+    compile "com.quantumgraph.sdk:QG:2.1.0"
 
 #. If you would like to reach out to uninstalled users by email, add following line in *app/src/main/AndroidManifest.xml* outside the *<application>* tag::
 
@@ -92,7 +92,7 @@ To integrate our SDK in eclipse, these are the steps:
        android:exported="true">
     </service>
 
-#. Next, download the eclipse SDK as a library project from http://app.qgraph.io/static/sdk/android/QG-2.0.0.2.zip
+#. Next, download the eclipse SDK as a library project from http://app.qgraph.io/static/sdk/android/QG-2.1.0.zip
 
 #. Now you can proceed in one of the two ways:
    Either import this library project in eclipse in the same work space where your app resides. Then add QG project as a dependency in your project. 
