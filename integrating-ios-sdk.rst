@@ -14,7 +14,7 @@ Installing iOS SDK Library
 Using Cocoapods
 ###############
 
-The easiest way to integrate quantumgraph iOS SDK into your iOS project is to use CocoaPods.
+The easiest way to integrate quantumgraph iOS SDK into your iOS project is to use CocoaPods. 
 
 
 #. Install CocoaPods using ``gem install cocoapods``
@@ -37,7 +37,7 @@ Manual installation
 ###################
 
 Download the SDK from
-   http://app.qgraph.io/static/sdk/ios/QGSdk-2.3.2.zip
+   http://app.qgraph.io/static/sdk/ios/QGSdk-3.0.0.zip
 
 * In your Xcode project, Go to File, add new Group to your project and name it as QGSdk.
 
@@ -72,6 +72,202 @@ Installation steps for Swift apps
     #define Project_Name_Bridging_Header_h
     #import "QGSdk.h"
     #endif /* Project_Name_Bridging_Header_h */
+
+Changes for iOS 10
+------------------
+
+For integrating QGraph notification SDK, you need to add Capabilities **APP GROUPS**. Go to Project > Main Target > **Capabilities**. Check on App Groups and add a group as below.
+
+   .. figure:: images/ios-10-1.png
+      :align: center
+
+   .. figure:: images/ios-10-2.png
+      :align: center
+
+You need App Group so that data can be shared between extensions. Use that App Group name in ``onStart:withAppGroup:setDevProfile:`` in App Delegate.
+
+AppDelegate Changes for objective C Apps for iOS 10
+###################################################
+
+Add framework **UserNotifications** to app target and import in app delegate
+
+::
+
+   #import <UserNotifications/UserNotifications.h>
+   
+   //Define macros for checking iOS version
+   #define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
+   #define SYSTEM_VERSION_LESS_THAN(v)                 ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
+   
+   - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+       // Override point for customization after application launch.
+       
+       QGSdk *qgsdk = [QGSdk getSharedInstance];
+       
+       [qgsdk onStart:@"<app_id>" withAppGroup:@“group.com.company.product.extension” setDevProfile:true];
+       
+       if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"10.0")) {
+           UNAuthorizationOptions options = (UNAuthorizationOptions) (UNAuthorizationOptionAlert | UNAuthorizationOptionBadge | UNAuthorizationOptionSound | UNAuthorizationOptionCarPlay);
+           
+           UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
+           center.delegate = self;
+           
+           NSSet *categories = [NSSet setWithObjects:[qgsdk getQGSliderPushActionCategoryWithNextButtonTitle:nil withOpenAppButtonTitle:nil], nil];
+           [center setNotificationCategories:categories];
+           
+           [center requestAuthorizationWithOptions:options completionHandler:^(BOOL granted, NSError *error){
+               NSLog(@"GRANTED: %i, Error: %@", granted, error);
+           }];
+       } else if (SYSTEM_VERSION_LESS_THAN(@"10.0")) {
+           UIUserNotificationType types = UIUserNotificationTypeAlert | UIUserNotificationTypeSound |
+           UIUserNotificationTypeBadge;
+           UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:types
+                                                                                    categories:nil];
+           [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
+       }
+       return YES;
+   }
+
+
+**NOTE**: If you have your own existing notification action category for iOS 10, you can add it along with Graph CAROUSEL/SLIDER category implemented as above. For the carousel and slider push action buttons, you can also specify button titles. Next button will be used to animate the carousel/slider and Open App Button will open the app with deeplink if any. 
+
+Handling Push Notification in iOS 10
+####################################
+
+There are new delegate methods introduced in iOS 10 to track notification and display in foreground state as well. To track notifications in background state, you need to enable background mode in the capabilities. Above all these you need to activate push notification in the capabilities. This will add entitlement files to your app target. 
+
+   .. figure:: images/ios-10-3.png
+      :align: center
+
+   .. figure:: images/ios-10-4.png
+      :align: center
+
+
+1. You might have already included this method. Please make sure ``[[QGSdk getSharedInstance] application:application didReceiveRemoteNotification:userInfo];`` is added in it. It is required to track notifications.
+
+::
+
+   //used for silent push handling
+   //pass completion handler UIBackgroundFetchResult accordingly
+   - (void)application:(UIApplication *)application didReceiveRemoteNotification:(nonnull NSDictionary *)userInfo fetchCompletionHandler:(nonnull void (^)(UIBackgroundFetchResult))completionHandler {
+      [[QGSdk getSharedInstance] application:application didReceiveRemoteNotification:userInfo];
+      completionHandler(UIBackgroundFetchResultNoData);
+   }
+
+2. The method will be called on the delegate only if the application is in the foreground. If the method is not implemented or the handler is not called in a timely manner then the notification will not be presented. The application can choose to have the notification presented as a sound, badge, alert and/or in the notification list. This decision should be based on whether the information in the notification is otherwise visible to the user.
+
+::
+
+   - (void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions options))completionHandler {
+       [[QGSdk getSharedInstance] userNotificationCenter:center willPresentNotification:notification];
+       
+       [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
+       UNNotificationPresentationOptions option = UNNotificationPresentationOptionBadge | UNNotificationPresentationOptionSound | UNNotificationPresentationOptionAlert;
+       
+       completionHandler(option);
+   }
+
+3. The method will be called on the delegate when the user responded to the notification by opening the application, dismissing the notification or choosing a UNNotificationAction. The delegate must be set before the application returns from ``applicationDidFinishLaunching:``.
+
+NOTE: This method is specifically required for carousel and slider push to work.
+
+::
+
+   - (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void(^)())completionHandler {
+       [[QGSdk getSharedInstance] userNotificationCenter:center didReceiveNotificationResponse:response];
+       completionHandler();
+   }
+
+
+Handling Deeplink for QGraph Push
+#################################
+
+For any deeplink specified in either In-App campaigns or push notification campaigns, you should get a callback in the below method. You need to handle it on your own to open any specific page. 
+
+::
+
+   - (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<NSString *,id> *)options {
+       NSLog(@"deeplink");
+       return true;
+   }
+
+
+Adding Extensions for iOS Push with Attachment and QGraph Carousel and Slider Push
+##################################################################################
+
+In iOS 10, two frameworks has been introduced for handling push notification with content. You can have a push notification with image, gif, audio and video. Apart from that you can also have your custom UI for notifications. For this, payload can be modified and used to download content before the notification is drawn. You simply need to follow the below steps to add two of the extensions targets for handling these notifications: **Service Extension** and **Content Extension**.
+
+Before proceeding make to download all the QGraph files to be used here. You should have these files with you 
+
+#. QGNotificationSdk-1.0.0
+#. QGNotificationServiceExtension
+#. QGNotificationContentExtension
+
+NOTE: These files are to be used with service and content extensions only. Do not add them to main app target.
+
+Notification Service Extension
+##############################
+Service extension is basically the target extension where you get a callback when a push is delivered to the device. You can download and create attachments here. If you fail to download the content and pass it to contentHandler within certain time, default standard notification will be drawn. 
+
+Adding Service extension
+++++++++++++++++++++++++
+
+1. Add an iOS target and choose Notification Service extension and proceed. Add a product name and Finish. When created you will be **prompted to activate the target**. Once activated, you can see 3 files added, NotificationService (.h and .m ) and Info.plist. 
+
+   .. figure:: images/ios-10-5.png
+      :align: center
+
+
+2. Please delete the NotificationService.h and NotificationService.m files. 
+
+3. Add files from *QGNotificationServiceExtension*
+
+4. Go to project navigator and select the *Service Extension Target*
+
+5. Select *Capabilities* and check on *App Group* and select the *APP GROUP* which you added to your main app target. 
+
+   .. figure:: images/ios-10-6.png
+      :align: center
+
+
+6. Go to NotificationService.m  and change your app group
+
+::
+
+   static NSString *APP_GROUP = @"group.com.company.product.extension";
+
+Adding Content Extension
+++++++++++++++++++++++++
+
+1. Add an iOS target and choose Notification Content extension and proceed. Add a product name and Finish. When created you will be **prompted to activate the target**. Once activated, you can see 4 files added, NotificationViewController (.h and .m), MainInterface.storyboard and Info.plist.
+
+   .. figure:: images/ios-10-7.png
+      :align: center
+
+2. Please delete NotificationViewController and MainInterface.storyboard. 
+
+3. Add these files from **QGNotificationContentExtension**.
+
+4. As done above, enable App Groups and select the same app group through capabilities of the content extension target.
+
+5. Go to NotificationViewController.m  and change your app group
+
+::
+
+   static NSString *APP_GROUP = @"group.com.company.product.extension";
+
+6. Go to Info.plist and add **UNNotificationExtensionDefaultContentHidden** (Boolean) - YES and **UNNotificationExtensionCategory** (string) - **QGCAROUSEL** in NSExtensionAttributes dict of NSExtension dict  as shown in the screenshot.
+
+   .. figure:: images/ios-10-8.png
+      :align: center
+
+
+7. Add QuartzCore.framework in this target. 
+
+8. **Add QGNotificationSdk-1.0.0 to both extension targets. Do not add it to main app target.**
+
+
+**NOTE:** Please make sure **APP_GROUP** used in all the three targets are same. 
 
 Generating PEM file
 -------------------
