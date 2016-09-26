@@ -406,7 +406,7 @@ Adding Extensions for iOS Push with Attachment and QGraph Carousel and Slider Pu
 
 In iOS 10, two frameworks has been introduced for handling push notification with content. You can have a push notification with image, gif, audio and video. Apart from that you can also have your custom UI for notifications. For this, payload can be modified and used to download content before the notification is drawn. You simply need to follow the below steps to add two of the extensions targets for handling these notifications: **Service Extension** and **Content Extension**.
 
-Before proceeding make to download all the QGraph files to be used here. You should have these files with you 
+Before proceeding make sure to download all the QGraph files to be used here. You should have these files with you 
 
 #. QGNotificationSdk-1.0.0
 #. QGNotificationServiceExtension
