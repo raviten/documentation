@@ -5,6 +5,11 @@ If you use Android Studio, AAR file is available at http://jcenter.bintray.com/c
 
 If you use Eclipse, library project is available at http://app.qgraph.io/static/sdk/android/QG-2.1.0.zip.
 
-Download QGraph SDK for iOS from here: http://app.qgraph.io/static/sdk/ios/QGraph-Library-iOS10-1.0.zip
+Download QGraph SDK for iOS from here: 
+
+For Objective C: http://app.qgraph.io/static/sdk/ios/QGSdk-ObjC-1.0.1.zip
+
+For Swift: http://app.qgraph.io/static/sdk/ios/QGSdk-Swift-1.0.1.zip
+
 (But we recommend that you follow cocoapods based integration outlined in iOS integration instructions)
 
