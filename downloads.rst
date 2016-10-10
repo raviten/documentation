@@ -7,9 +7,9 @@ If you use Eclipse, library project is available at http://app.qgraph.io/static/
 
 Download QGraph SDK for iOS from here: 
 
-For Objective C: http://app.qgraph.io/static/sdk/ios/QGSdk-ObjC-1.0.1.zip
+For Objective C: http://app.qgraph.io/static/sdk/ios/QGSdk-ObjC-1.0.2.zip
 
-For Swift: http://app.qgraph.io/static/sdk/ios/QGSdk-Swift-1.0.1.zip
+For Swift: http://app.qgraph.io/static/sdk/ios/QGSdk-Swift-1.0.2.zip
 
 (But we recommend that you follow cocoapods based integration outlined in iOS integration instructions)
 

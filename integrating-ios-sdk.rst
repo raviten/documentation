@@ -4,7 +4,7 @@ For using quantumgraph iOS-SDK, do the following steps.
 
 #. Install our quantumgraph iOS-SDK
 
-#. Generate a PEM file
+#. Generate a .p12 file
 
 #. Using iOS-SDK
 
@@ -38,9 +38,9 @@ Manual installation
 
 Download the SDK from here:
 
-For Objective C: http://app.qgraph.io/static/sdk/ios/QGSdk-ObjC-1.0.1.zip
+For Objective C: http://app.qgraph.io/static/sdk/ios/QGSdk-ObjC-1.0.2.zip
 
-For Swift: http://app.qgraph.io/static/sdk/ios/QGSdk-Swift-1.0.1.zip
+For Swift: http://app.qgraph.io/static/sdk/ios/QGSdk-Swift-1.0.2.zip
 
 * In your Xcode project, Go to File, add new Group to your project and name it as QGSdk.
 
@@ -59,65 +59,44 @@ We track location only if you initialize location service. If you don't add loca
 
 However, you do not need to add these frameworks if you use cocoapods.
 
-Generating PEM file
--------------------
-Generating App ID and SSL Certificate.
+Generating .p12 file
+---------------------
+Generating SSL Certificate for APP ID
 ######################################
+1. Log in to the iOS Dev Center and select the *Certificates, Identifiers and Profiles*
+2. Go to **App IDs** in the **Identifiers** Section of the sidebar and select your app if automatically created. Skip to Step 6.
+3. To create new App click + and fill the details for App ID, App Services (Check the push notification Checkbox) and Explicit App ID(Should be same as Bundle ID in your App)
+4. You will be asked to verify the details of the app id, if everything seems okay click Register.
+5. In the *Push Notification* row there are two orange lights that say “Configurable” in the Development and Distribution column. 
+6. Select your App ID and click on **EDIT**.
+7. If Push Notification is not enabled, enable it to make it configurable.
+8. Select the Create Certificate in the Development/Production SSL Certificate
+9. In the next step it will ask you for generating a CSR
 
-#. Log in to the iOS Dev Center and select the “Certificates, Identifiers and Profiles”
-#. Select Certificates in the iOS Apps section
-#. Go to App IDs in the sidebar and click the + button
-#. Fill the details for App ID, App Services (Check the push notification Checkbox) and Explicit App ID(Should be same as Bundle ID in your App)
-#. You will be asked to verify the details of the app id, if everything seems okay ckick Submit
-#. In iOS App section, on the left, select App ID
-#. Select your App ID
-#. In the "Push Notification" row there are two orange lights that say "Configurable" in the Development and Distribution column
-#. Click on the Settings button to configure these settings
-#. Scroll down to the Push Notification section and select the Create Certificate in the Development/Production SSL Certificate
-#. In the next step it will ask you for generating a CSR
+Generating the Certificate Signing Request
+##########################################
+1. Open Keychain Access on your Mac and choose the menu option *Certificate Assistant* -> *Request a Certificate* from a Certificate Authority
+2. Enter some descriptive name for Common Name (Give your app name appended by QGraph preferably to identify it)
+3. Check Saved to disk option and click continue
+4. In the Keys section of the Keychain Access, a new private key would have appeared with Common name specified
+5. Choose the CSR that you generated to create the push certificate
+6. Click Continue and download the certificate
+7. Double click on the downloaded certificate. This will add your certificate to your private key in your keychain
+8. Go to Keys section in the Keychain and find your private key
+9. You should be able to expand the private key and find your certificate with it. Select both the private key and the certificate after expanding (as shown in the snapshot) 
 
-Generating the Certificate Signing Request.
-###########################################
+   .. figure:: images/p12-1.png
+      :align: center
 
-#. Open Keychain Access on your Mac and choose the menu option Certificate Assistant -> Request a Certificate from a Certificate Authority
-#. Enter some descriptive name for Common Name (Give your app name preferably)
-#. Check Saved to disk option and click continue
-#. In the Keys section of the Keychain Access, a new private key would have appeared
-#. Save the private key file as keyfile.p12 in a separate folder
-#. Choose the CSR that you generated
-#. Click Continue and download the certificate
-#. Save the certificate as cert.cer
+   .. figure:: images/p12-2.png
+      :align: center
 
-**For generating pem file, you will require private key as keyfile.p12 file, SSL certificate (cert.cer)**
+10. Right click on it to export it as .p12 file. Make sure you are exporting 2 items as shown￼												
+11. Name your file as your_app_name and save it with file format .p12
+12. You will be prompted to enter a password. You can directly click Ok or add any password to it. If you add any password please remember it and send it along with your .p12 file. 
+13. In the next step, you will require your system password to finally save the file. 
 
-Convert the cert.cer file into a cert.pem file::
-
-   $ openssl x509 -in cert.cer -inform der -out cert.pem;
-
-Convert the keyfile.p12 file into a keyfile.pem file::
-
-   $ openssl pkcs12 -nocerts -out keyfile.pem -in keyfile.p12;
-
-combine the certificate and key into a single your_app_name.pem file::
-
-   $ cat cert.pem keyfile.pem > your_app_name.pem;
-
-Finally send us your_app_name.pem file 
-
-Making the Provisioning Profile
-###############################
-
-#. Log in to the iOS Dev Center and select the “Certificates, Identifiers and Profiles”
-
-#.  Click the Provisioning Profiles button in the sidebar and click the + button. This will open up the iOS profile wizard
-
-#. Select the type of provisioning profile you need(Development/Distribution)
-
-#. Select your App ID for your app and click continue.
-
-#. Select the certificate you wish to include in the provisioning profile and click continue.
-
-#. Give your App name as Profile Name and click Generate.
+Your p12 file is ready to be exported. Please send it to us at *app@qgraph.io* along with password if any.
 
 
 Using iOS SDK - Objective C
