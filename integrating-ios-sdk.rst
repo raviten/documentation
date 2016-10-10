@@ -102,6 +102,14 @@ Your p12 file is ready to be exported. Please send it to us at *app@qgraph.io* a
 Using iOS SDK - Objective C
 ---------------------------
 
+Change required for APNS Token and User Tracking
+################################################
+
+It is required by QG SDK that you enable *Background Mode* in the *Capabilities* section of the main app target. After enabling background modes, select **Remote Notification** as shown in the snapshot.
+
+   .. figure:: images/ios-1.png
+      :align: center
+
 AppDelegate Changes
 ###################
 
@@ -664,6 +672,14 @@ have custom parameters in them::
 
 Using iOS SDK - Swift (3.0)
 ---------------------------
+Change required for APNS Token and User Tracking
+################################################
+
+It is required by QG SDK that you enable *Background Mode* in the *Capabilities* section of the main app target. After enabling background modes, select **Remote Notification** as shown in the snapshot.
+
+   .. figure:: images/ios-1.png
+      :align: center
+
 Adding bridging headers
 #######################
 
