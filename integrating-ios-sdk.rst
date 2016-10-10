@@ -59,23 +59,6 @@ We track location only if you initialize location service. If you don't add loca
 
 However, you do not need to add these frameworks if you use cocoapods.
 
-Installation steps for Swift apps
-#################################
-
-#. In xcode, create the header file and name it by your product module name followed by adding ``-Bridging-Header.h``. File name should look like ``Project_Name-Bridging-Header.h``. Please make sure this header file is in root path of the project (although you can keep it anywhere).
-
-#. Now Click on project tab to open Build Settings. In your project target -> Build Setting, search for ‘Objective-C Bridging Header’ and add path of the Project_Name-Bridging-Header.h. (Project_Name/Project_Name-Bridging-Header.h)
-
-   .. figure:: swift-bridging-header.png
-      :align: center
-
-#. Import SDK header file in the bridging header file. Your file should look like this::
-       
-    #ifndef Project_Name_Bridging_Header_h
-    #define Project_Name_Bridging_Header_h
-    #import "QGSdk.h"
-    #endif /* Project_Name_Bridging_Header_h */
-
 Generating PEM file
 -------------------
 Generating App ID and SSL Certificate.
@@ -137,11 +120,11 @@ Making the Provisioning Profile
 #. Give your App name as Profile Name and click Generate.
 
 
-Using iOS SDK
--------------
+Using iOS SDK - Objective C
+---------------------------
 
-AppDelegate Changes for Objective C apps
-########################################
+AppDelegate Changes
+###################
 
 To initialise the library, in AppDelegate  add ``#import "QGSdk.h"``
 
@@ -194,7 +177,7 @@ Add the following code in AppDelegate.m to get the device token for the user::
 QGSdk ``setToken`` method will log user's token so that you can send push notification to the user.
 
 Handling Push Notification
---------------------------
+##########################
 Notifications are delivered while the app is in foreground, background or not running state.
 We can handle them in the following delegate methods.
 
@@ -246,47 +229,9 @@ If you have implemented ``application:didReceiveRemoteNotification:`` add method
     }
 
 
-AppDelegate Changes for Swift Apps
-##################################
-
-Please make following changes in your AppDelegate.swift file::
-
-   func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-      // Override point for customization after application launch.
-      // Register for remote notification
-      let settings = UIUserNotificationSettings(forTypes: [.Alert, .Badge, .Sound], categories: nil)
-      UIApplication.sharedApplication().registerUserNotificationSettings(settings)
-   
-      let QG = QGSdk.getSharedInstance()
-      QG.onStart("your_app_id")
-      QG.setName("user_name")
-      
-      // to enable tracking app launch by qgraph notification click
-      QG.application(application, didFinishLaunchingWithOptions: launchOptions)
-     
-      return true;
-    }
-
-    func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
-        let QG = QGSdk.getSharedInstance()
-        NSLog("My token is: %@", deviceToken)
-        QG.setToken(deviceToken)
-    }
-
-    func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
-        print("Failed to get token, error: %@", error.localizedDescription)
-    }
-
-    func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
-        let QG = QGSdk.getSharedInstance()
-        // to enable track click on notification
-        QG.application(application, didReceiveRemoteNotification: userInfo)
-    }
-
-Note that ``UIApplication.sharedApplication().registerForRemoteNotifications()`` is called by our SDK for iOS 8 and above.
 
 Changes for iOS 10
-------------------
+##################
 
 For integrating QGraph notification SDK, you need to add Capabilities **APP GROUPS**. Go to Project > Main Target > **Capabilities**. Check on App Groups and add a group as below.
 
@@ -298,8 +243,8 @@ For integrating QGraph notification SDK, you need to add Capabilities **APP GROU
 
 You need App Group so that data can be shared between extensions. Use that App Group name in ``onStart:withAppGroup:setDevProfile:`` in App Delegate.
 
-AppDelegate Changes for objective C Apps for iOS 10
-###################################################
+AppDelegate Changes for iOS 10
+##############################
 
 Add framework **UserNotifications** to app target and import in app delegate
 
@@ -738,3 +683,593 @@ have custom parameters in them::
     [event setObject:@"123" forKey:@"some_other_param"];
     [[QGSdk getSharedInstance] logEvent:@"my_custom_event" withParameters:event];
 
+Using iOS SDK - Swift (3.0)
+---------------------------
+Adding bridging headers
+#######################
+
+1. In Xcode, create the header file and name it by your product module name followed by ``adding-Bridging-Header.h``. File name should look like ``Project_Name-Bridging-Header.h``. Please make sure this header file is in root path of the project (although you can keep it anywhere). 
+
+2. Now Click on project tab to open *Build Settings*. In your project *target -> Build Setting*, search for ``Objective-C Bridging Header`` and add path of the ``Project_Name-Bridging-Header.h``. (*Project_Name/Project_Name-Bridging-Header.h*) 
+
+   .. figure:: images/swift-1.png
+      :align: center
+3. Import SDK header file in the bridging header file. Your file should look like this::
+
+   #ifndef Project_Name_Bridging_Header_h
+   #define Project_Name_Bridging_Header_h
+   #import "QGSdk.h"
+   #endif /* Project_Name_Bridging_Header_h */
+
+App Delegate Changes
+####################
+
+In ``didFinishLaunchingWithOptions`` method of AppDelegate, initialise the sdk using ``onStart()`` method add the following code for registering for remote notification:
+
+NOTE: Add *UserNotifications.framework*  and import *UserNotifications* in AppDelegate for iOS 10 notification.
+
+Also add ``UNUserNotificationCenterDelegate`` in AppDelegate. iOS 10 implementation is documented below::
+
+   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+      let QG = QGSdk.getSharedInstance()
+      QG?.onStart("<your_app_id>", setDevProfile: true)
+
+      let settings = UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
+      UIApplication.shared.registerUserNotificationSettings(settings)    
+            
+      return true
+   }
+
+
+Note that ``UIApplication.shared.registerForRemoteNotifications()`` is called by our SDK for iOS 8 and above to track APNs Token for user tracking.
+
+Just build and run the app to make sure that you receive a message that app would like to send push notification. If you get code signing error, make sure that proper provisioning profile is selected
+Add the following code in *AppDelegate.m* to get the device token for the user::
+
+   func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+      let QG = QGSdk.getSharedInstance()
+      print("My token is: \(deviceToken.description)")
+      QG?.setToken(deviceToken as Data!)
+   }
+    
+    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+      print("Failed to get token, error: %@", error.localizedDescription)
+    }
+
+
+Handling Push Notification
+##########################
+Notifications are delivered while the app is in foreground, background or not running state. We can handle them in the following delegate methods.
+
+If the remote notification is tapped, the system launches the app and the app calls its delgate’s ``didFinishLaunchingWithOptions:`` method, passing in the notification payload (for remote notifications). Although ``didFinishLaunchingWithOptions:`` is not the best place to handle the notification, getting the payload at this point gives you the opportunity to start the update process before your handler method is called.
+
+For remote notifications, the system also calls the ``didReceiveRemoteNotification:fetchCompletionHandler:`` method of the app delegate.
+
+The notification is delivered when the app is running in the foreground. The app calls the ``application:didReceiveRemoteNotification:fetchCompletionHandler:`` method of the app delegate. This method is called if the app is running in background or suspended state. (If ``application:didReceiveRemoteNotification:fetchCompletionHandler:`` is not implemented, the system calls ``application:didReceiveRemoteNotification:``.) However, it is advised to use ``application:didReceiveRemoteNotification:fetchCompletionHandler:`` method to handle push notification. 
+
+Implementation::
+
+
+   func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+      let QG = QGSdk.getSharedInstance()
+      // to enable track click on notification
+      QG?.application(application, didReceiveRemoteNotification: userInfo)
+      completionHandler(UIBackgroundFetchResult.noData)
+   }
+
+You can also handle background operation using the above method once remote notification is delivered. For this make sure, wake app in background is selected while creating a campaign to send the notification. Also, enable *BACKGROUND MODE* in capabilities and select Remote Notification.
+
+   .. figure:: images/swift-2.png
+      :align: center
+
+If you have implemented ``application:didReceiveRemoteNotification:`` add method ``QGSdk.getSharedInstance().application(application, didReceiveRemoteNotification: userInfo)``  inside it. Your implementation should look like::
+
+   func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) {
+      let QG = QGSdk.getSharedInstance()
+      // to enable track click on notification
+      QG?.application(application, didReceiveRemoteNotification: userInfo)
+   }
+
+Changes for iOS 10
+##################
+Your basic integration for iOS 8 and 9 is complete. From iOS 10 and above two new frameworks has been introduced for notifications. For integrating QGraph notification SDK, you need to add Capabilities *APP GROUPS*. Go to *Project > Main Target > Capabilities*. Check on App Groups and add a group as below.
+
+   .. figure:: images/swift-3.png
+      :align: center
+
+   .. figure:: images/swift-4.png
+      :align: center
+
+
+You need App Group so that data can be shared between extensions. Use that App Group name in ``onStart:withAppGroup:setDevProfile:`` in App Delegate.
+
+AppDelegate Changes for Swift Apps for iOS 10
+#############################################
+Add framework UserNotifications to app target and import in app delegate. Also add ``UNUserNotificationCenterDelegate`` in it::
+
+
+   import UIKit
+   import UserNotifications
+   
+   @UIApplicationMain
+   class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
+   
+       var window: UIWindow?
+   
+       let APP_GROUP = “group.com.company.product.extension”
+       
+       func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+           // Override point for customization after application launch.
+           
+           let QG = QGSdk.getSharedInstance()
+           QG?.onStart(“<your_app_id>”, withAppGroup: APP_GROUP, setDevProfile: true)
+           
+           if #available(iOS 10.0, *) {
+               let center = UNUserNotificationCenter.current()
+               
+               // adding category for QGraph Carousel and Slider Push 			
+               let categories = NSSet(object: QG!.getQGSliderPushActionCategory(withNextButtonTitle: nil, withOpenAppButtonTitle: nil)) as! Set<UNNotificationCategory>
+               center.setNotificationCategories(categories)
+               
+               center.requestAuthorization(options: [.badge, .carPlay, .alert, .sound]) { (granted, error) in
+                   print("Granted: \(granted), Error: \(error)")
+               }
+   
+           } else {
+               // Fallback on earlier versions
+               let settings = UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
+               UIApplication.shared.registerUserNotificationSettings(settings)
+           }
+           
+           return true
+       }
+       
+   }
+
+**NOTE**: If you have your own existing notification action category for iOS 10, you can add it along with QGraph *CAROUSEL/SLIDER* category. For the carousel and slider push action buttons, you can also specify button titles. Next button will be used to animate the carousel/slider and Open App Button will open the app with deeplink if any.
+
+Handling Push Notification in iOS 10
+####################################
+There are new delegate methods introduced in iOS 10 to track notification and display in foreground state as well. To track notifications in background state, you need to enable background mode in the capabilities. Above all these you need to activate push notification in the capabilities. This will add entitlement files to your app target.
+
+1. You might have already included this method. Please make sure ``QGSdk.getSharedInstance().application(application, didReceiveRemoteNotification: userInfo)`` is added in it. It is required to track notifications::
+
+
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+       let QG = QGSdk.getSharedInstance()
+       // to enable track click on notification
+       QG?.application(application, didReceiveRemoteNotification: userInfo)
+       completionHandler(UIBackgroundFetchResult.noData)
+    }
+    
+2. The below method will be called on the delegate only if the application is in the foreground. If the method is not implemented or the handler is not called in a timely manner then the notification will not be presented. The application can choose to have the notification presented as a sound, badge, alert and/or in the notification list. This decision should be based on whether the information in the notification is otherwise visible to the user::
+
+    @available(iOS 10.0, *)
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+       QGSdk.getSharedInstance().userNotificationCenter(center, willPresent: notification)
+       completionHandler([.alert, .badge, .sound]);
+    }	
+
+3. The method will be called on the delegate when the user responded to the notification by opening the application, dismissing the notification or choosing a *UNNotificationAction*. The delegate must be set before the application returns from ``applicationDidFinishLaunching:``.
+
+**NOTE**: This method is specifically required for carousel and slider push to work.::
+
+   @available(iOS 10.0, *)
+   func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+      QGSdk.getSharedInstance().userNotificationCenter(center, didReceive: response)
+      completionHandler()
+   }
+    
+Handling Deeplink for QGraph Push
+#################################
+For any deeplink specified in either In-App campaigns or push notification campaigns, you should get a callback in the below method. You need to handle it on your own to open any specific page::
+
+
+    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+        print("deeplink called")
+        return true
+    }
+
+Finally, after adding all the above methods your app delegate should look like::
+
+    import UIKit
+    import UserNotifications
+    
+    @UIApplicationMain
+    class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
+    
+        var window: UIWindow?
+    
+        let APP_GROUP = “group.com.company.product.extension”
+        
+        func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+            // Override point for customization after application launch.
+            
+            let QG = QGSdk.getSharedInstance()
+            QG?.onStart(“<your_app_id>”, withAppGroup: APP_GROUP, setDevProfile: true)
+            
+            if #available(iOS 10.0, *) {
+                let center = UNUserNotificationCenter.current()
+                
+                let categories = NSSet(object: QG!.getQGSliderPushActionCategory(withNextButtonTitle: nil, withOpenAppButtonTitle: nil)) as! Set<UNNotificationCategory>
+                center.setNotificationCategories(categories)
+                
+                center.requestAuthorization(options: [.badge, .carPlay, .alert, .sound]) { (granted, error) in
+                    print("Granted: \(granted), Error: \(error)")
+                }
+    
+            } else {
+                // Fallback on earlier versions
+                let settings = UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
+                UIApplication.shared.registerUserNotificationSettings(settings)
+            }
+            
+            return true
+        }
+        
+        func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+            let QG = QGSdk.getSharedInstance()
+            print("My token is: \(deviceToken.description)")
+            QG?.setToken(deviceToken as Data!)
+        }
+        
+        func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+            print("Failed to get token, error: %@", error.localizedDescription)
+        }
+        
+        func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+            let QG = QGSdk.getSharedInstance()
+            // to enable track click on notification
+            QG?.application(application, didReceiveRemoteNotification: userInfo)
+            completionHandler(UIBackgroundFetchResult.noData)
+        }
+        
+        
+        @available(iOS 10.0, *)
+        func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+            QGSdk.getSharedInstance().userNotificationCenter(center, didReceive: response)
+            completionHandler()
+        }
+        
+        @available(iOS 10.0, *)
+        func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+            QGSdk.getSharedInstance().userNotificationCenter(center, willPresent: notification)
+            
+            completionHandler([.alert, .badge, .sound]);
+        }
+        
+        func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+            print("deeplink called")
+            return true
+        }
+    }
+
+Adding Extensions for iOS Push with Attachment and QGraph Carousel and Slider Push
+##################################################################################
+In iOS 10, two frameworks has been introduced for handling push notification with content. You can have a push notification with image, gif, audio and video. Apart from that you can also have your custom UI for notifications. For this, payload can be modified and used to download content before the notification is drawn. You simply need to follow the below steps to add two of the extensions targets for handling these notifications: Service Extension and Content Extension.
+Before proceeding make sure to download all the QGraph files to be used here. You should have these files with you
+
+1. QGNotificationSdk-1.0.0
+
+2. QGNotificationServiceExtension
+
+3. QGNotificationContentExtension
+
+**NOTE**: These files are to be used with service and content extensions only. Do not add them to main app target.
+
+Notification Service Extension
+##############################
+Service extension is basically the target extension where you get a callback when a push is delivered to the device. You can download and create attachments here. If you fail to download the content and pass it to contentHandler within certain time, default standard notification will be drawn.
+
+Adding Service extension
+########################
+
+1. Add an iOS target and choose Notification Service extension and proceed. Add a product name and Finish. When created you will be **prompted to activate the target**. Once activated, you can see 2 files added, NotificationService.swift and Info.plist in the created target.
+
+   .. figure:: images/swift-5.png
+      :align: center
+
+2. Delete the NotificationService.swift file from the service extension target.
+
+3. Add file NotificationService.swift from downloaded folder *QGNotificationServiceExtension*
+
+4. Go to project navigator and select the *Service Extension Target*
+
+5. Select *Capabilities* and check on *App Group* and select the *APP GROUP* which you added to your main app target. 
+
+
+   .. figure:: images/swift-6.png
+      :align: center
+
+6. Go to NotificationService.swift and change your app group::
+
+     let APP_GROUP = "group.com.company.product.extension"
+
+Adding Content Extension
+########################
+
+1. Add an iOS target and choose Notification Content extension and proceed. Add a product name and Finish. When created you will be **prompted to activate the target**. Once activated, you can see 3 files added, *NotificationViewController.swift*, *MainInterface.storyboard* and *Info.plist*.	
+
+
+   .. figure:: images/swift-7.png
+      :align: center
+2. Delete *NotificationViewController.swift* and *MainInterface.storyboard*. 
+
+3. Add files *NotificationViewController.swift* and *MainInterface.storyboard* from downloaded folder *QGNotificationContentExtension*. 
+
+4. As done above, enable App Groups and select the same app group through capabilities of the content extension target. 
+
+5. Go to *NotificationViewController.m* and change your app group::
+
+    let APP_GROUP = "group.com.company.product.extension"
+
+6. Go to Info.plist and add **UNNotificationExtensionDefaultContentHidden** (Boolean) - YES and **UNNotificationExtensionCategory** (string) - **QGCAROUSEL** in NSExtensionAttributes dict of NSExtension dict as shown in the screenshot.					
+
+   .. figure:: images/swift-8.png
+      :align: center
+
+7. Add *QuartzCore.framework* in this target. 
+
+8. Add *QGNotificationSdk-1.0.0* to both extension targets. Do not add it to main app target. 
+
+**NOTE:** Please make sure APP_GROUP used in all the three targets are same.
+
+**IMP**: You need to add *QGNotificationSdk.h* and *iCarousel.h* in ``Bridging-Header``, so that these objective C files can be used in your extension targets.
+
+    Go to *Project* -> *Extension Targets* -> *Build Setting* -> *Objective-C Bridging Header*
+
+    Add the path to your bridging-header-file similar to Main App Target.
+
+   .. figure:: images/swift-9.png
+      :align: center
+
+Repeat this for both the extension targets (Service and Content)
+
+Click Through and View Through Attribution
+##########################################
+
+QGraph SDK attributes events for each notification clicked or viewed. Events are attributed on the basis of time interval specified for all log events.
+
+Currently, click through attribution works for push notification clicked (sent via QGraph) and InApp notification clicked. View through attribution works only in the case of InApp notifications.
+
+By default click through attribution window (time interval) is set to 86400 seconds (24 hrs) and view through attribution window is set to 3600 seconds (1 hr). You can change this window any time using following apis::
+
+    // to set click through attribution window
+    - (void)setClickAttributionWindow:(NSInteger)seconds;
+    // to set view through attribution window
+    - (void)setAttributionWindow:(NSInteger)seconds;
+
+To set a custom value, pass the time interval in seconds. e.g.: to set click attribution window to be 12 hrs::
+
+    QGSdk.getSharedInstance().setClickAttributionWindow(43200)
+
+To disable any of the click through or view through attribution, pass the value 0. E.g.::
+
+    QGSdk.getSharedInstance().setAttributionWindow(0)
+
+Configuring Batching
+####################
+Our SDK batches the network requests it makes to QGraph server, in order to optimize network usage. By default, it flushes data to the server every 15 seconds in release builds, and every second in debug builds. This interval is configurable using the following method::
+
+    QGSdk.getSharedInstance().flushInterval = <flush interval in seconds>
+
+Further, you can force the SDK to flush the data to server any time by calling the following function::
+
+    QGSdk.getSharedInstance().flush()
+
+Furthermore, you can invoke a completion handler after flush using function::
+
+    QGSdk.getSharedInstance().flush(completion: {
+        //some method
+    })
+
+Matching mobile app users with mobile web users
+###############################################
+Our SDK can help you track your mobile app users across your app and mobile web. If you want to enable this functionality, you need to add **Safari Services Framework** in your app.
+
+If you have added Safari Services Framework in your app, but would like to disable our tracking, use the following function::
+
+    QGSdk.getSharedInstance().disableUserTrackingForSafari()
+
+In app Notification
+###################
+QGraph SDK supports InApp notification starting in sdk version 2.0.0. InApp notification are supported in two types: Textual and Image. Visit your QGraph account to create InApp Campaigns.
+
+These notifications are shown based on the log events app sends through our sdk and the matching conditions of the InApp Campaigns. Make sure to send appropriate log event (with parameter or valueToSum if any) for InApp notifications to work.
+
+By default, InApp notifications are enabled. You can enable/disable it anytime using following method in the sdk::
+
+    - (void)disableInAppCampaigns:(BOOL)disabled;
+
+eg. to disable::
+
+    QGSdk.getSharedInstance().disable(inAppCampaigns: true)
+
+Disabling it will restrict the device to get any new InApp campaigns. It will also disable InApp notification to be drawn.
+
+For All InApp Notification, you can configure a deep link url from the dashboard while creating an InApp campaign.
+
+There is tap event defined on textual and image InApps. When the user taps on text on textual InApp or clicks on image in the image InApp and if there is a valid deep link setup, you will get a call back in your *AppDelegate.m* in the following method::
+
+    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool
+
+Here you can implement your deep link with the url.
+
+Registering Your Actionable Notification Types
+##############################################
+Actionable notifications let you add custom action buttons to the standard iOS interfaces for local and push notifications. Actionable notifications give the user a quick and easy way to perform relevant tasks in response to a notification. Prior to iOS 8, user notifications had only one default action. In iOS 8 and later, the lock screen, notification banners, and notification entries in Notification Center can display one or two custom actions. Modal alerts can display up to four. When the user selects a custom action, iOS notifies your app so that you can perform the task associated with that action.
+
+For defining a notification action and its category, and to handle actionable notification, please refer the description in the apple docs.  (`please click here <https://developer.apple.com/library/content/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Chapters/IPhoneOSClientImp.html>`_)
+
+Action Category can be set in the dashboard while sending notification. While configuring to send notification through campaigns, use the categories defined in the app.
+
+Logging user profile information
+################################
+User profiles are information about your users, like their name, city, date of birth or any other information that you may wish to track. You log user profiles by using one or more of the following functions::
+
+    - (void)setUserId:(NSString *)userId;
+
+Other methods you may use to pass user profile prameters to us::
+
+    - (void)setUserId:(NSString *)userId;
+    - (void)setName:(NSString *)name;
+    - (void)setFirstName:(NSString *)name;
+    - (void)setLastName:(NSString *)name;
+    - (void)setCity:(NSString *)city;
+    - (void)setEmail:(NSString *)email;
+    - (void)setDayOfBirth:(NSNumber *)day;
+    - (void)setMonthOfBirth:(NSNumber *)month;
+    - (void)setYearOfBirth:(NSNumber *)year;
+
+Other than these method, you can log your own custom user parameters. You do it using::
+
+    - (void)setCustomKey:(NSString *)key withValue:(id)value;
+
+For example, you may wish to have the user’s current rating like this::
+
+    QGSdk.getSharedInstance().setCustomKey("current rating", withValue: "123")
+
+Logging events information
+##########################
+Events are the activities that a user performs in your app, for example, viewing the products, playing a game or listening to a music. Each event has follow properties:
+
+1. Name. For instance, the event of viewing a product is called product_viewed.
+
+2. Optionally, some parameters. For instance, for event product_viewed, the parameters are id(the id of the product viewed), name (name of the product viewed), image_url (image url of the product viewed), deep_link (a deep link which takes one to the product page in the app), and so on.
+
+3. Optionally, a "value to sum". This value will be summed up when doing campaing attribution. For instance, if you pass this value in your checkout completed event, you will be able to view stats such as a particular campaign has been responsible to drive Rs 84,000 worth of sales.
+You log events using the function ``logEvent()``. It comes in four variations.
+
+::
+
+    (void)logEvent:(NSString *)name 
+    (void)logEvent:(NSString *)name withParameters:(NSDictionary *)parameters 
+    (void)logEvent:(NSString *)name withValueToSum:(NSNumber *) valueToSum 
+    (void)logEvent:(NSString *)name withParameters:(NSDictionary *)parameters withValueToSum:(NSNumber *) valueToSum
+
+
+Once you log event information to use, you can segment users on the basis of the events (For example, you can create a segment consisting of users have not launched for past 7 days, or you can create a segment consiting of users who, in last 7 days, have purchased a product whose value is more than $1000)
+
+You can also define your events, and your own parameters for any event. However, if you do that, you will need to sync up with us to be able to segment the users on the basis of these events or customize your creatives based on these events.
+
+You can use the following method to pass event information to us::
+
+    - (void)logEvent:(NSString *)name withParameters:(NSDictionary *)parameters;
+
+Here is how you set up some of the popular events.
+
+Registration Completed
+++++++++++++++++++++++
+This event does not have any parameters::
+
+    QGSdk.getSharedInstance().logEvent("registration_completed", withParameters: nil)
+
+Category Viewed
++++++++++++++++
+This event has one parameter::
+
+    let categoryDetails = ["category": "apparels"]
+    QGSdk.getSharedInstance().logEvent("category_viewed", withParameters: categoryDetails)
+
+Product Viewed
+++++++++++++++
+You may choose to have the following fields::
+
+    var productDetails : [String:String] = [:]
+    productDetails["id"] = "123"
+    productDetails["name"] = "Nikon Camera"
+    productDetails["image_url"] = "http://mysite.com/products/123.png"
+    productDetails["deep_link"] = "myapp://products?id=123"
+    productDetails["color"] = "black"
+    productDetails["category"] = "electronics"
+    productDetails["size"] = "small"
+    productDetails["price"] = "6999"
+    QGSdk.getSharedInstance().logEvent("product_viewed", withParameters: productDetails)
+
+Product Added to Wishlist
++++++++++++++++++++++++++
+
+::
+
+    var productDetails : [String:String] = [:]
+    productDetails["id"] = "123"
+    productDetails["name"] = "Nikon Camera"
+    productDetails["image_url"] = "http://mysite.com/products/123.png"
+    productDetails["deep_link"] = "myapp://products?id=123"
+    productDetails["color"] = "black"
+    productDetails["category"] = "electronics"
+    productDetails["size"] = "small"
+    productDetails["price"] = "6999"
+    QGSdk.getSharedInstance().logEvent("product_added_to_wishlist", withParameters: productDetails)
+
+Product Purchased
++++++++++++++++++
+
+::
+
+    var productDetails : [String:String] = [:]
+    productDetails["id"] = "123"
+    productDetails["name"] = "Nikon Camera"
+    productDetails["image_url"] = "http://mysite.com/products/123.png"
+    productDetails["deep_link"] = "myapp://products?id=123"
+    productDetails["color"] = "black"
+    productDetails["category"] = "electronics"
+    productDetails["size"] = "small"
+    productDetails["price"] = "6999"
+
+and then::
+
+    QGSdk.getSharedInstance().logEvent("product_purchased”, withParameters: productDetails)
+
+or::
+
+    QGSdk.getSharedInstance().logEvent("product_purchased", withParameters: productDetails, withValueToSum: price)
+
+Checkout Initiated
+++++++++++++++++++
+
+::
+
+    var checkoutDetails : [String:String] = [:]
+    checkoutDetails["num_products"] = "2"
+    checkoutDetails["cart_value"] = "12998.44"
+    checkoutDetails["deep_link"] = "myapp://myapp/cart"
+    QGSdk.getSharedInstance().logEvent("checkout_initiated", withParameters: checkoutDetails)
+
+Product Rated
++++++++++++++
+
+::
+
+    var productRated : [String:String] = [:]
+    productRated["id"] = "1232"
+    productRated["rating"] = "2"        
+    QGSdk.getSharedInstance().logEvent("product_rated", withParameters: productRated)
+
+Searched
+++++++++
+
+::
+
+    var searchDetails : [String:String] = [:]
+    searchDetails["id"] = "1232"
+    searchDetails["name"] = "2"        
+    QGSdk.getSharedInstance().logEvent(“searched”, withParameters: searchDetails)
+
+Reached Level
++++++++++++++
+
+::
+
+    let level = ["level" : "23"]
+    QGSdk.getSharedInstance().logEvent("level", withParameters: level)
+
+Your custom events
+++++++++++++++++++
+Apart from above predefined events, you can create your own custom events, and have custom parameters in them::
+
+    var event : [String:String] = [:]
+    event["num_products"] = "2"
+    event["my_param"] = "some_value"
+    event["some_other_param"] = "123"
+    QGSdk.getSharedInstance().logEvent("my_custom_event", withParameters: event)
