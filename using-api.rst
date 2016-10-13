@@ -84,7 +84,11 @@ For carousel notification (available only in android), ``message`` is of the fol
        "title": <title of the notification>,
        "message": <body of the notification>,
        "deepLink": <deep link of notification> (optional),
-       "carousel": [{"image": "<URL of the image>", "deepLink": "<deep link for image, if any>", "title": "<title of image (optional)>", "<message of image (optional)>"}, ... you can have uptil 10 such elements]
+       "carousel": [{"image": "<URL of the image>", 
+                     "deepLink": "<deep link for image, if any>", 
+                     "title": "<title of image (optional)>", 
+                     "message": "<message of image (optional)>"}, 
+               ... you can have up to 10 such elements]
    }
 
 For slider notification (available only in android), ``message`` is of the following format::
@@ -94,7 +98,9 @@ For slider notification (available only in android), ``message`` is of the follo
        "title": <title of the notification>,
        "message": <body of the notification>,
        "deepLink": <deep link of notification> (optional),
-       "slider": [{"image": "<URL of the image>", "deepLink": "<deep link for image, if any>"}, ... you can have uptil 10 such elements]
+       "slider": [{"image": "<URL of the image>", 
+                  "deepLink": "<deep link for image, if any>"}, 
+               ... you can have up to 10 such elements]
    }
 
 For animated banner notification (available only in android), ``message`` is of the following format::
