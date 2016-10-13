@@ -77,6 +77,26 @@ For banner notification (available only in android), ``message`` is of the follo
        "deepLink": <deep link of notification> (optional)
    }
 
+For carousel notification (available only in android), ``message`` is of the following format::
+
+   {
+       "type": "carousel",
+       "title": <title of the notification>,
+       "message": <body of the notification>,
+       "deepLink": <deep link of notification> (optional),
+       "carousel": [{"image": "<URL of the image>", "deepLink": <deep link for image, if any, >, "title": "<title of image (optional)>", "<message of image (optional)>"}, ... you can have uptil 10 such elements]
+   }
+
+For slider notification (available only in android), ``message`` is of the following format::
+
+   {
+       "type": "slider",
+       "title": <title of the notification>,
+       "message": <body of the notification>,
+       "deepLink": <deep link of notification> (optional),
+       "slider": [{"image": "<URL of the image>", "deepLink": "<deep link for image, if any>"}, ... you can have uptil 10 such elements]
+   }
+
 For animated banner notification (available only in android), ``message`` is of the following format::
 
    {
