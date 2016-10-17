@@ -155,7 +155,7 @@ If set to ``true``, the QGraph SDK does not show the system prompt or the fake p
 
     qg("prompt-push")
 
-Note that if you use this parameter, *delalay* and *secondsBetweenPrompts* are not considered.
+Note that if you use this parameter, *delay* and *secondsBetweenPrompts* are not considered.
 Default value is ``false``.
 
 *prompt*:
