@@ -84,6 +84,8 @@ For carousel notification (available only in android), ``message`` is of the fol
        "title": <title of the notification>,
        "message": <body of the notification>,
        "deepLink": <deep link of notification> (optional),
+       "qg_prev_button":"https://cdn.qgraph.io/img/left.png",
+       "qg_next_button":"https://cdn.qgraph.io/img/right.png",
        "carousel": [{"image": "<URL of the image>", 
                      "deepLink": "<deep link for image, if any>", 
                      "title": "<title of image (optional)>", 
@@ -91,24 +93,32 @@ For carousel notification (available only in android), ``message`` is of the fol
                ... you can have up to 10 such elements]
    }
 
+
+Note that you can customize previous and next buttons by using your own image URL.
+
 For slider notification (available only in android), ``message`` is of the following format::
 
    {
        "type": "slider",
        "title": <title of the notification>,
        "message": <body of the notification>,
-       "deepLink": <deep link of notification> (optional),
+       "deepLink": <deep link of notification>, (optional)
+       "qg_prev_button":"https://cdn.qgraph.io/img/left.png",
+       "qg_next_button":"https://cdn.qgraph.io/img/right.png",
        "slider": [{"image": "<URL of the image>", 
                   "deepLink": "<deep link for image, if any>"}, 
                ... you can have up to 10 such elements]
    }
+
+Note that you can customize previous and next buttons by using your own image URL.
 
 For animated banner notification (available only in android), ``message`` is of the following format::
 
    {
        "title": <title of the notification>,
        "message": <body of the notification>,
-       "deepLink": <deep link of notification> (optional)
+       "deepLink": <deep link of notification>, (optional)
+       "gifPlayButton": "https://cdn.qgraph.io/img/video_button.png",
        "type": "animation"
        "animation": {
            "millisecondsToRefresh": <duration between two frames in milliseconds>,
