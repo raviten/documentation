@@ -14,14 +14,14 @@ We give you two files: qg-service-worker.js and manifest.json and a snippet of j
 You install the files in the root folder of your web server and put javascript code in various
 web pages of your website. Our tag downloads some more javascript code from our servers.
 
-When a user comes to your website, our code ask the browser to request the user to grant us
+When a user comes to your website, our code asks the browser to request the user to grant us
 the permission to send her web push notifications. If the user agrees, the browser returns
-us a token (you can think of it like an address of the browser) which the code transfer to 
-the QuantumGraph servers. Using this token, QuantumGraph servers can send the web push 
+us a token (you can think of it like an address of the browser) which the code transfers to 
+QuantumGraph servers. Using this token, QuantumGraph servers can send the web push 
 notification to users.
 
 Our SDK (which gets downloaded from the javascript code that we provide you) also communicates
-to QuantumGraph servers the URLs which are you accessing. As a result, you can, using our 
+to QuantumGraph servers the URLs the users are accessing. As a result, you can, using our 
 web panel, send a push to the users who have browsed a particular URL. Using our SDK, you
 can also send us other attributes of the user (such as user id, email, city) and then send
 notifications based on those attributes.
@@ -45,7 +45,7 @@ If the user clicks "Allow" then the browser gives a device token to the QG SDK. 
 If you display a system prompt to the user and she blocks your website, then the browser does not
 allow you to display the system prompt again (unless the user explicity modifies the notification
 settings by herself). Thus, before displaying the system prompt, it may be good to ask for a 
-"pre approval", by display a fake prompt. If the user allows the notifications in the fake prompt,
+"pre approval", by displaying a fake prompt. If the user allows the notifications in the fake prompt,
 only then you display the system prompt. If the user disallows the notifications in the fake
 prompt, you can show the fake prompt after some time (1 hr, 1 day, or more) and request the
 user again. 
@@ -90,7 +90,7 @@ If your site is HTTPS
    #. https://s3-ap-southeast-1.amazonaws.com/qgraph-web-push/qg-service-worker.js 
    #. https://s3-ap-southeast-1.amazonaws.com/qgraph-web-push/manifest.json
 
-   Copy above files to the root folder of your website. In case you want to use your GCM key, put your sender id in ``manifest.json`` above instead of the sender is already present in the file. In this case you also need to enter your GCM key during the intergration. (We need this GCM key to send web push notifications)
+   Copy above files to the root folder of your website. In case you want to use your GCM key, put your sender id in ``manifest.json`` above instead of the sender already present in the file. In this case you also need to enter your GCM key during the intergration. (We need this GCM key to send web push notifications)
 
    Add the following lines inside of head or body tag::
 
@@ -109,7 +109,7 @@ If your site is HTTPS
         qg('init',window.QGSettings);
     </script>
 
-   In the above code, if the user will be shown a "fake prompt" if you set the variable ``fakePrompt`` to ``true``. The text of the prompt will be derived from the fields in ``prompt``.
+   In the above code, the user will be shown a "fake prompt" if you set the variable ``fakePrompt`` to ``true``. The text of the prompt will be derived from the fields in ``prompt``.
 
    There are several more parameters which you can tweak to set the behavior of the pixels. Here is a code snippet which uses all the allowed parameters::
 
@@ -178,12 +178,7 @@ In case your site is HTTP, you need a backing HTTPS site to enable push notifica
 
 #. Enter your website's URL and follow the instructions provided.
 
-#. Download the following files
-
-   #. https://s3-ap-southeast-1.amazonaws.com/qgraph-web-push/qg-service-worker.js 
-   #. https://s3-ap-southeast-1.amazonaws.com/qgraph-web-push/manifest.json
-
-   Copy above files to the root folder of your website.  Enter an ``endpoint`` in the web panel for web push integration. Keep the endpoint similar to the name of your website. For example, if the name of your company is XYZ ECommerce, then `xyz` may be a good endpoint to use. The web push notification will be delivered for the domain `xyz.qgr.ph`.
+   Enter an ``endpoint`` in the web panel for web push integration. Keep the endpoint similar to the name of your website. For example, if the name of your company is XYZ ECommerce, then `xyz` may be a good endpoint to use. The web push notification will be delivered for the domain `xyz.qgr.ph`.
 
 In this case, basic pixel to use is::
 
