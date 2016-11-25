@@ -311,9 +311,10 @@ There are new delegate methods introduced in iOS 10 to track notification and di
        completionHandler(option);
    }
 
-3. The method will be called on the delegate when the user responded to the notification by opening the application, dismissing the notification or choosing a UNNotificationAction. The delegate must be set before the application returns from ``applicationDidFinishLaunching:``.
 
-NOTE: This method is specifically required for carousel and slider push to work.
+3. The method will be called on the delegate when the user responded to the notification by opening the application, dismissing the notification or choosing a `UNNotificationAction`. The delegate must be set before the application returns from `applicationDidFinishLaunching:`.
+
+**NOTE**: This method is specifically required for carousel and slider push to work. Also used to track notification_clicked event for QGraph push.
 
 ::
 
@@ -322,11 +323,26 @@ NOTE: This method is specifically required for carousel and slider push to work.
        completionHandler();
    }
 
-
 Handling Deeplink for QGraph Push
 #################################
 
-For any deeplink specified in either In-App campaigns or push notification campaigns, you should get a callback in the below method. You need to handle it on your own to open any specific page. 
+For Push notifications deeplinks should be handled in the method `didReceiveNotificationResponse:withCompletionHandler:` as described below. You can get the deeplink url and then pass it to `openUrl:` and then you should get a callback in the `application:openUrl:options` where you can handle the opening of a specific page.
+
+::
+
+   - (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void(^)())completionHandler {
+       NSDictionary *userInfo = response.notification.request.content.userInfo;
+       if ([userInfo objectForKey:@"deepLink"]) {
+           NSURL *url = [NSURL URLWithString:userInfo[@"deepLink"]];
+           dispatch_async(dispatch_get_main_queue(), ^{
+               [[UIApplication sharedApplication] openURL:url];
+           });
+       }
+       [[QGSdk getSharedInstance] userNotificationCenter:center didReceiveNotificationResponse:response];
+       completionHandler();
+   }
+
+For any deeplink specified in In-App campaigns, you should get a callback in the below method. You need to handle it on your own to open any specific page.
 
 ::
 
@@ -334,7 +350,6 @@ For any deeplink specified in either In-App campaigns or push notification campa
        NSLog(@"deeplink");
        return true;
    }
-
 
 Adding Extensions for iOS Push with Attachment and QGraph Carousel and Slider Push
 ##################################################################################
@@ -845,9 +860,9 @@ There are new delegate methods introduced in iOS 10 to track notification and di
        completionHandler([.alert, .badge, .sound]);
     }	
 
-3. The method will be called on the delegate when the user responded to the notification by opening the application, dismissing the notification or choosing a *UNNotificationAction*. The delegate must be set before the application returns from ``applicationDidFinishLaunching:``.
+3. The method will be called on the delegate when the user responded to the notification by opening the application, dismissing the notification or choosing a `UNNotificationAction`. The delegate must be set before the application returns from ``applicationDidFinishLaunching:``.
 
-**NOTE**: This method is specifically required for carousel and slider push to work.::
+**NOTE**: This method is specifically required for carousel and slider push to work. Also used to track notification_clicked event for QGraph push::
 
    @available(iOS 10.0, *)
    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
@@ -857,13 +872,34 @@ There are new delegate methods introduced in iOS 10 to track notification and di
     
 Handling Deeplink for QGraph Push
 #################################
-For any deeplink specified in either In-App campaigns or push notification campaigns, you should get a callback in the below method. You need to handle it on your own to open any specific page::
 
+For Push notifications deeplinks should be handled in the method `didReceiveNotificationResponse:withCompletionHandler:` as described below. You can get the deeplink url and then pass it to `openUrl:` and then you should get a callback in the `application:openUrl:options` where you can handle the opening of a specific page.
 
-    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
-        print("deeplink called")
-        return true
-    }
+::
+
+   @available(iOS 10.0, *)
+   func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+       let userInfo = response.notification.request.content.userInfo
+       if (userInfo["deepLink"] != nil) {
+           let url = URL.init(string: userInfo["deepLink"] as! String)
+           DispatchQueue.main.async {
+               UIApplication.shared.openURL(url!)
+           }
+       }
+       
+       QGSdk.getSharedInstance().userNotificationCenter(center, didReceive: response)
+       completionHandler()
+   }
+
+For any deeplink specified in In-App campaigns, you should get a callback in the below method. You need to handle it on your own to open any specific page.
+   
+::
+
+   func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+      print("deeplink called")
+      return true
+   }
+
 
 Finally, after adding all the above methods your app delegate should look like::
 
