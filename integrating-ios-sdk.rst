@@ -1054,7 +1054,7 @@ Adding Content Extension
    .. figure:: images/swift-9.png
       :align: center
 
-Repeat this for both the extension targets (Service and Content)
+Note: Add bridging-header-file in any one of the extensions (service extension or content extension) and then add the file path of bridging header in both the extensions.
 
 Click Through and View Through Attribution
 ##########################################
