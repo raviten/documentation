@@ -421,12 +421,12 @@ Adding Content Extension
       :align: center
 
 
-7. Add QuartzCore.framework in this target. 
+7. Add QuartzCore.framework in this target.
 
 8. **Add QGNotificationSdk-1.0.0 to both extension targets. Do not add it to main app target.**
 
 
-**NOTE:** Please make sure **APP_GROUP** used in all the three targets are same. 
+**NOTE:** Please make sure **APP_GROUP** used in all the three targets are same. Set the deployment target to 10.0 in both the extensions.
 
 
 Click Through and View Through Attribution
@@ -1039,11 +1039,11 @@ Adding Content Extension
    .. figure:: images/swift-8.png
       :align: center
 
-7. Add *QuartzCore.framework* in this target. 
+7. Add *QuartzCore.framework* in this target.
 
-8. Add *QGNotificationSdk-1.0.0* to both extension targets. Do not add it to main app target. 
+8. Add *QGNotificationSdk-1.0.0* to both extension targets. Do not add it to main app target.
 
-**NOTE:** Please make sure APP_GROUP used in all the three targets are same.
+**NOTE:** Please make sure APP_GROUP used in all the three targets are same. Set the deployment target to 10.0 in both the extensions.
 
 **IMP**: You need to add *QGNotificationSdk.h* and *iCarousel.h* in ``Bridging-Header``, so that these objective C files can be used in your extension targets.
 

@@ -105,7 +105,7 @@ If your site is HTTPS
              }
           }
        };
-        !function(q,g,r,a,p,h){if(q.qg)return;n=q.qg=function(){n.callmethod?n.callmethod.call(n,arguments):n.queue.push(arguments);};n.queue=[];p=g.createElement(r);p.async=!0;p.src=a;h=g.getElementsByTagName(r)[0];h.parentNode.insertBefore(p,h)}(window,document,'script','https://cdn.qgraph.io/dist/qgraph.min.js');
+        !function(q,g,r,a,p,h){if(q.qg)return;n=q.qg=function(){n.callmethod?n.callmethod.call(n,arguments):n.queue.push(arguments);};n.queue=[];p=g.createElement(r);p.async=!0;p.src=a;h=g.getElementsByTagName(r)[0];h.parentNode.insertBefore(p,h)}(window,document,'script','https://cdn.qgraph.io/dist/qgraph.v2.js');
         qg('init',window.QGSettings);
     </script>
 
@@ -195,7 +195,7 @@ In this case, basic pixel to use is::
               }
            }
         };
-        !function(q,g,r,a,p,h){if(q.qg)return;n=q.qg=function(){n.callmethod?n.callmethod.call(n,arguments):n.queue.push(arguments);};n.queue=[];p=g.createElement(r);p.async=!0;p.src=a;h=g.getElementsByTagName(r)[0];h.parentNode.insertBefore(p,h)}(window,document,'script','https://cdn.qgraph.io/dist/qgraph.min.js');
+        !function(q,g,r,a,p,h){if(q.qg)return;n=q.qg=function(){n.callmethod?n.callmethod.call(n,arguments):n.queue.push(arguments);};n.queue=[];p=g.createElement(r);p.async=!0;p.src=a;h=g.getElementsByTagName(r)[0];h.parentNode.insertBefore(p,h)}(window,document,'script','https://cdn.qgraph.io/dist/qgraph.v2.js');
         qg('init',window.QGSettings);
     </script>
 
