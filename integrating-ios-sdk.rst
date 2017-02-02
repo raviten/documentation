@@ -131,8 +131,6 @@ In ``didFinishLaunchingWithOptions`` method of AppDelegate, add the following co
       }
       //replace <your app id> with the one you received from QGraph
       [[QGSdk getSharedInstance] onStart:@"<YOUR APP ID>" setDevProfile:NO];
-      //add this method to track app launch through QGraph notification click 
-      [[QGSdk getSharedInstance] application:application didFinishLaunchingWithOptions:launchOptions];
   
       return YES;
   }
@@ -176,9 +174,6 @@ For remote notifications, the system also calls the ``application:didReceiveRemo
 You can handle the notification and its payload as described::
 
    - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-   
-      // Please make sure you have added this method of the sdk earlier. 
-      [[QGSdk getSharedInstance] application:application didFinishLaunchingWithOptions:launchOption];
    
        // Payload can be handled in this way
        NSDictionary *notification = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
