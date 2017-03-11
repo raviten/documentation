@@ -553,13 +553,16 @@ Events are the activities that a user performs in your app, for example, viewing
 
 3. Optionally, a "value to sum". This value will be summed up when doing campaing attribution. For instance, if you pass this value in your checkout completed event, you will be able to view stats such as a particular campaign has been responsible to drive Rs 84,000 worth of sales.
 
+4. Optionally, the currency of value to sum. Currency needs to be a 3 digit code A currency, as described `in this page <http://www.nationsonline.org/oneworld/currencies.htm>`_.
+
+
+
 You log events using the function ``logEvent()``. It comes in four variations
 
 * ``(void)logEvent:(NSString *)name``
 * ``(void)logEvent:(NSString *)name withParameters:(NSDictionary *)parameters``
-* ``(void)logEvent:(NSString *)name withValueToSum:(NSNumber *) valueToSum``
-* ``(void)logEvent:(NSString *)name withParameters:(NSDictionary *)parameters``
-        ``withValueToSum:(NSNumber *) valueToSum``
+* ``(void)logEvent:(NSString *)name withParameters:(NSDictionary *)parameters`` ``withValueToSum:(NSNumber *) valueToSum``
+* ``(void)logEvent:(NSString *)name withParameters:(NSDictionary *)parameters`` ``withValueToSum:(NSNumber *) valueToSum withValueToSumCurrency:(NSString *)vtsCurr``
 
 
 Once you log event information to use, you can segment users on the basis of the events (For example, you can create a segment consisting of users have not launched for past 7 days, or you can create a segment consiting of users who, in last 7 days, have purchased a product whose value is more than $1000)

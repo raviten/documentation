@@ -7,7 +7,7 @@ Installation in Android Studio
 #. Add dependencies to *app/build.gradle*::
 
     compile "com.google.android.gms:play-services:8.1.0"
-    compile "com.quantumgraph.sdk:QG:2.3.0"
+    compile "com.quantumgraph.sdk:QG:2.3.0.1"
 
 #. If you would like to reach out to uninstalled users by email, add following line in *app/src/main/AndroidManifest.xml* outside the *<application>* tag::
 
@@ -111,7 +111,7 @@ Once you log event information to use, you can segment users on the basis of the
 
 You can also define your events, and your own parameters for any event. However, if you do that, you will need to sync up with us to be able to segment the users on the basis of these events or customize your creatives based on these events.
 
-You can optionally log a "value to sum" with an event. This value will be summed up when doing campaing attribution. For instance, if you pass this value in your checkout completed event, you will be able to view stats such as a particular campaign has been responsible to drive Rs 84,000 worth of sales. You can also optionally provide a currency code for the value to sum. Currency needs to be a 3 digit code A currency, as described `in this page <http://www.nationsonline.org/oneworld/currencies.htm>`_
+You can optionally log a "value to sum" with an event. This value will be summed up when doing campaing attribution. For instance, if you pass this value in your checkout completed event, you will be able to view stats such as a particular campaign has been responsible to drive Rs 84,000 worth of sales. You can also optionally provide a currency code for the value to sum. Currency needs to be a 3 digit code A currency, as described `in this page <http://www.nationsonline.org/oneworld/currencies.htm>`_.
 
 Thus, there are four variants of the function ``logEvent()`` which logs the event
 

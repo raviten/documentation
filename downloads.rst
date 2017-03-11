@@ -1,6 +1,6 @@
 Downloads
 =========
-If you use Android Studio, AAR file is available at http://jcenter.bintray.com/com/quantumgraph/sdk/QG/2.3.0/QG-2.3.0.aar
+If you use Android Studio, AAR file is available at http://jcenter.bintray.com/com/quantumgraph/sdk/QG/2.3.0.1/QG-2.3.0.1.aar
 (But we recommend that you follow maven based integration outlined in android integration instructions)
 
 Download QGraph SDK for iOS from here: 
