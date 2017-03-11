@@ -104,24 +104,25 @@ Apart from above user profile parameters, you can log the UTM source through whi
 
 Logging events
 ##############
-Events are the activities that a user performs in your app, for example, view the products, playing a game or listening to a music. Each event has a name (for instance, the event of viewing a product is called ``product_viewed``), and can have some parameters. For instance, 
-for event ``product_viewed``, the parameters are ``id`` (the id of the product viewed), ``name`` (name of the product viewed), ``image_url`` (image url of the product viewed), ``deep_link`` (a deep link which takes one to the product page in the app), and so on.
-
-It is not necessary that you provide all the parameters for a given event. You can choose to provide whatever parameters are relevant to you.
+Events are the activities that a user performs in your app, for example, viewing the products, playing a game or listening to a music. Each event has a name (for instance, the event of viewing a product can be called ``product_viewed``), and can have some parameters. For instance, 
+for event ``product_viewed``, the parameters can be ``id`` (the id of the product viewed), ``name`` (name of the product viewed), ``image_url`` (image url of the product viewed), ``deep_link`` (a deep link which takes one to the product page in the app), and so on.
 
 Once you log event information to use, you can segment users on the basis of the events (For example, you can create a segment consisting of users have not launched for past 7 days, or you can create a segment consiting of users who, in last 7 days, have purchased a product whose value is more than $1000)
 
 You can also define your events, and your own parameters for any event. However, if you do that, you will need to sync up with us to be able to segment the users on the basis of these events or customize your creatives based on these events.
 
-You can optionally log a "value to sum" with an event. This value will be summed up when doing campaing attribution. For instance, if you pass this value in your checkout completed event, you will be able to view stats such as a particular campaign has been responsible to drive Rs 84,000 worth of sales.
+You can optionally log a "value to sum" with an event. This value will be summed up when doing campaing attribution. For instance, if you pass this value in your checkout completed event, you will be able to view stats such as a particular campaign has been responsible to drive Rs 84,000 worth of sales. You can also optionally provide a currency code for the value to sum. Currency needs to be a 3 digit code A currency, as described `in this page <http://www.nationsonline.org/oneworld/currencies.htm>`_
 
-Thus, there are three variants of the function ``logEvent()`` which logs the event
+Thus, there are four variants of the function ``logEvent()`` which logs the event
 
 * ``logEvent(String eventName)``
 
 * ``logEvent(String eventName, JSONObject parameters)``
 
 * ``logEvent(String eventName, JSONObject parameters, double valueToSum)``
+
+* ``logEvent(String eventName, JSONObject parameters, double valueToSum, String valueToSumCurrency)``
+
 
 Here is how you set up some of the popular events.
 
