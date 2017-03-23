@@ -215,7 +215,7 @@ If you have implemented ``application:didReceiveRemoteNotification:`` add method
 Changes for iOS 10
 ##################
 
-For integrating QGraph notification SDK, you need to add Capabilities **APP GROUPS**. Go to Project > Main Target > **Capabilities**. Check on App Groups and add a group as below.
+For integrating QGraph notification SDK, you need to add Capabilities **APP GROUPS**. Go to Project > Main Target > **Capabilities**. Check on App Groups and add a group as below. Use your bundle id to create App Group. For example, if your bundle id is ``com.company.appname``, App Group could be ``group.com.company.appname.xyz``.
 
    .. figure:: images/ios-10-1.png
       :align: center
@@ -780,7 +780,7 @@ If you have implemented ``application:didReceiveRemoteNotification:`` add method
 
 Changes for iOS 10
 ##################
-Your basic integration for iOS 8 and 9 is complete. From iOS 10 and above two new frameworks has been introduced for notifications. For integrating QGraph notification SDK, you need to add Capabilities *APP GROUPS*. Go to *Project > Main Target > Capabilities*. Check on App Groups and add a group as below.
+Your basic integration for iOS 8 and 9 is complete. From iOS 10 and above two new frameworks has been introduced for notifications. For integrating QGraph notification SDK, you need to add Capabilities *APP GROUPS*. Go to *Project > Main Target > Capabilities*. Check on App Groups and add a group as below. Use your bundle id to create App Group. For example, if your bundle id is ``com.company.appname``, App Group could be ``group.com.company.appname.xyz``.
 
    .. figure:: images/swift-3.png
       :align: center
