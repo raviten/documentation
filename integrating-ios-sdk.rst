@@ -353,7 +353,7 @@ In iOS 10, two frameworks has been introduced for handling push notification wit
 
 Before proceeding make sure to download all the QGraph files to be used here. You should have these files with you 
 
-#. QGNotificationSdk-1.0.0
+#. QGNotificationSdk
 #. QGNotificationServiceExtension
 #. QGNotificationContentExtension
 
@@ -416,12 +416,18 @@ Adding Content Extension
       :align: center
 
 
-7. Add QuartzCore.framework in this target.
+7. Add *QuartzCore.framework* in this target.
 
-8. **Add QGNotificationSdk-1.0.0 to both extension targets. Do not add it to main app target.**
+8. **Add QGNotificationSdk to both extension targets. Do not add it to main app target.**
 
 
-**NOTE:** Please make sure **APP_GROUP** used in all the three targets are same. Set the deployment target to 10.0 in both the extensions.
+**NOTE:**
+
+1. Please make sure **APP_GROUP** used in all the three targets are same.
+
+2. Set the deployment target to 10.0 in both the extensions.
+
+3. Remove **-ObjC/$(inherited)** (if it exists) from build settings of service and content extension targets.
 
 
 Click Through and View Through Attribution
@@ -978,7 +984,7 @@ Adding Extensions for iOS Push with Attachment and QGraph Carousel and Slider Pu
 In iOS 10, two frameworks has been introduced for handling push notification with content. You can have a push notification with image, gif, audio and video. Apart from that you can also have your custom UI for notifications. For this, payload can be modified and used to download content before the notification is drawn. You simply need to follow the below steps to add two of the extensions targets for handling these notifications: Service Extension and Content Extension.
 Before proceeding make sure to download all the QGraph files to be used here. You should have these files with you
 
-1. QGNotificationSdk-1.0.0
+1. QGNotificationSdk
 
 2. QGNotificationServiceExtension
 
@@ -1039,9 +1045,15 @@ Adding Content Extension
 
 7. Add *QuartzCore.framework* in this target.
 
-8. Add *QGNotificationSdk-1.0.0* to both extension targets. Do not add it to main app target.
+8. **Add QGNotificationSdk to both extension targets. Do not add it to main app target.**
 
-**NOTE:** Please make sure APP_GROUP used in all the three targets are same. Set the deployment target to 10.0 in both the extensions.
+**NOTE:**
+
+1. Please make sure **APP_GROUP** used in all the three targets are same.
+
+2. Set the deployment target to 10.0 in both the extensions.
+
+3. Remove **-ObjC/$(inherited)** (if it exists) from build settings of service and content extension targets.
 
 **IMP**: You need to add *QGNotificationSdk.h* and *iCarousel.h* in ``Bridging-Header``, so that these objective C files can be used in your extension targets.
 

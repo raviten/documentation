@@ -16,6 +16,7 @@ Contents:
    integrating-android-sdk
    integrating-ios-sdk
    integrating-web-sdk
+   advanced-integration-topics
    using-web-ui
    using-api
    downloads
