@@ -196,3 +196,30 @@ your app between December 1, 2015 and December 3, 2015, the relevant curl call w
     curl -H "Authorization: Token <your token>" https://app.qgraph.io/api/get-user-profiles/?start_date=2015-12-01&end_date=2015-12-03&fields=firstSeen,uninstallTime,gcmId
 
 For faster response times, you should retrieve only the fields that you need.
+
+Create a user uploaded segment
+------------------------------
+You usually create a user uploaded segment by manually uploading a file in the Segment -> Add New -> Uploaded Segment. However, you can also do it using our API. Uploading a segment is a two step process:
+
+First you need to upload the segment file. This file needs contain one field value (such as email) per line. You upload it by a command similar to this::
+
+    curl -H "Authorization: Token <your token>" -H 'content-type: multipart/form-data' -F file=@/path/to/your/file https://app.qgraph.io/qganalyzedata/upload-segment-file/
+
+This gives an output like::
+
+    {"filename": "upload.csv1495733409.41"}
+
+Here ``upload.csv1495733409.41`` is the temporary name of the file that has been created on the server. You will need this name in the second step.
+
+Secondly, you use above outputted temporary filename to create a segment, like this::
+
+    curl -H "Authorization: Token <your token> -H 'appId: <your app id> -H 'content-type: application/json' -d {"name": <name of the segment>, "description": <description of the segment>, "filename": <filename produced in step 1>, "field": <field name whose values are present in the file>}
+
+
+For instance, if the uploade file contained email, a sample command to upload the file would be::
+
+    curl -X POST -H "Authorization: Token <your token> -H 'appId: <your app id> -H 'content-type: application/json' -d '{"name": "my uploaded segment", "description": "This is a bunch of emails", "filename": "upload.csv1495733409.41", "field": "email"}' https://app.qgraph.io/qganalyzedata/upload_segment/
+
+Segment is created as a result of this request.
+
+
