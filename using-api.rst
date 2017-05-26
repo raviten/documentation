@@ -203,7 +203,10 @@ You usually create a user uploaded segment by manually uploading a file in the S
 
 First you need to upload the segment file. This file needs contain one field value (such as email) per line. You upload it by a command similar to this::
 
-    curl -H "Authorization: Token <your token>" -H 'content-type: multipart/form-data' -F file=@/path/to/your/file https://app.qgraph.io/qganalyzedata/upload-segment-file/
+    curl -H 'Authorization: Token <your token>'\
+         -H 'content-type: multipart/form-data'\
+         -F file=@/path/to/your/file\
+         https://app.qgraph.io/qganalyzedata/upload-segment-file/
 
 This gives an output like::
 
@@ -213,12 +216,21 @@ Here ``upload.csv1495733409.41`` is the temporary name of the file that has been
 
 Secondly, you use above outputted temporary filename to create a segment, like this::
 
-    curl -H "Authorization: Token <your token> -H 'appId: <your app id> -H 'content-type: application/json' -d {"name": <name of the segment>, "description": <description of the segment>, "filename": <filename produced in step 1>, "field": <field name whose values are present in the file>}
-
-
+    curl -X POST\
+         -H 'Authorization: Token <your token>'\ 
+         -H 'appId: <your app id>' \
+         -H 'content-type: application/json'\
+         -d '{"name": "<name of the segment>", "description": "<description of the segment>", "filename": "<filename produced in step 1>", "field": "<field name whose values are present in the file>"}'\
+         https://app.qgraph.io/qganalyzedata/upload_segment/
+       
 For instance, if the uploade file contained email, a sample command to upload the file would be::
 
-    curl -X POST -H "Authorization: Token <your token> -H 'appId: <your app id> -H 'content-type: application/json' -d '{"name": "my uploaded segment", "description": "This is a bunch of emails", "filename": "upload.csv1495733409.41", "field": "email"}' https://app.qgraph.io/qganalyzedata/upload_segment/
+    curl -X POST\
+         -H 'Authorization: Token <your token>'\
+         -H 'appId: <your app id>' 
+         -H 'content-type: application/json'\
+         -d '{"name": "my uploaded segment", "description": "This is a bunch of emails", "filename": "upload.csv1495733409.41", "field": "email"}'\
+         https://app.qgraph.io/qganalyzedata/upload_segment/
 
 Segment is created as a result of this request.
 
