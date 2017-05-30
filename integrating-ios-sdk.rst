@@ -77,9 +77,9 @@ Generating the Certificate Signing Request
 ##########################################
 1. Open Keychain Access on your Mac and choose the menu option *Certificate Assistant* -> *Request a Certificate* from a Certificate Authority
 2. Enter some descriptive name for Common Name (Give your app name appended by QGraph preferably to identify it)
-3. Check Saved to disk option and click continue
+3. Check Save to disk option and click continue. It saves a .certSigningRequest file.
 4. In the Keys section of the Keychain Access, a new private key would have appeared with Common name specified
-5. Choose the CSR that you generated to create the push certificate
+5. In the "App IDs" section in the apple developer account, choose the CSR that you generated to create the push certificate
 6. Click Continue and download the certificate
 7. Double click on the downloaded certificate. This will add your certificate to your private key in your keychain
 8. Go to Keys section in the Keychain and find your private key
@@ -820,6 +820,7 @@ Add framework UserNotifications to app target and import in app delegate. Also a
            
            if #available(iOS 10.0, *) {
                let center = UNUserNotificationCenter.current()
+               center.delegate = self
                
                // adding category for QGraph Carousel and Slider Push 			
                let categories = NSSet(object: QG!.getQGSliderPushActionCategory(withNextButtonTitle: nil, withOpenAppButtonTitle: nil)) as! Set<UNNotificationCategory>
@@ -925,6 +926,7 @@ Finally, after adding all the above methods your app delegate should look like::
             
             if #available(iOS 10.0, *) {
                 let center = UNUserNotificationCenter.current()
+                center.delegate = self
                 
                 let categories = NSSet(object: QG!.getQGSliderPushActionCategory(withNextButtonTitle: nil, withOpenAppButtonTitle: nil)) as! Set<UNNotificationCategory>
                 center.setNotificationCategories(categories)
