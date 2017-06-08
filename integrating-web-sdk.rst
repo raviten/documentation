@@ -83,114 +83,118 @@ If your site is HTTPS
 
 #. Go to "Setup" -> "Integrations" section on the side bar menu. Select "Web" from the three channels presented to you.
 
-#. Enter your website's URL and follow the instructions provided.
+#. Enter your website's URL and follow the instructions provided. In step 2 of integration, you will be provided your app id. Keep a note of it.
 
 #. Download the following files
 
-   #. `https://s3-ap-southeast-1.amazonaws.com/qgraph/v3/<your_app_id>/qg-sw.<your_app_id>js`
-   #. `https://s3-ap-southeast-1.amazonaws.com/qgraph-web-push/manifest.json`
+   #. `https://cdn.qgr.ph/qg-sw.<your app id>.js`
+   #. `https://cdn.qgr.ph/manifest.json`
 
-   Copy above files to the root folder of your website. In case you want to use your GCM key, put your sender id in ``manifest.json`` above instead of the sender already present in the file. In this case you also need to enter your GCM key during the intergration. (We need this GCM key to send web push notifications)
+   Copy above files to the root folder of your website. To make sure that you have done this correctly, verify if following files are accessible
 
-   Add the following lines inside of head or body tag::
+   #. `https://yourwebsite.com/qg-sw.<your app id>.js`
+   #. `https://yourwebsite.com/manifest.json`
 
-    !function(q,g,r,a,p,h,js){
+In case you want to use your GCM key, put your sender id in ``manifest.json`` above instead of the sender already present in the file. In this case you also need to enter your GCM key during the intergration. (We need this GCM key to send web push notifications)
+
+Add the following lines inside of head or body tag of your web page::
+
+   <script type="text/javascript">
+     !function(q,g,r,a,p,h,js){
        if(q.qg)return;
        js = q.qg = function() {
-          js.callmethod ? js.callmethod.call(js, arguments) : js.queue.push(arguments);
+         js.callmethod ? js.callmethod.call(js, arguments) : js.queue.push(arguments);
        };
        js.queue = [];
        p=g.createElement(r);p.async=!0;p.src=a;h=g.getElementsByTagName(r)[0];
-       h.parentNode.insertBefore(p,h)
-    }(window,document,'script','//cdn.qgraph.io/v3/<your_app_id>/qgraph.<your_app_id>.js');
+       h.parentNode.insertBefore(p,h);
+     }(window,document,'script','//cdn.qgr.ph/qgraph.<your app id>.js');
+   </script>
 
-
-   You can customize various aspects of how and when various prompts appear. You need to contact app@qgraph.io to customize this aspects. Here are the things that you can change:
+You can customize various aspects of how and when various prompts appear in our website. Here are the things that you can change:
 
 *Fake Prompt*
-You can set up whether or not you want fake prompt to be displayed. The default setting is yes, with a default fake prompt being displayed.
-
-*Popup Alignment*
-Controls the alignment of the fake prompt, if it is requested. Default value is ``center``. Other possible values are ``top left``, ``top right``, ``bottom left``, ``bottom right``.
+You can set up whether or not you want fake prompt to be displayed. The default setting is yes, with a default fake prompt being displayed. You can also set the title, message, button texts and button colors shown in the fake prompt. You can also set the location of the fake prompt (either top left or top center).
 
 *Delay*:
 Controls how many seconds after the user has come on the website, do we show system prompt/fake prompt as applicable. Default value is 0.
 
 *Seconds between prompts*:
-Controls the number of seconds between two fake prompts, in case the user declines the request for notification on the first fake prompt. Default value is 3600.
+You can controls the number of seconds between two fake prompts, in case the user declines the request for notification on the first fake prompt. Default value is 3600.
 
 *Requesting by self*:
-If set to ``true``, the QGraph SDK does not show the system prompt or the fake prompt by itself. It is your code which decides when to do that. You can show the prompt any time by this code::
+If set, the QGraph SDK does not show the system prompt or the fake prompt by itself. It is your code which decides when to do that. You can show the prompt any time by this code::
 
     qg("prompt-push")
 
 Note that if you use this parameter, *delay* and *secondsBetweenPrompts* are not considered.
 Default value is ``false``.
 
-*Overlay*: If set, an overlay will be shown while system prompt is displayed.
+*Overlay*: You can display an overlay while system prompt is displayed. You can set title and message for the overlay.
 
-*Thank you prompt*: If set, a thank you message will be shown when the user grants permission for web push.
-
-If your site is HTTP
+If your site is HTTP 
 ####################
 
-In case your site is HTTP, you need a backing HTTPS site to enable push notifications. QGraph provides a backing HTTPS site. If you would rather use your own backing HTTPS site, please contact app@qgraph.io for instructions. 
+In case your site is HTTP, you need a backing HTTPS site to enable push notifications. You can either have
+your backing HTTPS domain, or use a QGraph provided HTTPS domain. The notification text displays what
+domain it is coming from: thus using your own domain provides a better experience to your users. However,
+that involves extra work too, and thus many websites choose to use QGraph provided HTTPS domain, which
+leads to simpler integration.
 
 #. Login to http://app.qgraph.io
 
 #. Go to "Setup" -> "Integrations" section on the side bar menu. Select "Web" from the three channels presented to you.
 
-#. Enter your website's URL and follow the instructions provided.
+#. Enter your website's URL. Make a choice whether you want to have your own HTTPS domain as backing domain, or want to use a QGraph provided domain. Make a note of it.
 
-   Enter an ``endpoint`` in the web panel for web push integration. Keep the endpoint similar to the name of your website. For example, if the name of your company is XYZ ECommerce, then `xyz` may be a good endpoint to use. The web push notification will be delivered for the domain `xyz.qgr.ph`.
+#. Download the following files
 
-In this case, basic pixel to use is::
+   #. `https://cdn.qgr.ph/qg-sw.<your app id>.js`
+   #. `https://cdn.qgr.ph/manifest.json`
+   #. `https://cdn.qgr.ph/notify.html`
 
-    <script type="text/javascript">
-        window.QGSettings = {
-            "appId": "<your app id>",
-            "qgendpoint": "<your end point>",
-            "push": {
-              "requestSelf": false,
-              "fakePrompt": false,
-              "prompt": {
-                 "title": "Get Latest Updates",
-                 "message": "Subscribe to notifications"
-              }
-           }
-        };
-        !function(q,g,r,a,p,h){if(q.qg)return;n=q.qg=function(){n.callmethod?n.callmethod.call(n,arguments):n.queue.push(arguments);};n.queue=[];p=g.createElement(r);p.async=!0;p.src=a;h=g.getElementsByTagName(r)[0];h.parentNode.insertBefore(p,h)}(window,document,'script','https://cdn.qgraph.io/dist/qgraph.v2.js');
-        qg('init',window.QGSettings);
-    </script>
+   Copy above files to the root folder of your website. To make sure that you have done this correctly, verify if following files are accessible
 
+   #. `https://yourwebsite.com/qg-sw.<your app id>.js`
+   #. `https://yourwebsite.com/manifest.json`
+   #. `https://yourwebsite.com/notify.html`
 
-Here is an advanced pixel with various options::
+Add the following lines inside of head or body tag of your web page::
 
-    <script type="text/javascript">
-       window.QGSettings = {
-          "appId": "<your app id>",
-          "qgendpoint": "<your end point>",
-          "push": {
-             "popupAlignment": "center" or "top left" or "top right" or "bottom left" or "bottom right",
-             "secondsBetweenPrompts": 3600, 
-             "delay": 1 , 
-             "fakePrompt": true,
-          },
-          "prompt": {
-             "title": "Fake prompt",
-             "message": "Lorem opsem and so on"
-          },
-          "overlay": { 
-             "title": "Allow us to send you notifications",
-             "message": "We will not send you spam notifications"
-          },
-          "thankYouPrompt": { 
-             "title": "Thanks for subscribing!",
-             "message": "Happy Browsing",
-          }
+   <script type="text/javascript">
+     !function(q,g,r,a,p,h,js){
+       if(q.qg)return;
+       js = q.qg = function() {
+         js.callmethod ? js.callmethod.call(js, arguments) : js.queue.push(arguments);
        };
-    </script>
+       js.queue = [];
+       p=g.createElement(r);p.async=!0;p.src=a;h=g.getElementsByTagName(r)[0];
+       h.parentNode.insertBefore(p,h);
+     }(window,document,'script','//cdn.qgr.ph/qgraph.<your app id>.js');
+   </script>
 
+You can customize various aspects of how and when various prompts appear in our website. Here are the things that you can change:
+
+*Fake Prompt*
+You can set up whether or not you want fake prompt to be displayed. The default setting is yes, with a default fake prompt being displayed. You can also set the title, message, button texts and button colors shown in the fake prompt. You can also set the location of the fake prompt (either top left or top center).
+
+*Delay*:
+Controls how many seconds after the user has come on the website, do we show system prompt/fake prompt as applicable. Default value is 0.
+
+*Seconds between prompts*:
+You can controls the number of seconds between two fake prompts, in case the user declines the request for notification on the first fake prompt. Default value is 3600.
+
+*Requesting by self*:
+If set, the QGraph SDK does not show the system prompt or the fake prompt by itself. It is your code which decides when to do that. You can show the prompt any time by this code::
+
+    qg("prompt-push")
+
+Note that if you use this parameter, *delay* and *secondsBetweenPrompts* are not considered.
+Default value is ``false``.
+
+*Overlay*: You can display an overlay while system prompt is displayed. You can set title and message for the overlay.
+
+*Thank you prompt*: You can control the title, message and location of thank you prompt. Thank you prompt is required for HTTP integrations.
 
 Logging Data
 ------------
