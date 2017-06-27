@@ -21,6 +21,6 @@ Format for Datetime
 ####################
 There are two formats for datetime:
 
-#. Timezone unaware datetime is of the format ``YYYY-MM-DD HH:MM:SS``. For example, ``"2017-07-12 15:10:06"``.
+#. Timezone unaware datetime is of the format ``YYYY-MM-DDTHH:MM:SS``. For example, ``"2017-07-12T15:10:06"``.
 
-#. Timezone aware datetime format is ``YYYY-MM-DD HH:MM:SS[+/-]HH:MM``. For example, ``"2017-07-12 15:10:06+05:30"`` is a datetime in IST timezone, while ``"2017-07-12 15:10:06-08:00"`` is a datetime in PST timezone.
+#. Timezone aware datetime format is ``YYYY-MM-DD HH:MM:SS[+/-]HH:MM``. For example, ``"2017-07-12T15:10:06+05:30"`` is a datetime in IST timezone, while ``"2017-07-12 15:10:06-08:00"`` is a datetime in PST timezone.
