@@ -22,10 +22,6 @@ Installation in Android Studio
 
    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
-#. If you would like to track your mobile app users across mobile app and mobile web, add following dependency to *app/build.gradle*::
-
-    compile "com.android.support:customtabs:23.4.0"
-
 Installation in Cordova
 -----------------------
 QGraph supports apps built with Cordova. Please look at our github plugin for cordova `here <https://github.com/quantumgraph/cordova>`_.
@@ -328,17 +324,6 @@ network usage. It flushes data to the server every 15 seconds, or when number da
 You can force the SDK to flush the data to server any time by calling the following function::
 
     QG.getSharedInstance(context).flush();
-
-Matching mobile app users with mobile web users
-###############################################
-
-Our SDK can help you track your mobile app users across your app and mobile web. If you want to enable this functionality, you need to add following dependency in *app/build.gradle*::
-
-    compile "com.android.support:customtabs:23.4.0"
-
-If you have added above dependency in your app, but would like to *disable* our tracking, use the following function::
-
-    QG.getInstance(context).disableUserTrackingForChrome();
 
 InApp Notifications
 ###################
