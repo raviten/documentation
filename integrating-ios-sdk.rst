@@ -38,9 +38,9 @@ Manual installation
 
 Download the SDK from here:
 
-For Objective C: http://app.qgraph.io/static/sdk/ios/QGSdk-ObjC-3.2.2.zip
+For Objective C: http://app.qgraph.io/static/sdk/ios/QGSdk-ObjC-3.3.0.zip
 
-For Swift: http://app.qgraph.io/static/sdk/ios/QGSdk-Swift-3.2.2.zip
+For Swift: http://app.qgraph.io/static/sdk/ios/QGSdk-Swift-3.3.0.zip
 
 * In your Xcode project, Go to File, add new Group to your project and name it as QGSdk.
 
@@ -54,6 +54,7 @@ For Swift: http://app.qgraph.io/static/sdk/ios/QGSdk-Swift-3.2.2.zip
    * CoreLocation.framework
    * ImageIO.framework
    * MobileCoreServices.framework
+   * libz.tbd
 
 We track location only if you initialize location service. If you don't add location usage key in info.plist file, we don't track the location of the user.
 
