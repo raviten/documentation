@@ -97,7 +97,7 @@ Generating the Certificate Signing Request
 12. You will be prompted to enter a password. You can directly click Ok or add any password to it. If you add any password please remember it and send it along with your .p12 file. 
 13. In the next step, you will require your system password to finally save the file. 
 
-Your p12 file is ready to be exported. Please send it to us at *app@qgraph.io* along with password if any.
+Your p12 file is ready to be exported. Upload it in your account. Go to "Integration" -> "iOS" to upload p12 files.
 
 
 Using iOS SDK - Objective C
