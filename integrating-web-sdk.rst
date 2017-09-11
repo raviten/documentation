@@ -147,17 +147,19 @@ leads to simpler integration.
 
 #. Enter your website's URL. Make a choice whether you want to have your own HTTPS domain as backing domain, or want to use a QGraph provided domain. Make a note of it.
 
-#. Download the following files
+#. In case, you want your own HTTPS domain, download the following files
 
    #. `https://cdn.qgr.ph/qg-sw.<your app id>.js`
    #. `https://cdn.qgr.ph/manifest.json`
    #. `https://cdn.qgr.ph/notify.html`
 
-   Copy above files to the root folder of your website. To make sure that you have done this correctly, verify if following files are accessible
+   Copy above files to the root folder of your HTTPS website. To make sure that you have done this correctly, verify if following files are accessible
 
    #. `https://yourwebsite.com/qg-sw.<your app id>.js`
    #. `https://yourwebsite.com/manifest.json`
    #. `https://yourwebsite.com/notify.html`
+   
+   Ignore this step if you are using QGraph provided HTTPS domain.
 
 Add the following lines inside of head or body tag of your web page::
 
