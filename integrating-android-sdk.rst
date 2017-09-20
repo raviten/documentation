@@ -4,23 +4,54 @@ Android SDK integration
 Installation in Android Studio
 ------------------------------
 
+A. If you use FCM
+#################
+
 #. Add dependencies to *app/build.gradle*::
 
-    compile "com.google.android.gms:play-services:9.8.0"
-    compile "com.quantumgraph.sdk:QG:2.3.4.1"
+    compile "com.quantumgraph.sdk:QG:4.0.1"
+    compile 'com.google.firebase:firebase-messaging:11.2.2'
 
-#. If you would like to reach out to uninstalled users by email, add following line in *app/src/main/AndroidManifest.xml* outside the *<application>* tag::
+#. If you have implemented  FirebaseMessagingService in your project add the following code inside `onMessageReceived(RemoteMessage remoteMessage)` method::
 
-   <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+      String from = remoteMessage.getFrom();
+      Map data = remoteMessage.getData();
+      if (data.containsKey("message") && QG.isQGMessage(data.get("message").toString())) {
+            Bundle qgData = new Bundle();
+            qgData.putString("message", data.get("message").toString());
+            Context context = getApplicationContext();
+            if (from == null || context == null) {
+                return;
+            }
+            Intent intent = new Intent(context, NotificationIntentService.class);
+            intent.setAction("QG");
+            intent.putExtras(qgData);
+            context.startService(intent);
+            return;
+        }
 
-#. If you would like us to track the city of the user, add the following line in *app/src/main/AndroidManifest.xml* outside the *<application>* tag::
+#. If you have implemented FirebaseInstanceIdService, add the following code inside `onTokenRefresh()`::
 
-   <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-   <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+      QG.logFcmId(getApplicationContext());
 
-#. If you would like us to track device id the user, add the following line in *app/src/main/AndroidManifest.xml* outside the *<application>* tag::
+#. Additional settings:
 
-   <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    * If you would like to reach out to uninstalled users by email, add following line in *app/src/main/AndroidManifest.xml* outside the *<application>* tag::
+    
+       <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    
+    * If you would like us to track the city of the user, add the following line in *app/src/main/AndroidManifest.xml* outside the *<application>* tag::
+    
+       <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+       <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    * If you would like us to track device id the user, add the following line in *app/src/main/AndroidManifest.xml* outside the *<application>* tag::
+    
+       <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
+B. If you use GCM
+#################
+If you are already using GCM (and have GCM tokens), contact us at app@quantumgraph.com.
 
 Installation in Cordova
 -----------------------
@@ -36,21 +67,25 @@ In all the activity classes, starting with the class for the main activity, impo
 
    import com.quantumgraph.sdk.QG;
 
-Initialization and cleanup of SDK
-#################################
+Initialization of SDK
+#####################
 #. Define a variable called ``qg`` in your activity::
    
     private QG qg;
    
-#. Add a line in ``onCreate()`` of your activity.  If you want to use QGraph's Sender Id and GCM key, add the following::
+#. Add a line in ``onCreate()`` of your activity.  
+   If you do not use Firebase in your app, add the following::
     
     QG.initializeSdk(getApplication(), <your app id>);
 
-   If you want to use your Sender Id and GCM key, add the following::
+   If you use Firebase in your app, you need to know your sender id. In that case, add the following::
 
     QG.initializeSdk(getApplication(), <your app id>, <your sender id>);
 
-   App id for your app is available from the settings page. Sender id is a string that Google provides to you for getting registration id for users. You will get the sender id for your app during the set up phase in our web interface.
+   App id for your app is available from the settings page of our webapp. To get your sender id, go to your project settings in https://console.firebase.google.com. (You need to access "Cloud Messaging" tab in Firebase console).
+
+   .. figure:: images/fcm-console.png
+      :align: center
 
 #. In the ``onStart()`` function of your activity, add the following::
 
