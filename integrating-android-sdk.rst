@@ -23,7 +23,7 @@ A. If you use FCM
             if (from == null || context == null) {
                 return;
             }
-            Intent intent = new Intent(context, NotificationIntentService.class);
+            Intent intent = new Intent(context, NotificationJobIntentService.class);
             intent.setAction("QG");
             intent.putExtras(qgData);
             context.startService(intent);
