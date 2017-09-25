@@ -9,26 +9,26 @@ A. If you use FCM
 
 #. Add dependencies to *app/build.gradle*::
 
-    compile "com.quantumgraph.sdk:QG:4.0.1"
+    compile "com.quantumgraph.sdk:QG:4.1.0"
     compile 'com.google.firebase:firebase-messaging:11.2.2'
 
 #. If you have implemented  FirebaseMessagingService in your project add the following code inside `onMessageReceived(RemoteMessage remoteMessage)` method::
 
-      String from = remoteMessage.getFrom();
-      Map data = remoteMessage.getData();
-      if (data.containsKey("message") && QG.isQGMessage(data.get("message").toString())) {
-            Bundle qgData = new Bundle();
-            qgData.putString("message", data.get("message").toString());
-            Context context = getApplicationContext();
-            if (from == null || context == null) {
-                return;
-            }
-            Intent intent = new Intent(context, NotificationJobIntentService.class);
-            intent.setAction("QG");
-            intent.putExtras(qgData);
-            context.startService(intent);
-            return;
-        }
+    String from = remoteMessage.getFrom();
+    Map data = remoteMessage.getData();
+    if (data.containsKey("message") && QG.isQGMessage(data.get("message").toString())) {
+          Bundle qgData = new Bundle();
+          qgData.putString("message", data.get("message").toString());
+          Context context = getApplicationContext();
+          if (from == null || context == null) {
+              return;
+          }
+          Intent intent = new Intent(context, NotificationJobIntentService.class);
+          intent.setAction("QG");
+          intent.putExtras(qgData);
+          JobIntentService.enqueueWork(context, NotificationJobIntentService.class, 1000, intent);
+          return;
+      }
 
 #. If you have implemented FirebaseInstanceIdService, add the following code inside `onTokenRefresh()`::
 
