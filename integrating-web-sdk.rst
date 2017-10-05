@@ -75,10 +75,18 @@ the web push. You can customize this message, and change its location. It looks 
 
 Installing Web Pixel
 --------------------
-Here we describe how you can integrate QGraph's pixel on your website. 
+Here we describe how you can integrate QGraph's pixel on your website. While testing
+web pixel, you should make sure that you are *not* in incognito mode of web browser,
+since web push functionality does not work in incognito mode.
 
 If your site is HTTPS
 #####################
+For HTTPS integration, you can also refer to this video:
+
+.. raw:: html
+
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/9gNcViSTvAo" frameborder="0" allowfullscreen></iframe>
+
 #. Login to http://app.qgraph.io
 
 #. Go to "Setup" -> "Integrations" section on the side bar menu. Select "Web" from the three channels presented to you.
