@@ -70,7 +70,7 @@ Let us consider these fields one by one.
 
 *appSecret* is the unique secret for your app. It is also available from "Account Settings" page of your account.
 
-*identifier* is the attribute on the basis of which you identify the user. It can be one of the following: (a) *user_id*, as set by calling the function *setUserId()* from within the SDK (b) *email*, as set by calling the function *setEmail()* from within the SDK (c) *IDFA*, for iOS users, (d) *advertisingId*, for android users. Note that if you are identifying the users through *user_id* or *email*, you should have passed the *user_id* or *email* of the user by calling *setUserId()* or *setEmail()* from within the SDK.
+*identifier* is the attribute on the basis of which you identify the user. It can be one of the following: (a) *user_id*, as set by calling the function *setUserId()* from within the SDK (b) *email*, as set by calling the function *setEmail()* from within the SDK (c) *IDFA*, for iOS users, (d) *advertisingId*, for android users. Note that if you are identifying the users through *user_id* or *email*, you should have passed the *user_id* or *email* of the user to QGraph by calling *setUserId()* or *setEmail()* from within the SDK.
 
 
 *identifier_value* is the value of the *identifier* for the user for whom the request is being made.
@@ -80,8 +80,8 @@ Let us consider these fields one by one.
 *profiles* is an optional key. Its value is a dictionary consisting of key value paris that you want to set for the particular user. An example profile entry would be::
 
     {
-        "first_name": "Jacob",
-        "last_name": "John"
+        "first_name": "John",
+        "last_name": "Doe"
     }
 
 *events* is an optional key. Its value is a list consisting of dictionaries. Each dictionary contains an *eventName* and an optional dictionary consiting *parameters* which in turn consists of parameter name and values. Here is an example consisting of a single event::
@@ -102,4 +102,27 @@ And here is an example consisting of two events, one with a parameters and the o
             "order_value":  253
         }
     }]
+
+For example, here is one complete request that you may make::
+
+    POST https://api.quantumgraph.com/qga/clients-data/
+    {
+        "appId": "ad55582957817e511c3d",
+        "appSecret": "2dbc2fd2358e1ea1b7a6bc08ea647b9a337ac92d",
+        "identifier": "email",
+        "identifier_value": "johndoe@gmail.com",
+        "profiles": {
+            "first_name": "John",
+            "last_name": "Doe"
+        },
+        "events": [{
+            "eventName": "order_placed",
+            "parameters": {
+                "order_id": "3j3dkd4k50",
+                "order_value":  253
+            }
+
+        }]
+    }
+
 
