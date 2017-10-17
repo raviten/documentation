@@ -51,7 +51,7 @@ A. If you use FCM
 
 B. If you use GCM
 #################
-We prefer that you integrate using FCM. Howver, if you are already using GCM (and have GCM tokens), follow the following steps
+We prefer that you integrate using FCM. However, if you are already using GCM (and have GCM tokens), follow the following steps
 
 #. Add dependencies to *app/build.gradle*::
 
