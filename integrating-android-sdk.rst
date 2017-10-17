@@ -78,6 +78,7 @@ We prefer that you integrate using FCM. Howver, if you are already using GCM (an
     @Override
     public void onMessageReceived(String from, Bundle data) { 
         if (data.containsKey("message") && QG.isQGMessage(data.getString("message"))) {
+            Context context = getApplicationContext();
             Intent intent = new Intent(context, NotificationJobIntentService.class);
             intent.setAction("QG");
             intent.putExtras(data);
@@ -473,6 +474,7 @@ must be added in your service::
    @Override
    public void onMessageReceived(String from, Bundle data) { 
        if (data.containsKey("message") && QG.isQGMessage(data.getString("message"))) {
+           Context context = getApplicationContext();
            Intent intent = new Intent(context, NotificationJobIntentService.class);
            intent.setAction("QG");
            intent.putExtras(data);
