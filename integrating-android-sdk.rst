@@ -51,8 +51,41 @@ A. If you use FCM
 
 B. If you use GCM
 #################
-If you are already using GCM (and have GCM tokens), contact us at app@quantumgraph.com.
+We prefer that you integrate using FCM. Howver, if you are already using GCM (and have GCM tokens), follow the following steps
 
+#. Add dependencies to *app/build.gradle*::
+
+    compile "com.quantumgraph.sdk:QG:2.3.5"
+    compile 'com.google.firebase:firebase-messaging:11.2.2'
+
+#. Additional settings:
+
+    * If you would like to reach out to uninstalled users by email, add following line in *app/src/main/AndroidManifest.xml* outside the *<application>* tag::
+    
+       <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    
+    * If you would like us to track the city of the user, add the following line in *app/src/main/AndroidManifest.xml* outside the *<application>* tag::
+    
+       <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+       <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    * If you would like us to track device id the user, add the following line in *app/src/main/AndroidManifest.xml* outside the *<application>* tag::
+    
+       <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
+#. If you use your own service that extends ``GCMListenerService``, following code snippet must be added in your service::
+
+    @Override
+    public void onMessageReceived(String from, Bundle data) { 
+        if (data.containsKey("message") && QG.isQGMessage(data.getString("message"))) {
+            Intent intent = new Intent(context, NotificationJobIntentService.class);
+            intent.setAction("QG");
+            intent.putExtras(data);
+            JobIntentService.enqueueWork(context, NotificationJobIntentService.class, 1000, intent);
+            return;
+        }
+    }
+   
 Installation in Cordova
 -----------------------
 QGraph supports apps built with Cordova. Please look at our github plugin for cordova `here <https://github.com/quantumgraph/cordova>`_.
@@ -432,26 +465,6 @@ Follow are the recommended sizes of images:
 
 Depending on the screen's resolution android crops the image to fit it into the container. For this, we recommend that you do not have any text in the 10% margins of Big Image and Carousel.
 
-If you use your own Broadcast Receiver
-######################################
-QG SDK uses its own ``BroadcastReceiver``. In case you user your own ``BroadcastReceiver``
-you will need to ignore the messages sent by QGraph. We provide you a helper method
-``isQGMessage()`` to accomplish this. You need to include the following code in the
-``onHandleIntent()`` method of the ``IntentService`` associated with the ``BroadcastReceiver``::
-
-    @override
-    protected void onHandleIntent(Intent intent) {
-        Bundle extras = intent.getExtras()
-        /* If the message is from QGraph, its intent handler 
-           will handle it, and you should ignore the message. */
-       if (extras.containsKey("message") && QG.isQGMessage(extras.getString("message"))) {
-           return;
-       }
-    }
-    
-Similarly, QGraph's ``IntentService`` too ignores any messages that have not originated
-from QGraph servers.
-
 If you use your own Service to extend GCMListenerService
 ########################################################
 If you use your own service that extends ``GCMListenerService``, following code snippet
@@ -460,14 +473,14 @@ must be added in your service::
    @Override
    public void onMessageReceived(String from, Bundle data) { 
        if (data.containsKey("message") && QG.isQGMessage(data.getString("message"))) {
-           Intent intent = new Intent(getApplicationContext(), GcmNotificationIntentService.class);
+           Intent intent = new Intent(context, NotificationJobIntentService.class);
            intent.setAction("QG");
            intent.putExtras(data);
-           getApplicationContext().startService(intent);
+           JobIntentService.enqueueWork(context, NotificationJobIntentService.class, 1000, intent);
            return;
        }
    }
-   
+
 Receiving key value pairs in activity
 #####################################
 If you have set key value pairs in the campaign you can get them in the activity. Let's say
