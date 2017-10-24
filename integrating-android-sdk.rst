@@ -56,7 +56,8 @@ We prefer that you integrate using FCM. However, if you are already using GCM (a
 #. Add dependencies to *app/build.gradle*::
 
     compile "com.quantumgraph.sdk:QG:2.3.5"
-    compile 'com.google.firebase:firebase-messaging:11.2.2'
+    compile "com.google.android.gms:play-services-gcm:11.2.2"
+
 
 #. Additional settings:
 
