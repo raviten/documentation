@@ -38,9 +38,9 @@ Manual installation
 
 Download the SDK from here:
 
-For Objective C: http://app.qgraph.io/static/sdk/ios/QGSdk-ObjC-3.3.1.zip
+For Objective C: http://app.qgraph.io/static/sdk/ios/QGSdk-ObjC-3.3.2.zip
 
-For Swift: http://app.qgraph.io/static/sdk/ios/QGSdk-Swift-3.3.1.zip
+For Swift: http://app.qgraph.io/static/sdk/ios/QGSdk-Swift-3.3.2.zip
 
 * In your Xcode project, Go to File, add new Group to your project and name it as QGSdk.
 
