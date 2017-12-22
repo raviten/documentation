@@ -49,6 +49,29 @@ A. If you use FCM
     
        <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
+Note
+++++
+If while building your project, you get a ``ClassNotFoundException``, check the following
+
+1. Check that you are using Support Library version 26 or above
+
+::
+
+    compile 'com.android.support:appcompat-v7:26.0.1'
+
+2. Check that you have included maven properly in ``project/build.gradle``
+
+::
+
+   allprojects {
+     repositories {
+       jcenter()
+       maven {
+         url "https://maven.google.com"
+       }
+     }
+   } 
+  
 B. If you use GCM
 #################
 We prefer that you integrate using FCM. However, if you are already using GCM (and have GCM tokens), follow the following steps
