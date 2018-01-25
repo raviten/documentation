@@ -64,7 +64,8 @@ For ios notification, ``message`` is of the following format::
                "title": <title of the notification>,
                "body": <body of the notification>
             }
-         }
+         },
+         "deepLink": <deep link> (optional)
    }
 
 For banner notification (available only in android), ``message`` is of the following format::
