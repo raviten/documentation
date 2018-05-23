@@ -13,9 +13,9 @@ iOS
 ###
 Download QGraph SDK for iOS from here: 
 
-For Objective C: http://app.qgraph.io/static/sdk/ios/QGSdk-ObjC-3.3.2.zip
+For Objective C: http://app.qgraph.io/static/sdk/ios/QGSdk-ObjC-3.3.3.zip
 
-For Swift: http://app.qgraph.io/static/sdk/ios/QGSdk-Swift-3.3.2.zip
+For Swift: http://app.qgraph.io/static/sdk/ios/QGSdk-Swift-3.3.3.zip
 
 We recommend that you follow cocoapods based integration outlined in iOS integration instructions.
 
