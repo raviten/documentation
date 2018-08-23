@@ -31,7 +31,7 @@ Next you can make a HTTP POST request at ``https://api.qgraph.io/api/v2/send-not
       "segment_id": <segment id>
       
       "message": <message in the format described below>
-      "os": "android" or "ios-dev" or "ios-prod"
+      "os": "android" or "ios-dev" or "ios-prod" or "web"
    }
 
 You need to provide one of ``registration_ids``,  ``user_ids``, ``emails`` or ``segment_id``. In case you provide segment id, specified segment id must be a valid segment in your account, and notifications will go to that segment. To find segment id of a given segment, proceed to edit that segment. URL of the segment page is of the format ``https://app.qgraph.io/#/edit_segment/<segment id>``.
@@ -127,6 +127,13 @@ For animated banner notification (available only in android), ``message`` is of 
        }
    }
 
+If os is "web", ``message`` is of the following format::
+
+   {
+       "title": <title of the notification>,
+       "body": <body of the notification>,
+       "icon": <url of the icon image>
+   }
 
 Specifying key value pairs
 ##########################
