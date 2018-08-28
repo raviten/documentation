@@ -9,7 +9,7 @@ A. If you use FCM
 
 #. Add dependencies to *app/build.gradle*::
 
-    compile "com.quantumgraph.sdk:QG:4.3.1"
+    compile "com.quantumgraph.sdk:QG:5.2.0"
     compile 'com.google.firebase:firebase-messaging:11.2.2'
 
 #. If you have implemented  FirebaseMessagingService in your project add the following code inside `onMessageReceived(RemoteMessage remoteMessage)` method::
@@ -150,6 +150,12 @@ Initialization of SDK
     qg = QG.getInstance(getApplicationContext());
     qg.onStart();
 
+#. In case you want to enable GA integration via our SDK, add the following in your main activity's ``onCreate()``::
+
+    qg.enableGATrackingWithGAID("<your GA id>");
+    
+    Replace <your GA id> above with the GA id for your project.
+    
 Logging user profiles
 #####################
 User profiles are information about your users, like their name, city, date of birth
