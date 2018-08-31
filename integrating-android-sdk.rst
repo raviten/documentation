@@ -10,7 +10,7 @@ A. If you use FCM
 #. Add dependencies to *app/build.gradle*::
 
     compile "com.quantumgraph.sdk:QG:5.2.0"
-    compile 'com.google.firebase:firebase-messaging:11.2.2'
+    compile 'com.google.firebase:firebase-messaging:17.3.0'
 
 #. If you have implemented  FirebaseMessagingService in your project add the following code inside `onMessageReceived(RemoteMessage remoteMessage)` method::
 
